@@ -1,0 +1,28 @@
+/* CalcHub Compare Mode — layout only.
+   All colors/spacing/fonts come from core.css's own variables
+   (--surface, --border, --text, --link, --sp-*, --radius-*), so this
+   follows [data-theme="dark"] automatically — nothing to duplicate. */
+
+.cmp-panel {
+  margin-top: var(--sp-md);
+}
+
+.cmp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+@media (max-width: 860px) {
+  .cmp-grid { grid-template-columns: 1fr; }
+}
+
+.cmp-diff-card { }
+
+.cmp-delta-row {
+  font-size: 13.5px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.cmp-delta-row:last-child { border-bottom: none; }
+.cmp-delta-row.cmp-up { color: var(--finance); }
+.cmp-delta-row.cmp-down { color: var(--health); }
