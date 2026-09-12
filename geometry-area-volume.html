@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://www.desmos.com/api/v1.12/calculator.js?apiKey=5cacdc3bd5a24aa0a8dd8e760a67541b"></script>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Geometry Area & Volume Maker: Geometry Calculator - Calculate Area, Perimeter, & Volume</title>
+<meta name="description" content="Calculate area, perimeter, volume, or surface area for common shapes. Dimension fields map differently per shape — see hints below each field.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/geometry-area-volume">
+<meta property="og:title" content="Geometry Area & Volume Maker: Geometry Calculator - Calculate Area, Perimeter, & Volume">
+<meta property="og:description" content="Calculate area, perimeter, volume, or surface area for common shapes. Dimension fields map differently per shape — see hints below each field.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/geometry-area-volume.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Geometry Area & Volume Maker: Geometry Calculator - Calculate Area, Perimeter, & Volume">
+<meta name="twitter:description" content="Calculate area, perimeter, volume, or surface area for common shapes. Dimension fields map differently per shape — see hints below each field.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Geometry Area & Volume Maker: Geometry Calculator - Calculate Area, Perimeter, & Volume",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Calculate area, perimeter, volume, or surface area for common shapes. Dimension fields map differently per shape — see hints below each field.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  .desmos-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .desmos-tool {
+    flex: 1 1 340px;
+    min-width: 0;
+  }
+  .desmos-tool h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+  }
+  .desmos-embed {
+    position: relative;
+    width: 100%;
+    padding-bottom: 70%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fafafa;
+  }
+  .desmos-embed .desmos-mount {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .desmos-embed .desmos-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  @media (max-width: 700px) {
+    .desmos-embed { padding-bottom: 100%; }
+  }
+  .calc-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background:
+      repeating-linear-gradient(0deg, rgba(26,79,153,0.07) 0px, rgba(26,79,153,0.07) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, rgba(26,79,153,0.07) 0px, rgba(26,79,153,0.07) 1px, transparent 1px, transparent 24px),
+      #fafafa;
+    border-radius: 10px;
+    z-index: 5;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  .calc-loading-overlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .calc-loading-svg { width: 92px; height: 56px; }
+  .calc-loading-path {
+    fill: none;
+    stroke: #1a4f99;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: calc-draw-line 1.5s ease-in-out infinite;
+  }
+  .calc-loading-dot {
+    fill: #1a4f99;
+    animation: calc-dot-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes calc-draw-line {
+    0% { stroke-dashoffset: 220; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -220; }
+  }
+  @keyframes calc-dot-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+  .calc-loading-text {
+    font-size: 0.82rem;
+    color: #1a4f99;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-math">Mathematics & Algebra</a><span>/</span>
+    <span>Geometry Area & Volume Maker: Geometry Calculator - Calculate Area, Perimeter, & Volume</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Geometry Area & Volume Maker: Geometry Calculator - Calculate Area, Perimeter, & Volume</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Calculate area, perimeter, volume, or surface area for common shapes. Dimension fields map differently per shape — see hints below each field.</p>
+  <div id="calc-root" class="calc-layout"></div>
+
+  <div class="desmos-tools">
+    <div class="desmos-tool">
+      <h2>Interactive 2D Geometry Sketchpad</h2>
+      <div class="desmos-embed">
+        <div class="calc-loading-overlay" id="geometry-loading-overlay">
+          <svg class="calc-loading-svg" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+            <path class="calc-loading-path" d="M2,50 Q25,10 50,30 T98,10" />
+            <circle class="calc-loading-dot" cx="50" cy="30" r="3" />
+          </svg>
+          <div class="calc-loading-text">Loading sketchpad&hellip;</div>
+        </div>
+        <div id="desmos-geometry" class="desmos-mount"></div>
+      </div>
+    </div>
+    <div class="desmos-tool">
+      <h2>Interactive 3D Shape Viewer</h2>
+      <div class="desmos-embed">
+        <div class="calc-loading-overlay" id="desmos3d-loading-overlay">
+          <svg class="calc-loading-svg" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+            <path class="calc-loading-path" d="M2,50 Q25,10 50,30 T98,10" />
+            <circle class="calc-loading-dot" cx="50" cy="30" r="3" />
+          </svg>
+          <div class="calc-loading-text">Loading 3D viewer&hellip;</div>
+        </div>
+        <div id="desmos-3d" class="desmos-mount"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="calc-explainer">
+<h2>Why units matter more than the formula</h2>
+<p>The formulas here — base × height for rectangles, πr² for circles, and similar standard ones — are straightforward, but the most common error isn't the math itself. It's mixing units, like measuring one side in feet and another in inches before multiplying.</p>
+<h2>Area vs. volume, in one line</h2>
+<p>Area describes a flat 2D surface in square units (like sq ft); volume describes 3D space in cubic units (like cu ft). Always check that your final answer's units match the dimension you actually asked for.</p>
+      <h1>Geometry Area and Volume</h1>
+<p>A geometry area and volume calculator is a mathematical tool that determines the two-dimensional surface space or three-dimensional capacity of various geometric shapes. In design, architecture, and daily home improvement projects, individuals frequently need to calculate the physical space an object occupies or covers. Area measures the total space inside a flat two-dimensional boundary, such as a backyard lawn or a bedroom floor. Volume measures the total three-dimensional capacity that an object can hold, such as a swimming pool or a shipping box. An automated geometry tool applies advanced formulas instantly, saving you from tedious manual geometry calculations.</p>
+
+<h2>Geometry Calculator Components</h2>
+<p>Depending on the specific shape you select, the calculator requires a distinct set of physical dimensional variables.</p>
+<ul>
+    <li><strong>Length and Width:</strong> The primary horizontal and vertical lines used to calculate flat rectangular shapes.</li>
+    <li><strong>Radius or Diameter:</strong> The measurement from the center to the edge of circular shapes, spheres, or cylinders.</li>
+    <li><strong>Height:</strong> The vertical depth measurement needed to project flat two-dimensional profiles into three-dimensional volumes.</li>
+    <li><strong>Shape Selection:</strong> The underlying geometric template that dictates which algebraic formula the system must execute.</li>
+</ul>
+
+<h2>Core Geometric Calculations</h2>
+<p>The calculator processes shapes differently based on whether you are analyzing flat surfaces or three-dimensional structures.</p>
+<ul>
+    <li><strong>Two-Dimensional Area:</strong> Calculated in square units, such as square feet or square meters, to determine surface coverage. For example, a rectangle area is simply length multiplied by width.</li>
+    <li><strong>Three-Dimensional Volume:</strong> Calculated in cubic units, such as cubic inches or cubic centimeters, to determine total storage space. For example, a basic box volume is length multiplied by width multiplied by height.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the difference between area and surface area?</h3>
+<p>Area measures the interior space of a flat, two-dimensional shape like a circle or square. Surface area measures the total combined exterior surface space of a three-dimensional object, such as the total square footage of cardboard required to manufacture a shipping box.</p>
+
+<h3>What value does the calculator use for Pi (π) in circular calculations?</h3>
+<p>Most digital geometry calculators use the standard mathematical constant value of 3.14159 to process circles, cylinders, and spheres. Using this extended floating-point value ensures a high level of precision compared to rounding down to just 3.14.</p>
+
+<h3>How do I convert square feet to cubic feet using this tool?</h3>
+<p>You cannot directly convert square units into cubic units because they measure entirely different dimensions. To find cubic feet from a flat square foot measurement, you must introduce a third dimension by multiplying the flat square-foot area by the depth or height of the space in feet.</p>
+
+<h3>Can this calculator help me figure out material costs for home renovations?</h3>
+<p>Yes. By finding the exact square footage of a room using the area tool, you can determine precisely how many boxes of flooring or gallons of wall paint you need to buy. For outdoor projects like filling a garden bed with soil, the volume tool tells you exactly how many cubic yards of material to order.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'geometry-area-volume');
+
+(function initDesmosTools(){
+  function hideOverlay(overlayId){
+    var overlay = document.getElementById(overlayId);
+    if (overlay) overlay.classList.add('is-hidden');
+  }
+
+  function showFallback(mountId, overlayId, msg){
+    var mount = document.getElementById(mountId);
+    hideOverlay(overlayId);
+    if (!mount) return;
+    var box = document.createElement('div');
+    box.className = 'desmos-fallback';
+    box.textContent = msg;
+    mount.parentNode.appendChild(box);
+    mount.style.display = 'none';
+  }
+
+  if (typeof Desmos === 'undefined') {
+    showFallback('desmos-geometry', 'geometry-loading-overlay', 'Interactive sketchpad failed to load.');
+    showFallback('desmos-3d', 'desmos3d-loading-overlay', 'Interactive 3D viewer failed to load.');
+    return;
+  }
+
+  var features = Desmos.enabledFeatures || {};
+
+  if (features.GeometryCalculator && typeof Desmos.Geometry === 'function') {
+    try {
+      Desmos.Geometry(document.getElementById('desmos-geometry'), {
+        border: false,
+        expressionsCollapsed: true
+      });
+      setTimeout(function(){ hideOverlay('geometry-loading-overlay'); }, 500);
+    } catch (e) {
+      showFallback('desmos-geometry', 'geometry-loading-overlay', 'Sketchpad could not start.');
+    }
+  } else {
+    showFallback('desmos-geometry', 'geometry-loading-overlay', 'Geometry tool isn\'t enabled for this API key yet.');
+  }
+
+  if (features.Calculator3D && typeof Desmos.Calculator3D === 'function') {
+    try {
+      Desmos.Calculator3D(document.getElementById('desmos-3d'), {
+        border: false,
+        expressionsCollapsed: true
+      });
+      setTimeout(function(){ hideOverlay('desmos3d-loading-overlay'); }, 500);
+    } catch (e) {
+      showFallback('desmos-3d', 'desmos3d-loading-overlay', '3D viewer could not start.');
+    }
+  } else {
+    showFallback('desmos-3d', 'desmos3d-loading-overlay', '3D viewer isn\'t enabled for this API key yet.');
+  }
+})();
+
+
+CalcHub.initCalculatorPage({
+  id: 'geometry-area-volume',
+  fields: [
+    {id:'shape', label:'Shape', type:'select', default:'circle', options:[
+      {value:'circle',label:'Circle'},{value:'rectangle',label:'Rectangle'},{value:'triangle',label:'Triangle'},
+      {value:'sphere',label:'Sphere'},{value:'cylinder',label:'Cylinder'},{value:'cube',label:'Cube'}]},
+    {id:'a', label:'A', unit:'radius / side / base', default:5, step:0.1},
+    {id:'b', label:'B', unit:'width / height', default:3, step:0.1},
+    {id:'c', label:'C', unit:'cylinder height', default:4, step:0.1}
+  ],
+  compute: function(v){
+    var stats = [], headline='', label='Result', chartLabels=[], chartData=[];
+    var PI = Math.PI;
+    if (v.shape==='circle'){
+      var area=PI*v.a*v.a, circ=2*PI*v.a;
+      label='Area'; headline=CalcHub.fmtNum(area,2);
+      stats=[{label:'Area',value:CalcHub.fmtNum(area,2)},{label:'Circumference',value:CalcHub.fmtNum(circ,2)}];
+      chartLabels=['Area','Circumference']; chartData=[area,circ];
+    } else if (v.shape==='rectangle'){
+      var area2=v.a*v.b, perim=2*(v.a+v.b);
+      label='Area'; headline=CalcHub.fmtNum(area2,2);
+      stats=[{label:'Area',value:CalcHub.fmtNum(area2,2)},{label:'Perimeter',value:CalcHub.fmtNum(perim,2)}];
+      chartLabels=['Area','Perimeter']; chartData=[area2,perim];
+    } else if (v.shape==='triangle'){
+      var area3=0.5*v.a*v.b;
+      label='Area (base \u00d7 height / 2)'; headline=CalcHub.fmtNum(area3,2);
+      stats=[{label:'Area',value:CalcHub.fmtNum(area3,2)}];
+      chartLabels=['Area']; chartData=[area3];
+    } else if (v.shape==='sphere'){
+      var vol=4/3*PI*Math.pow(v.a,3), surf=4*PI*v.a*v.a;
+      label='Volume'; headline=CalcHub.fmtNum(vol,2);
+      stats=[{label:'Volume',value:CalcHub.fmtNum(vol,2)},{label:'Surface Area',value:CalcHub.fmtNum(surf,2)}];
+      chartLabels=['Volume','Surface Area']; chartData=[vol,surf];
+    } else if (v.shape==='cylinder'){
+      var vol2=PI*v.a*v.a*v.c, surf2=2*PI*v.a*(v.a+v.c);
+      label='Volume'; headline=CalcHub.fmtNum(vol2,2);
+      stats=[{label:'Volume',value:CalcHub.fmtNum(vol2,2)},{label:'Surface Area',value:CalcHub.fmtNum(surf2,2)}];
+      chartLabels=['Volume','Surface Area']; chartData=[vol2,surf2];
+    } else {
+      var vol3=Math.pow(v.a,3), surf3=6*v.a*v.a;
+      label='Volume'; headline=CalcHub.fmtNum(vol3,2);
+      stats=[{label:'Volume',value:CalcHub.fmtNum(vol3,2)},{label:'Surface Area',value:CalcHub.fmtNum(surf3,2)}];
+      chartLabels=['Volume','Surface Area']; chartData=[vol3,surf3];
+    }
+    return {
+      label: label, headline: headline, stats: stats,
+      chart: chartData.length>1 ? {type:'bar', labels: chartLabels, series:[{name:'Value', data: chartData, color:'#1a4f99'}]} : null,
+      historyLabel: v.shape.charAt(0).toUpperCase()+v.shape.slice(1)+': '+label+' = '+headline,
+      copyValue: headline
+    };
+  }
+});
+
+</script>
+</body>
+</html>

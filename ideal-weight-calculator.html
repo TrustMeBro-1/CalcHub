@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Advanced Ideal Weight Calculator - Multi-Formula Health Assessment</title>
+<meta name="description" content="Calculate ideal weight using Devine, Robinson, Miller, and Hamwi formulas. Includes frame size adjustment, WHtR calculation, and age-based BMI shifts.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/ideal-weight-calculator">
+<meta name="og:title" content="Advanced Ideal Weight Calculator - Multi-Formula Health Assessment">
+<meta name="og:description" content="Calculate ideal weight using 4 clinical formulas with frame size, WHtR, and age corrections.">
+<meta name="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Advanced Ideal Weight Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Calculate ideal weight using 4 clinical formulas with frame size, WHtR, and age corrections.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+.health-alert { padding: 10px 12px; border-left: 3px solid; border-radius: 4px; margin: 10px 0; font-size: 0.9rem; line-height: 1.4; }
+.alert-warning { background: #fff3cd; border-color: #ffc107; color: #333; }
+.alert-info { background: #e7f3ff; border-color: #0066cc; color: #333; }
+.whr-indicator { display: inline-block; padding: 3px 8px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; margin-left: 6px; }
+.whr-good { background: #d4edda; color: #155724; }
+.whr-caution { background: #fff3cd; color: #856404; }
+.whr-risk { background: #f8d7da; color: #721c24; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-health">Health & Wellness</a><span>/</span>
+    <span>Advanced Ideal Weight Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Advanced Ideal Weight Calculator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Compare 4 formulas and get a personalized ideal weight range based on your height, age, frame size, and waist measurement.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  
+  <section class="calc-explainer">
+<h2>What You're Seeing</h2>
+<p>This calculator shows your ideal weight based on 4 clinical formulas, then adjusts it for your frame size and age. It also calculates waist-to-height ratio (WHtR) if you provide waist measurement—research shows this is more predictive of health risk than BMI alone.</p>
+
+<h2>Understanding Ideal Body Weight</h2>
+<p>Your ideal body weight is the weight range where your body is most likely to function optimally and where you face the lowest risk of developing chronic health problems. Unlike your actual weight right now, your ideal weight is a target based on your height, sex, age, and bone structure. The concept of ideal weight has been used in medicine for decades, originally developed to help doctors calculate the right medicine doses for patients. Today, it's used as a general health reference point.</p>
+
+<h2>The 4 Clinical Formulas Explained</h2>
+
+<h3>Devine Formula (1974) — The Gold Standard</h3>
+<p>The Devine formula is the most commonly used ideal weight calculation in medical practice. It was created by Dr. B.J. Devine in 1974 specifically to help doctors calculate correct medication dosages. For men, the formula is: 50 kg (110 lbs) plus 2.3 kg (5 lbs) for each inch over 5 feet. For women, it's 45.5 kg (100 lbs) plus 2.3 kg (5 lbs) for each inch over 5 feet. This formula is considered the gold standard because it's been validated in thousands of medical studies and is still widely used in hospitals for drug dosing and mechanical ventilator settings.</p>
+
+<h3>Robinson Formula (1983) — Updated and Refined</h3>
+<p>The Robinson formula was published in 1983 as an update to the Metropolitan Life Insurance data. It produces results that are typically 2–3 pounds lower than the Devine formula for people of average height. The formula uses slightly different multipliers: 52 kg (115 lbs) plus 1.9 kg (4.2 lbs) per inch for men, and 49 kg (108 lbs) plus 1.7 kg (3.7 lbs) per inch for women. Many doctors prefer this formula because it seems to match real-world body composition better for most people.</p>
+
+<h3>Miller Formula (1983) — Conservative Estimates</h3>
+<p>The Miller formula, also from 1983, tends to produce the lowest estimates, especially for tall people. It uses smaller multipliers than both Devine and Robinson, making it a more conservative approach. Some healthcare providers use this formula when they want to estimate a lower target weight. For tall individuals, Miller often produces notably different results than the other three formulas.</p>
+
+<h3>Hamwi Formula (1964) — The Dietitian's Choice</h3>
+<p>The Hamwi formula was published in 1964 and remains one of the most popular formulas used by registered dietitians and nutritionists. It's often called the "quick bedside rule" because it's easy to remember: 100 lbs for the first 5 feet, plus 5 lbs for each additional inch for women, and 106 lbs for the first 5 feet, plus 6 lbs for each additional inch for men. This formula typically produces the highest estimates of the four, and it's especially popular in diabetes management and clinical nutrition planning.</p>
+
+<h2>Why These 4 Formulas Give Different Results</h2>
+<p>You might be wondering why four different formulas produce four different numbers. The answer is that these formulas were all developed by different researchers at different times, using different populations and different research methods. Each researcher made slightly different assumptions about the relationship between height and healthy body weight. None of these formulas is perfectly accurate for every single person—that's why using all four gives you a more realistic range. The average of the four formulas gives you the most balanced estimate of what's healthy for your body.</p>
+
+<h2>Frame Size Adjustment (±10%)</h2>
+
+<h3>What Is Frame Size?</h3>
+<p>Frame size refers to the overall structure and density of your bones. People with larger bone frames naturally weigh more than people with smaller frames, even at the same height and the same level of fitness. Your skeleton accounts for about 12–15% of your total body weight. If you have a naturally large frame, your bones are denser and thicker, which adds weight. If you have a small frame, your bones are naturally lighter, so your healthy weight will be lower.</p>
+
+<h3>How to Measure Your Frame Size</h3>
+<p>To measure your frame size, you'll need to know your wrist circumference. Wrap a soft measuring tape around your wrist at the narrowest point (usually just below the wrist bone). Divide this measurement by your height in inches. For men: if the result is greater than 10.4, you have a small frame; if it's less than 9.6, you have a large frame. For women: if it's greater than 11.0, you have a small frame; if it's less than 10.1, you have a large frame. Anything in between is a medium frame.</p>
+
+<h3>What the Adjustment Means</h3>
+<p>If you have a small frame, subtract 10% from your ideal weight range. If you have a large frame, add 10%. For example, if your calculated ideal weight is 150 lbs and you have a small frame, your adjusted ideal weight would be about 135 lbs. If you have a large frame, it would be about 165 lbs. This simple adjustment can make a big difference in getting a target weight that's right for your body type.</p>
+
+<h2>Age-Based BMI Targets Explained</h2>
+
+<h3>What Is BMI and Why Does It Change With Age?</h3>
+<p>BMI stands for Body Mass Index. It's calculated by dividing your weight in pounds by your height in inches squared, then multiplying by 703. For decades, health organizations recommended the same BMI target for all adults: between 18.5 and 24.9. However, recent research analyzing data from millions of people has discovered something surprising: the healthiest BMI range changes as you get older.</p>
+
+<h3>BMI for Adults Under 65</h3>
+<p>For adults under 65 years old, the optimal BMI range for longest life expectancy is 22.5 to 25.0. This is slightly higher than the traditional "normal" range of 18.5 to 24.9, but research shows people in this range tend to live longer and have fewer chronic diseases. A BMI below 18.5 (underweight) is associated with increased risk of infections, osteoporosis, and other health problems. A BMI above 25 increases risk of heart disease, type 2 diabetes, and other conditions.</p>
+
+<h3>BMI for Adults 65 and Older — The Obesity Paradox</h3>
+<p>One of the most surprising findings in recent medical research is called the "Obesity Paradox." Studies analyzing millions of older adults show that those with a BMI between 24 and 28 actually have the lowest risk of death from all causes. This seems backwards, right? But it makes sense when you understand what happens to your body as you age. Older adults naturally lose muscle mass (a condition called sarcopenia). Having a little extra weight protects against falls, broken hips, and dangerous weight loss during illness. A slightly higher BMI in seniors provides a buffer against these risks. This is why this calculator adjusts the target BMI for users age 65 and older.</p>
+
+<h2>Waist-to-Height Ratio (WHtR) — The Better Health Predictor</h2>
+
+<h3>Why WHtR Is More Important Than BMI Alone</h3>
+<p>Scientists have discovered that where you carry your weight matters more than how much you weigh overall. Two people can have the same BMI but completely different health risks depending on whether they carry weight around their belly or distributed throughout their body. Waist-to-Height Ratio (WHtR) is calculated by dividing your waist circumference by your height. For example, if you're 70 inches tall and your waist is 35 inches, your WHtR is 0.50. Research shows that WHtR is a much better predictor of heart disease and metabolic syndrome risk than BMI alone.</p>
+
+<h3>The Golden Rule: Keep Waist Under Half Your Height</h3>
+<p>The simple rule for healthy WHtR is: keep your waist circumference to less than half your height. This means if you're 70 inches tall (5'10"), your waist should be less than 35 inches. If you're 60 inches tall (5'0"), your waist should be less than 30 inches. A WHtR below 0.50 is considered excellent. Between 0.50 and 0.53 is good. Between 0.53 and 0.58 means you should be cautious about your health. Above 0.58 indicates high risk for cardiovascular disease and metabolic problems, regardless of what the scale says.</p>
+
+<h3>Visceral Fat vs. Subcutaneous Fat</h3>
+<p>Your body can store fat in two main places: just under your skin (subcutaneous fat) and around your internal organs (visceral fat). Visceral fat is the dangerous kind. It releases inflammatory chemicals that increase your risk of heart disease, diabetes, and other serious conditions. WHtR is a good indicator of how much visceral fat you're carrying, which is why it predicts disease risk better than BMI. You can have a normal BMI but high visceral fat (called TOFI—Thin Outside, Fat Inside), or you can be overweight by BMI but have mostly harmless subcutaneous fat.</p>
+
+<h2>Special Health Situations</h2>
+
+<h3>What If You're an Athlete or Very Muscular?</h3>
+<p>If you're a professional athlete, bodybuilder, or very physically active person, you'll likely weigh significantly more than your calculated ideal weight range. That's because these formulas don't account for muscle mass. Muscle is denser than fat—about 18% denser. A very muscular person might have a BMI that technically qualifies as obese, while having single-digit body fat percentage. If you're in this situation, focus on your waist-to-height ratio and how you feel, not the number on the scale.</p>
+
+<h3>What If You Have Obesity (BMI 30+)?</h3>
+<p>For people with BMI of 30 or higher, doctors often use something called Adjusted Body Weight (ABW) instead of ideal weight. This is particularly important for medication dosing. ABW accounts for the fact that excess fat tissue has some metabolic activity but not as much as lean muscle. The formula is: ABW = Ideal Weight + 0.4 × (Actual Weight − Ideal Weight). The number 0.4 represents the metabolic activity of excess fat. This prevents over-dosing medications while still accounting for the extra body weight.</p>
+
+<h3>TOFI Syndrome — Normal Weight But Still at Risk</h3>
+<p>TOFI stands for "Thin Outside, Fat Inside." This is when someone has a normal or healthy BMI but actually has a high percentage of body fat and low muscle mass. These people look healthy on the outside but have similar metabolic risks as clinically obese individuals. If you fall into this category—normal BMI but high waist circumference—this calculator will alert you. You might benefit from increasing muscle mass and reducing visceral fat rather than focusing on weight loss.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>Can I trust just one of these formulas, or do I really need all four?</h3>
+<p>You should use all four as a reference range, not just one. Here's why: each formula was developed with different populations and different assumptions. If you only used one formula, you might get an inaccurate result for your body type. By averaging all four, you get a more realistic target. Think of it like getting a second medical opinion—the more perspectives you have, the better your decision.</p>
+
+<h3>What should I do if my current weight is far from my ideal weight?</h3>
+<p>Don't panic. First, remember that ideal weight is a reference range, not a strict target. Second, focus on healthy behaviors rather than the number. Eat whole foods, move your body regularly, sleep 7–9 hours per night, and manage stress. If you decide you want to change your weight, work with a registered dietitian or doctor to create a realistic plan. Aiming for 1–2 pounds per week of gradual change is much more sustainable than rapid weight loss.</p>
+
+<h3>Why does my weight fluctuate so much day to day?</h3>
+<p>Your body weight naturally fluctuates by 2–5 pounds per day. This is totally normal and doesn't mean your diet or exercise plan isn't working. Daily fluctuations are caused by water retention, food in your digestive system, hormonal changes, sodium intake, and carbohydrate storage. When you eat carbs, your body stores them with water—about 3–4 grams of water for every gram of carbohydrates. This is why people often lose 5–10 pounds in the first week of a low-carb diet—that's mostly water, not fat. For accurate weight tracking, weigh yourself at the same time each day (usually first thing in the morning), and look at weekly averages rather than daily numbers.</p>
+
+<h3>Do I really need to measure my wrist to get frame size adjustment?</h3>
+<p>If you have a very small or very large frame, the measurement can help fine-tune your target by 10%. If you're unsure of your frame size, assume medium frame and use the standard calculation. The difference isn't huge, but it can be meaningful. A 10% difference on a 150-lb target is 15 pounds, so if you know you're naturally small or large-framed, it's worth taking the measurement.</p>
+
+<h3>Is waist circumference really that important?</h3>
+<p>Yes. Waist circumference and waist-to-height ratio are actually better predictors of heart disease risk than BMI. This is because they tell you about visceral fat—the dangerous fat around your organs. You can have a low BMI but high visceral fat and still be at serious health risk. Conversely, you can have a higher BMI but lower visceral fat and be healthier. If you're concerned about your health, measuring your waist and calculating WHtR is one of the most valuable things you can do.</p>
+
+<h3>What if I'm 65+ and my BMI is higher than 25?</h3>
+<p>This is actually normal and even healthy for your age. Research consistently shows that older adults with BMI between 24 and 28 live longer and have fewer medical emergencies. A slightly higher BMI in seniors protects against muscle loss, broken bones from falls, and dangerous weight loss during illness. Don't try to diet down to a BMI under 25 if you're over 65—that could actually harm your health. Focus instead on staying active, eating nutritious food, and maintaining muscle mass.</p>
+
+<h3>How accurate are these formulas for my specific body?</h3>
+<p>These formulas are based on population averages and work well for estimating healthy weight ranges for most people. However, they have limitations. They don't account for muscle mass, bone density, genetics, or individual differences in metabolism. Two people of the exact same height and weight can have very different body compositions and health risks. This is why these formulas work best as general reference points, not as personalized prescriptions. For a truly personalized target weight, work with a doctor or registered dietitian who can assess your individual circumstances.</p>
+
+<h3>What's the difference between ideal weight and goal weight?</h3>
+<p>Ideal weight is a scientifically calculated range based on your height and sex. Goal weight is a personal target you set based on how you want to look, feel, and perform. Your goal weight should fall within or near your ideal weight range, but it might not be exactly the same. For example, if your ideal weight range is 145–165 lbs, your personal goal might be 155 lbs because that's where you feel strongest and most energetic. Work with a healthcare provider to set a goal weight that's both achievable and healthy for you.</p>
+
+<h3>How does age affect ideal weight over time?</h3>
+<p>As you age, your ideal weight doesn't change based on the formulas (they're only based on height and sex). However, what's considered a "healthy" BMI does shift. Additionally, you naturally lose muscle mass with age (about 3–8% per decade after age 30), which means your body composition changes even if your weight stays the same. This is why people often need to focus more on strength training and adequate protein as they get older—to maintain muscle and bone density rather than just weight.</p>
+
+<h3>Can I lose weight and keep it off with just diet, or do I need exercise?</h3>
+<p>Both diet and exercise are important, but diet is more important for weight loss specifically. You can't out-exercise a bad diet. However, exercise is critical for maintaining weight loss long-term and for preserving muscle mass during weight loss. When people lose weight through diet alone, they often lose some muscle along with fat. Adding strength training preserves muscle, which keeps your metabolism higher. For lasting results, combine modest dietary changes with regular physical activity.</p>
+
+<h3>What's the fastest healthy rate of weight loss?</h3>
+<p>The safest and most sustainable rate of weight loss is 1–2 pounds per week. This requires a calorie deficit of 500–1000 calories per day. Losing weight faster than this usually means you're losing muscle and water along with fat, and it's much harder to maintain. Rapid weight loss also often leads to muscle loss, nutritional deficiencies, fatigue, and hormonal disruption. Slow, steady weight loss of 1–2 pounds per week gives your body time to adapt and is much more likely to result in lasting change.</p>
+
+<h3>Should I track calories or just focus on healthy foods?</h3>
+<p>There are different approaches that work for different people. Calorie counting is precise and works well for some people, but it's tedious and not sustainable for others. Focusing on whole foods (vegetables, fruits, lean proteins, whole grains) often leads to natural calorie reduction without counting. Regardless of which approach you choose, the key is finding something you can stick with long-term. Perfection for a month is worse than consistency for a year.</p>
+
+<h2>Key Scientific Facts About Body Weight</h2>
+
+<h3>Muscle vs. Fat Density</h3>
+<p>Muscle tissue is about 18% denser than fat tissue. This means that if two people weigh exactly the same and have the same height, the one with more muscle will look noticeably leaner and more fit. This is why "toned" people can weigh more than they look.</p>
+
+<h3>Daily Weight Fluctuation</h3>
+<p>Your body weight naturally changes by 2–5.5 pounds throughout a single day. This is due to food in your digestive system, water retention, hormonal changes, sodium intake, and carbohydrate storage. This is why you shouldn't worry about day-to-day weight changes.</p>
+
+<h3>How Fat Is Burned</h3>
+<p>When you lose body fat through exercise and diet, about 84% of the fat you lose is exhaled as carbon dioxide through your lungs. The remaining 16% is excreted as water. You literally breathe away fat.</p>
+
+<h3>The Brain Uses a Lot of Energy</h3>
+<p>Your brain is only about 2% of your body weight, but it uses about 20% of your body's energy at rest. This is why skipping meals to save calories often backfires—your brain needs fuel to function.</p>
+
+<h3>Sleep Affects Weight</h3>
+<p>Sleeping less than 6 hours per night increases your hunger hormone (ghrelin) by about 15% and decreases your satiety hormone (leptin) by about 15.5%. Poor sleep makes it much harder to lose weight and easier to gain it.</p>
+
+<h3>Protein Requires More Energy to Digest</h3>
+<p>Your body uses 20–30% of protein's calories just to digest and process it. For carbs, it's 5–10%, and for fats, it's 0–3%. This is partly why high-protein diets are associated with easier weight loss.</p>
+
+<h2>Bottom Line</h2>
+<p>This calculator gives you a personalized ideal weight range based on science. But remember: health is multifaceted. Your weight is just one number. Your fitness level, body composition, blood pressure, cholesterol, blood sugar, sleep quality, stress level, and happiness all matter as much or more than the number on the scale. Use this calculator as a reference point, but don't obsess over hitting an exact number. If you're concerned about your health or want to change your weight, work with a qualified healthcare provider who can give you personalized guidance based on your individual situation.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'ideal-weight-calculator');
+
+CalcHub.initCalculatorPage({
+  id: 'ideal-weight-calculator',
+  fields: [
+    {id:'sex', label:'Sex', type:'select', default:'F', options:[{value:'M',label:'Male'},{value:'F',label:'Female'}]},
+    {id:'height_in', label:'Height (inches)', type:'number', default:65, step:0.5, min:36, max:120},
+    {id:'age', label:'Age', type:'number', default:30, step:1, min:18, max:120},
+    {id:'weight_lbs', label:'Current Weight (lbs)', type:'number', default:150, step:0.5, min:50, max:800},
+    {id:'wrist_in', label:'Wrist Circumference (inches) - Optional', type:'number', default:null, step:0.1, min:3, max:10},
+    {id:'waist_in', label:'Waist Circumference (inches) - Optional', type:'number', default:null, step:0.1, min:15, max:60}
+  ],
+  compute: function(v){
+    var h_in = v.height_in;
+    var overFeet = Math.max(0, h_in - 60);
+    var w_lbs = v.weight_lbs;
+    var age = v.age;
+    
+    // Calculate all 4 formulas in lbs
+    var devine, robinson, miller, hamwi;
+    if (v.sex === 'M') {
+      devine = (50 + 2.3 * overFeet) * 2.20462;
+      robinson = (52 + 1.9 * overFeet) * 2.20462;
+      miller = (56.2 + 1.41 * overFeet) * 2.20462;
+      hamwi = (106 + 6 * overFeet) * 1; // Already in lbs
+    } else {
+      devine = (45.5 + 2.3 * overFeet) * 2.20462;
+      robinson = (49 + 1.7 * overFeet) * 2.20462;
+      miller = (53.1 + 1.36 * overFeet) * 2.20462;
+      hamwi = (100 + 5 * overFeet) * 1; // Already in lbs
+    }
+    
+    var avg = (devine + robinson + miller + hamwi) / 4;
+    
+    // Frame size adjustment (±10%)
+    var frameAdj = 1;
+    var frameLabel = 'Medium Frame (Standard)';
+    if (v.wrist_in) {
+      var wristRatio = v.wrist_in / h_in;
+      if (v.sex === 'M') {
+        if (wristRatio > 10.4) { frameAdj = 0.9; frameLabel = 'Small Frame (−10%)'; }
+        else if (wristRatio < 9.6) { frameAdj = 1.1; frameLabel = 'Large Frame (+10%)'; }
+      } else {
+        if (wristRatio > 11.0) { frameAdj = 0.9; frameLabel = 'Small Frame (−10%)'; }
+        else if (wristRatio < 10.1) { frameAdj = 1.1; frameLabel = 'Large Frame (+10%)'; }
+      }
+    }
+    
+    var adjustedAvg = avg * frameAdj;
+    
+    // BMI calculation
+    var bmi = (w_lbs / (h_in * h_in)) * 703;
+    
+    // Target BMI based on age
+    var targetBmiMin, targetBmiMax, bmiCategory;
+    if (age >= 65) {
+      targetBmiMin = 24;
+      targetBmiMax = 28;
+      bmiCategory = 'Age 65+ (Optimal: 24-28)';
+    } else {
+      targetBmiMin = 22.5;
+      targetBmiMax = 25;
+      bmiCategory = 'Adults (Optimal: 22.5-25)';
+    }
+    
+    // BMI status
+    var bmiStatus = '';
+    if (bmi < 18.5) bmiStatus = 'Underweight';
+    else if (bmi < 22.5) bmiStatus = 'Normal (Low Range)';
+    else if (bmi < 25) bmiStatus = 'Normal (Optimal)';
+    else if (bmi < 30) bmiStatus = 'Overweight';
+    else if (bmi < 35) bmiStatus = 'Obese Class I';
+    else bmiStatus = 'Obese Class II+';
+    
+    // Calculate target weight ranges for age-based BMI
+    var targetWeightMin = (targetBmiMin * h_in * h_in) / 703;
+    var targetWeightMax = (targetBmiMax * h_in * h_in) / 703;
+    
+    // Adjusted Body Weight (for obese patients)
+    var abw = null;
+    if (bmi >= 30) {
+      abw = avg + 0.4 * (w_lbs - avg);
+    }
+    
+    // Waist-to-Height Ratio
+    var whr = null;
+    var whrStatus = '';
+    if (v.waist_in) {
+      whr = v.waist_in / h_in;
+      if (whr < 0.5) { whrStatus = 'Excellent'; }
+      else if (whr < 0.53) { whrStatus = 'Good'; }
+      else if (whr < 0.58) { whrStatus = 'Caution'; }
+      else { whrStatus = 'High Risk'; }
+    }
+    
+    // Health alerts
+    var alerts = [];
+    
+    // Age and BMI logic
+    if (age >= 65 && bmi >= 24 && bmi <= 28) {
+      alerts.push({type: 'info', text: '✓ For age 65+, your BMI is in the optimal range for longevity. Research shows this range confers protection against sarcopenia and hip fractures.'});
+    } else if (age >= 65 && bmi < 24) {
+      alerts.push({type: 'warning', text: '⚠ At age 65+, BMI below 24 may increase risk of sarcopenia and fractures. Consult a doctor if losing weight unintentionally.'});
+    }
+    
+    // Waist-to-Height Ratio alert
+    if (whr && whr >= 0.5) {
+      alerts.push({type: 'warning', text: '⚠ Waist-to-Height Ratio ≥ 0.50 indicates elevated visceral fat and increased cardiovascular risk, even if BMI appears "normal."'});
+    } else if (whr && whr < 0.5) {
+      alerts.push({type: 'info', text: '✓ Excellent waist-to-height ratio (<0.50)—strong predictor of metabolic health.'});
+    }
+    
+    // Obesity-specific logic
+    if (bmi >= 30) {
+      alerts.push({type: 'warning', text: '⚠ For medication dosing or nutritional assessment with obesity, Adjusted Body Weight (ABW) may be more appropriate than Ideal Weight.'});
+    }
+    
+    // TOFI / normal-weight obesity warning
+    if (bmi >= 18.5 && bmi < 25 && v.waist_in && (v.waist_in / h_in) >= 0.5) {
+      alerts.push({type: 'warning', text: '⚠ TOFI Syndrome Alert: Normal BMI but elevated waist circumference suggests high visceral fat. Consider body composition assessment.'});
+    }
+    
+    // Build results object
+    var results = {
+      label: 'Your Ideal Weight',
+      headline: CalcHub.fmtNum(adjustedAvg - 5, 0) + '–' + CalcHub.fmtNum(adjustedAvg + 5, 0) + ' lbs',
+      subheading: frameLabel,
+      stats: [
+        {label: 'Target Weight Range (Age-Based BMI)', value: CalcHub.fmtNum(targetWeightMin, 1) + '–' + CalcHub.fmtNum(targetWeightMax, 1) + ' lbs'},
+        {label: 'Your Current BMI', value: CalcHub.fmtNum(bmi, 1) + ' (' + bmiStatus + ')'},
+        {label: 'Average from 4 Formulas', value: CalcHub.fmtNum(adjustedAvg, 1) + ' lbs'}
+      ],
+      chart: {
+        type: 'bar',
+        labels: ['Devine', 'Robinson', 'Miller', 'Hamwi'],
+        series: [{name: 'lbs', data: [devine, robinson, miller, hamwi], color: '#a32020'}]
+      },
+      historyLabel: 'Ideal weight: ' + CalcHub.fmtNum(adjustedAvg - 5, 0) + '–' + CalcHub.fmtNum(adjustedAvg + 5, 0) + ' lbs',
+      copyValue: CalcHub.fmtNum(adjustedAvg - 5, 0) + '–' + CalcHub.fmtNum(adjustedAvg + 5, 0) + ' lbs ideal weight range'
+    };
+    
+    if (abw) {
+      results.stats.push({label: 'Adjusted Body Weight (ABW)', value: CalcHub.fmtNum(abw, 1) + ' lbs'});
+    }
+    
+    if (whr) {
+      var whrColor = whrStatus === 'Excellent' || whrStatus === 'Good' ? 'whr-good' : (whrStatus === 'Caution' ? 'whr-caution' : 'whr-risk');
+      var whrHtml = CalcHub.fmtNum(whr, 3) + ' <span class="whr-indicator ' + whrColor + '">' + whrStatus + '</span>';
+      results.stats.push({label: 'Waist-to-Height Ratio', value: whrHtml});
+    }
+    
+    // Add alerts to results
+    if (alerts.length > 0) {
+      var alertsHtml = '';
+      alerts.forEach(function(a) {
+        alertsHtml += '<div class="health-alert alert-' + a.type + '">' + a.text + '</div>';
+      });
+      results.customHtml = alertsHtml;
+    }
+    
+    return results;
+  },
+  
+  explain: function(v, r){
+    var explanation = 'These formulas were built for drug dosing, not personal targets. They only use height and sex—not muscle, bone density, or body composition. ';
+    explanation += 'This version adds: (1) Frame size adjustment (±10%), (2) Age-based BMI targets (65+ gets 24–28 instead of 22–25), and (3) Waist-to-Height Ratio, which predicts cardiovascular disease better than BMI alone. ';
+    explanation += 'Use these as reference ranges, not strict targets. Talk to a doctor or dietitian for personalized guidance.';
+    return explanation;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/compare.css">
+<script src="/assets/compare.js"></script>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>BMI (Body Mass Index) Calculator: BMI Calculator - Free Body Mass Index Evaluator</title>
+<meta name="description" content="Calculate your Body Mass Index (BMI) from height and weight, and see which weight category you fall into.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/bmi-calculator">
+<meta property="og:title" content="BMI (Body Mass Index) Calculator: BMI Calculator - Free Body Mass Index Evaluator">
+<meta property="og:description" content="Calculate your Body Mass Index (BMI) from height and weight, and see which weight category you fall into.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/bmi-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BMI (Body Mass Index) Calculator: BMI Calculator - Free Body Mass Index Evaluator">
+<meta name="twitter:description" content="Calculate your Body Mass Index (BMI) from height and weight, and see which weight category you fall into.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "BMI (Body Mass Index) Calculator - Free Body Mass Index Evaluator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Calculate your Body Mass Index (BMI) from height and weight, and see which weight category you fall into.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-health">Health & Wellness</a><span>/</span>
+    <span>BMI (Body Mass Index) Calculator: BMI Calculator - Free Body Mass Index Evaluator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">BMI (Body Mass Index) Calculator: BMI Calculator - Free Body Mass Index Evaluator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Calculate your Body Mass Index (BMI) from your height and weight.</p>
+    <div id="calc-root" class="calc-layout"></div>
+    <br>
+   <button id="compare-toggle-btn" class="btn-secondary" ...>Compare Scenarios</button>
+<div id="calc-compare-root"></div>
+  <br>
+  <section class="calc-explainer">
+ <h1>Body Mass Index (BMI)</h1>
+    <p>Body Mass Index (BMI) is a screening tool used to estimate a person's body fat based on their height and weight. It is calculated by dividing a person's weight by the square of their height. The BMI score is intended to be a simple, inexpensive screening category rather than a diagnostic tool for defining a person's absolute body fat or overall health. Healthcare providers often use BMI to identify potential weight-related risks in adults, such as being underweight, overweight, or obese. Because it relies entirely on a mathematical formula using two inputs, it does not distinguish between muscle mass and fat mass, meaning athletes or highly muscular individuals may sometimes fall into an "overweight" or "obese" category despite being in excellent physical condition.</p>
+
+    <h2>BMI Calculator Components</h2>
+    <p>Calculating your BMI requires only two primary data points. An effective BMI calculator will process these inputs to return a numeric score and corresponding weight category.</p>
+    <ul>
+        <li><strong>Weight:</strong> The user's body weight, which can be entered in pounds (lbs) or kilograms (kg).</li>
+        <li><strong>Height:</strong> The user's height, which is typically entered in feet and inches (ft/in) or meters/centimeters (m/cm).</li>
+    </ul>
+
+    <h2>How BMI is Calculated</h2>
+    <p>To provide context on how the calculator processes your numbers, different mathematical formulas are used depending on the measurement system you choose.</p>
+
+    <h3>Standard / Imperial Formula</h3>
+    <p>When using pounds (lbs) and inches (in), the calculator multiplies the weight in pounds by 703, divides that by the height in inches, and divides by the height in inches a second time.</p>
+    <p>BMI = (Weight in pounds * 703) / (Height in inches * Height in inches)</p>
+
+    <h3>Metric Formula</h3>
+    <p>When using kilograms (kg) and meters (m), the calculation is simply the weight in kilograms divided by the square of the height in meters.</p>
+    <p>BMI = Weight in kilograms / (Height in meters * Height in meters)</p>
+
+    <h2>Adult BMI Categories</h2>
+    <p>The BMI score generated by the calculator is compared against standardized ranges established by health organizations to determine weight classifications.</p>
+    <ul>
+        <li><strong>Underweight:</strong> Below 18.5</li>
+        <li><strong>Healthy Weight:</strong> 18.5 to 24.9</li>
+        <li><strong>Overweight:</strong> 25.0 to 29.9</li>
+        <li><strong>Obese:</strong> 30.0 or higher</li>
+    </ul>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+    
+    <h3>What is a good or healthy BMI?</h3>
+    <p>For most adults, a healthy BMI is considered to be between 18.5 and 24.9. This range is statistically associated with a lower risk of chronic diseases. However, these categories are generalized and may not apply to all populations, such as children, the elderly, or pregnant individuals.</p>
+
+    <h3>Is BMI an accurate measure of overall health?</h3>
+    <p>Not entirely. While BMI is a reliable indicator of body fatness for a large portion of the general population, it does not account for muscle mass, bone density, age, or sex. For example, a bodybuilder with a low percentage of body fat may have a high BMI and be classified as overweight. Conversely, an individual with a normal BMI could still carry an unhealthy amount of visceral fat.</p>
+
+    <h3>Does BMI calculate the same way for children?</h3>
+    <p>No. For children and teens, BMI calculations must be age- and sex-specific. This is because the amount of body fat changes as children grow, and the differences in body fat between boys and girls are distinct. A child's BMI score is plotted on a growth chart to determine their BMI-for-age percentile.</p>
+
+    <h3>Can I use this calculator if I am pregnant?</h3>
+    <p>BMI calculators are generally not accurate or recommended for use during pregnancy. Healthcare providers use specialized tracking methods and weight gain recommendations based on pre-pregnancy weight rather than standard BMI formulas to assess fetal development and maternal health.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'bmi-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'bmi-calculator',
+  fields: [
+    {id:'system', label:'Units', type:'select', default:'imperial', options:[{value:'imperial',label:'Imperial (lb / ft+in)'},{value:'metric',label:'Metric (kg / cm)'}]},
+    {id:'weight', label:'Weight', unit:'', default:160, step:0.5},
+    {id:'feet', label:'Height (feet)', unit:'', default:5, step:1},
+    {id:'inches', label:'Height (inches)', unit:'', default:8, step:0.5},
+    {id:'heightCm', label:'Height (cm)', unit:'', default:170, step:0.5}
+  ],
+  compute: function(v){
+    var bmi;
+    if (v.system === 'imperial') {
+      var totalInches = (v.feet * 12) + v.inches;
+      bmi = (v.weight * 703) / (totalInches * totalInches);
+    } else {
+      var heightM = v.heightCm / 100;
+      bmi = v.weight / (heightM * heightM);
+    }
+    var category;
+    if (bmi < 16) category = 'Severe Underweight';
+    else if (bmi < 17) category = 'Moderate Underweight';
+    else if (bmi < 18.5) category = 'Mild Underweight';
+    else if (bmi < 25) category = 'Healthy Weight';
+    else if (bmi < 27.5) category = 'Overweight';
+    else if (bmi < 30) category = 'Overweight (Higher Risk)';
+    else if (bmi < 35) category = 'Obese Class I';
+    else if (bmi < 40) category = 'Obese Class II';
+    else category = 'Obese Class III';
+
+    return {
+      label: 'Your BMI',
+      headline: CalcHub.fmtNum(bmi,1) + ' — ' + category,
+      stats: [{label:'BMI', value: CalcHub.fmtNum(bmi,1)}, {label:'Category', value: category, highlight:true}],
+      chart: {type:'bar', labels: ['Underweight','Healthy','Overweight','Obese I','Obese II','Obese III'], series:[{name:'BMI category thresholds', data: [18.5,25,30,35,40,45], color:'#a32020'}]},
+      historyLabel: 'BMI \u2248 '+CalcHub.fmtNum(bmi,1)+' ('+category+')',
+      copyValue: CalcHub.fmtNum(bmi,1)+' BMI'
+    };
+  },
+  explain: function(v, r){
+    var bmi = parseFloat(r.headline);
+
+    if (bmi < 16) {
+      return "BMI under 16 is classified as severe thinness. This range is associated with meaningfully elevated risk of nutritional deficiency, weakened immune response, and in women, disruption of menstrual cycles. It's also a range clinicians take seriously enough to screen for underlying causes (malabsorption, thyroid conditions, disordered eating) rather than treat as a lifestyle issue alone. If this reflects your actual weight, a doctor visit is a reasonable next step, not an overreaction.";
+    }
+    if (bmi < 17) {
+      return "BMI 16\u201316.9 is classified as moderate thinness. Compared to severe thinness the acute risks are lower, but sustained weight in this range is still linked to lower bone density and reduced physiological reserve (less buffer during illness or surgery). Clinicians generally want to know whether this is a stable, intentional weight or a recent drop, since the two carry very different implications.";
+    }
+    if (bmi < 18.5) {
+      return "BMI 17\u201318.4 is classified as mild thinness. For many people this is simply their stable baseline, especially if it hasn't changed over time and energy, cycles, and bloodwork are normal. It's more of a flag than a diagnosis \u2014 worth mentioning at a routine physical mainly to rule out anything that would explain a downward trend.";
+    }
+    if (bmi < 25) {
+      return "18.5\u201324.9 is the range associated with the lowest population-level risk of weight-related conditions like type 2 diabetes and cardiovascular disease. That doesn't mean every metric is automatically fine \u2014 blood pressure, cholesterol, and blood sugar are still worth tracking independently of BMI \u2014 but weight itself isn't the flag here.";
+    }
+    if (bmi < 27.5) {
+      return "25\u201327.4 is the lower overweight range. At this level, population studies show a modest increase in risk for conditions like type 2 diabetes and hypertension, but the effect size is small and highly dependent on where fat is distributed (visceral vs. subcutaneous) and on muscle mass, neither of which BMI can see. This is usually a 'keep an eye on trend' number rather than a 'treat now' number.";
+    }
+    if (bmi < 30) {
+      return "27.5\u201329.9 is still overweight but at the edge where many clinical guidelines start recommending closer monitoring \u2014 particularly checking waist circumference, fasting glucose, and blood pressure, since risk starts climbing faster from here. It's a reasonable point to bring up proactively at your next checkup rather than wait for symptoms.";
+    }
+    if (bmi < 35) {
+      return "30\u201334.9 is Obesity Class I. This is the threshold most clinical guidelines use to start discussing structured intervention \u2014 not because the number itself is dangerous, but because this range correlates with measurably higher rates of type 2 diabetes, hypertension, sleep apnea, and joint strain. A doctor can look at your actual labs and history to tell you how much of that risk applies to you specifically, which this calculator can't.";
+    }
+    if (bmi < 40) {
+      return "35\u201339.9 is Obesity Class II, sometimes called severe obesity in clinical literature. At this level, guidelines generally recommend evaluation for comorbidities (sleep apnea screening, cardiometabolic panels) and a conversation about medical or structured weight-management options, not just general lifestyle advice. This is worth an actual appointment, not just a mental note.";
+    }
+    return "40+ is Obesity Class III (morbid obesity), the range where surgical and pharmacological interventions are most often clinically discussed alongside lifestyle changes, given the substantially elevated risk of cardiovascular disease, diabetes, and reduced life expectancy associated with this range in population data. A BMI number alone doesn't determine your personal risk or the right treatment path \u2014 that needs an actual clinical workup.";
+  }
+});
+
+</script>
+</body>
+</html>

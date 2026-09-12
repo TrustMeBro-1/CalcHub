@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Emergency Fund Calculator: Emergency Fund Calculator - Savings Target & Runway Planner</title>
+<meta name="description" content="Find out how large your emergency fund should be, and how close you are to fully funding it.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/emergency-fund-calculator">
+<meta property="og:title" content="Emergency Fund Calculator: Emergency Fund Calculator - Savings Target & Runway Planner">
+<meta property="og:description" content="Find out how large your emergency fund should be, and how close you are to fully funding it.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/emergency-fund-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Emergency Fund Calculator: Emergency Fund Calculator - Savings Target & Runway Planner">
+<meta name="twitter:description" content="Find out how large your emergency fund should be, and how close you are to fully funding it.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Emergency Fund Calculator: Emergency Fund Calculator - Savings Target & Runway Planner",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Find out how large your emergency fund should be, and how close you are to fully funding it.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Emergency Fund Calculator: Emergency Fund Calculator - Savings Target & Runway Planner</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Emergency Fund Calculator: Emergency Fund Calculator - Savings Target & Runway Planner</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Find out how large your emergency fund should be, and how close you are to fully funding it.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>Why the target is based on expenses, not income</h2>
+<p>The standard 3–6 month guideline is sized against essential monthly expenses — rent, food, utilities, insurance, minimum debt payments — not your full income, because the goal is surviving a gap in earnings, not maintaining your current lifestyle.</p>
+<h2>Who typically needs more than the standard range</h2>
+<p>Single-income households, commission-based earners, and self-employed people generally carry more income variability than a stable two-income salaried household, and often benefit from sizing toward 6–12 months rather than the lower end of the range.</p>
+      <h1>Emergency Funds</h1>
+<p>An emergency fund is a dedicated savings cushion set aside strictly to cover unexpected financial crises, such as a sudden job loss, medical emergency, or major car breakdown. Financial professionals treat an emergency fund as the absolute baseline of personal financial security. Having this cash buffer prevents you from relying on high-interest credit cards, taking out predatory personal loans, or liquidating long-term retirement investments when an unexpected bill arrives. By keeping these reserves entirely separate from your everyday checking account, you build a financial safety net that ensures peace of mind and long-term economic stability.</p>
+
+<h2>Emergency Fund Calculator Components</h2>
+<p>Determining your ideal safety cushion requires inputting your core living costs and selecting a target duration baseline.</p>
+<ul>
+    <li><strong>Monthly Living Expenses:</strong> The baseline sum of your essential survival costs, including housing, utilities, food, insurance, and minimum debt payments.</li>
+    <li><strong>Target Coverage Duration:</strong> The number of months you want your safety net to last if your primary source of income completely stops.</li>
+    <li><strong>Current Savings Balance:</strong> Any money you have already tucked away in a savings account specifically designated for emergencies.</li>
+</ul>
+
+<h2>Determining Your Fund Target Duration</h2>
+<p>The total size of your emergency fund typically ranges from three to six months of expenses, depending heavily on your lifestyle stability.</p>
+<ul>
+    <li><strong>3-Month Fund:</strong> Best suited for salaried employees with high job security, dual-income households, or individuals with minimal recurring debts.</li>
+    <li><strong>6-Month Fund:</strong> Recommended for single-income households, families with dependents, or workers in highly volatile or seasonal industries.</li>
+    <li><strong>9- to 12-Month Fund:</strong> Highly ideal for freelance professionals, business owners, or contract workers whose incoming revenue fluctuates drastically month to month.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Where should I keep my emergency fund cash?</h3>
+<p>You should store your emergency fund in a High-Yield Savings Account (HYSA) or a liquid money market account. These financial vehicles keep your principal safe and easily accessible within 24 to 48 hours, while yielding significantly higher interest rates than a standard traditional checking or savings account.</p>
+
+<h3>What actually counts as a true financial emergency?</h3>
+<p>A true emergency is an event that is completely unexpected, absolutely necessary, and urgent. Examples include sudden job lay-offs, emergency root canals, or essential car repairs required to get to work. Seasonal expenses like holiday gifts, routine car registration fees, or voluntary home remodeling projects do not qualify as emergencies and belong in a separate savings bucket.</p>
+
+<h3>Should I pay off credit card debt before building my emergency fund?</h3>
+<p>You should build a small starter emergency fund of roughly 1,000 dollars or one month of basic living expenses before aggressively paying down high-interest credit card debt. Having a tiny starter cushion ensures that if a minor emergency pops up while you are paying off debt, you will not be forced to swipe your credit card and slide backward into deeper debt.</p>
+
+<h3>What should I do after I am forced to use my emergency savings?</h3>
+<p>When you dip into your emergency fund, your immediate financial priority must pivot to replenishing that baseline balance. Temporarily pause any extra investment contributions or luxury spending allocations until your emergency account balance climbs back up to its target multi-month threshold.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'emergency-fund-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'emergency-fund-calculator',
+  fields: [
+    {id:'expenses', label:'Monthly Essential Expenses', unit:'$', default:2800, step:100},
+    {id:'months', label:'Months of Coverage', type:'select', default:6, options:[{value:3,label:'3 months'},{value:6,label:'6 months'},{value:9,label:'9 months'},{value:12,label:'12 months'}]},
+    {id:'current', label:'Current Emergency Savings', unit:'$', default:3000, step:100}
+  ],
+  compute: function(v){
+    var target = v.expenses * v.months;
+    var gap = Math.max(0, target - v.current);
+    var progress = target ? Math.min(100, v.current/target*100) : 0;
+    return {
+      label: 'Emergency Fund Target',
+      headline: CalcHub.fmtUSD0(target),
+      stats: [
+        {label:'Current Savings', value: CalcHub.fmtUSD0(v.current)},
+        {label:'Amount Remaining', value: CalcHub.fmtUSD0(gap)},
+        {label:'Progress', value: CalcHub.fmtPct(progress), highlight: progress>=100}
+      ],
+      chart: {type:'donut', labels:['Saved','Remaining'], data:[v.current, gap], colors:['#1a6e3c','#e2e8f0']},
+      historyLabel: CalcHub.fmtUSD0(target) + ' target, ' + CalcHub.fmtPct(progress,0) + ' funded',
+      copyValue: CalcHub.fmtPct(progress,0) + ' of ' + CalcHub.fmtUSD0(target) + ' target funded'
+    };
+  },
+  explain: function(v, r){
+    var progress = parseFloat(r.stats[2].value);
+    if (progress >= 100) return "Fully funded \u2014 you've hit your target. From here, many people redirect that monthly savings toward retirement contributions or other goals, keeping this fund untouched except for genuine emergencies.";
+    if (progress >= 50) return "You're over halfway there. Keep contributions consistent and automatic if possible \u2014 that's usually the biggest factor in actually reaching the target on schedule.";
+    if (v.current < v.expenses) return "Your current savings don't yet cover even one month of essential expenses. Building a small starter cushion (around one month's expenses) is often a better immediate priority than aggressive debt payoff or investing, since it protects you from going into debt over an unexpected bill.";
+    return "You have some buffer, but less than half the target. Small, consistent monthly deposits will get you there faster than waiting for a lump sum \u2014 even $50\u2013100/month adds up over a year.";
+  }
+});
+
+</script>
+</body>
+</html>

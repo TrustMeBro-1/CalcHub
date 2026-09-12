@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Robux to USD Calculator: Convert Robux to Real Money Buying & DevEx Cash Out</title>
+<meta name="description" content="Convert Robux to US dollars instantly. See what your Robux are worth when buying, or when cashing out through DevEx at the standard and 18+ rates. Free, simple, updates as you type.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/robux-to-usd-calculator">
+<meta property="og:title" content="Robux to USD Calculator: Convert Robux to Real Money (Buying & DevEx Cash Out)">
+<meta property="og:description" content="Convert Robux to US dollars instantly. See what your Robux are worth when buying, or when cashing out through DevEx at the standard and 18+ rates.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/robux-to-usd-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Robux to USD Calculator: Convert Robux to Real Money (Buying & DevEx Cash Out)">
+<meta name="twitter:description" content="Convert Robux to US dollars instantly. See what your Robux are worth buying vs. cashing out with DevEx.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Robux to USD Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Convert Robux to US dollars instantly. See what your Robux are worth when buying, or when cashing out through DevEx at the standard and 18+ rates.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Robux?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Robux is the money you use to buy things inside Roblox games. You can buy Robux with real money, then spend it on game passes, outfits, pets, and cool stuff in your favorite games." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is 1 Robux worth?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It depends on what you're doing. If you're buying Robux, it costs about $0.0125 per Robux. If you're cashing out earned Robux (through DevEx), you get about $0.0038 per Robux at the normal rate, or $0.0054 per Robux if you're 18+ and verified in the US." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does cashing out pay less than buying?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Roblox takes a cut to keep the platform running and safe. Think of it like this: when you buy a game at a store for $60, the store doesn't pay the developer $60 back — they take their share. Same thing happens with Robux." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is DevEx (Developer Exchange)?",
+      "acceptedAnswer": { "@type": "Answer", "text": "DevEx is how Roblox creators can cash out the Robux they earned from making games. It's not for Robux you bought yourself — only Robux you earned from players playing your games. It's like getting paid for your work!" }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the 30% Roblox fee?",
+      "acceptedAnswer": { "@type": "Answer", "text": "When you sell something in Roblox (like a game pass), Roblox takes 30% of the money. So if you earn 1,000 Robux from selling something, Roblox keeps 300 and you keep 700 before cashing out." }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I need to know about cashing out?",
+      "acceptedAnswer": { "@type": "Answer", "text": "You need at least 30,000 earned Robux to cash out. You also need to be at least 13 years old (or have parent permission), have a verified DevEx account, and be eligible in your country. Check Roblox's official rules for full details." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this calculator official?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No, this is just an estimate. Roblox can change rates anytime, and you can only buy Robux in bundles with fixed prices. Always check Roblox.com for real prices before buying or cashing out." }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<style>
+.rbx-quickpicks { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.rbx-quickpick-btn {
+  padding: 7px 14px; border-radius: var(--radius-full); border: 1px solid var(--border);
+  background: var(--surface-alt); color: var(--text); font-family: inherit; font-size: 13px;
+  font-weight: 600; cursor: pointer; transition: background-color 0.15s, border-color 0.15s;
+}
+.rbx-quickpick-btn:hover { background: var(--border); }
+.rbx-quickpick-btn.active { background: var(--link); border-color: var(--link); color: #fff; }
+
+.rbx-result-row {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-md);
+  padding: 12px 14px; border-radius: var(--radius-md); background: var(--surface-alt);
+  border: 1px solid var(--border); margin-bottom: 8px;
+}
+.rbx-result-row.highlight { border-color: var(--link); background: color-mix(in srgb, var(--link) 8%, var(--surface-alt)); }
+.rbx-result-row.warning { border-color: #ff9800; background: color-mix(in srgb, #ff9800 8%, var(--surface-alt)); }
+.rbx-result-row.success { border-color: #4caf50; background: color-mix(in srgb, #4caf50 8%, var(--surface-alt)); }
+
+.rbx-result-label { font-size: 13.5px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.rbx-result-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.rbx-result-value { font-family: 'DM Serif Display', Georgia, serif; font-size: 21px; color: var(--text); white-space: nowrap; }
+
+.rbx-live-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--finance); margin-right: 6px; animation: rbx-pulse 1.6s ease-in-out infinite;
+}
+@keyframes rbx-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.rbx-live-label { font-size: 11.5px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; display: flex; align-items: center; margin-bottom: var(--sp-sm); }
+
+.rbx-toggle-group { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; align-items: center; }
+.rbx-toggle-label { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+.rbx-toggle-label input { cursor: pointer; }
+
+.rbx-alert {
+  padding: 10px 12px; border-radius: var(--radius-md); margin: 10px 0;
+  border-left: 4px solid;
+  font-size: 13px;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.rbx-alert.warning { background: color-mix(in srgb, #ff9800 10%, var(--surface-alt)); border-color: #ff9800; color: #e65100; }
+.rbx-alert.success { background: color-mix(in srgb, #4caf50 10%, var(--surface-alt)); border-color: #4caf50; color: #2e7d32; }
+.rbx-alert.info { background: color-mix(in srgb, var(--link) 10%, var(--surface-alt)); border-color: var(--link); color: var(--link); }
+.rbx-alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.rbx-alert-text { flex: 1; }
+
+.rbx-fee-breakdown { 
+  font-size: 12px; color: var(--text-light); margin-top: 6px; padding: 8px; 
+  background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border);
+}
+.rbx-breakdown-row { display: flex; justify-content: space-between; margin: 4px 0; }
+
+.calc-subcard { 
+  padding: 12px 14px; border-radius: var(--radius-md); 
+  background: var(--surface); border: 1px solid var(--border); 
+  margin-top: 12px; font-size: 13px;
+}
+.calc-subcard-label { font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+
+.emoji { display: inline-block; margin: 0 2px; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-tools">Everyday Tools</a><span>/</span>
+    <span>Robux to USD Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Robux to USD Calculator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Find out how much your Robux are really worth! 💰 Type in a number and instantly see what it costs to buy, or how much you'd get if you cashed it out. No button needed — updates as you type.</p>
+
+  <div id="calc-root" class="calc-layout">
+    <div class="calc-form-col">
+      <div class="calc-card">
+        <div class="rbx-live-label"><span class="rbx-live-dot"></span>Updates as you type</div>
+        <div class="calc-card-title">💰 How Many Robux?</div>
+        <div class="field-grid">
+          <div class="field-group span-2">
+            <label class="field-label" for="rbx-amount">Enter Your Robux Amount</label>
+            <input class="field-input" type="number" id="rbx-amount" min="0" step="1" value="1700" inputmode="numeric">
+          </div>
+        </div>
+        <div class="rbx-quickpicks" id="rbx-quickpicks">
+          <button type="button" class="rbx-quickpick-btn" data-val="400">400</button>
+          <button type="button" class="rbx-quickpick-btn" data-val="800">800</button>
+          <button type="button" class="rbx-quickpick-btn active" data-val="1700">1,700</button>
+          <button type="button" class="rbx-quickpick-btn" data-val="4500">4,500</button>
+          <button type="button" class="rbx-quickpick-btn" data-val="10000">10,000</button>
+        </div>
+
+        <!-- Reverse: USD to Robux -->
+        <div class="calc-subcard" style="margin-top: 16px; border-top: 2px solid var(--border); padding-top: 14px;">
+          <div class="calc-subcard-label">🔄 Or: How Many Robux Can I Get?</div>
+          <div class="field-grid">
+            <div class="field-group span-2">
+              <label class="field-label" for="rbx-usd">Enter Dollars ($)</label>
+              <input class="field-input" type="number" id="rbx-usd" min="0" step="0.01" value="0" inputmode="decimal">
+            </div>
+          </div>
+          <div class="rbx-result-row" style="margin-top: 10px;">
+            <div>
+              <div class="rbx-result-label">↓ You'd Get (Approx)</div>
+              <div class="rbx-result-sub">If you bought this amount</div>
+            </div>
+            <div class="rbx-result-value" id="rbx-from-usd-val">0 R$</div>
+          </div>
+        </div>
+
+        <!-- Fee & Rate Options -->
+        <div class="calc-subcard">
+          <div class="calc-subcard-label">⚙️ Adjust For Your Situation</div>
+          
+          <div class="rbx-toggle-group">
+            <label class="rbx-toggle-label">
+              <input type="checkbox" id="rbx-use-devex" checked>
+              <span>Are you cashing out with DevEx?</span>
+            </label>
+          </div>
+
+          <div class="rbx-toggle-group" id="rbx-devex-options" style="display: flex;">
+            <label class="rbx-toggle-label">
+              <input type="radio" name="rbx-devex-rate" value="std" checked>
+              <span>Standard Rate</span>
+            </label>
+            <label class="rbx-toggle-label">
+              <input type="radio" name="rbx-devex-rate" value="18plus">
+              <span>18+ US Rate (higher pay!)</span>
+            </label>
+          </div>
+
+          <div class="rbx-toggle-group">
+            <label class="rbx-toggle-label">
+              <input type="checkbox" id="rbx-apply-fee">
+              <span>Did you earn this selling stuff? (Subtract 30% Roblox fee)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Card -->
+      <div class="calc-card">
+        <div class="calc-card-title">📊 What It's Worth</div>
+        
+        <!-- Threshold Alert -->
+        <div id="rbx-threshold-alert" class="rbx-alert warning" style="display: none;">
+          <span class="rbx-alert-icon">⚠️</span>
+          <div class="rbx-alert-text">
+            <strong>Need 30,000 Robux to cash out!</strong><br>
+            You have <span id="rbx-threshold-amount">0</span> R$ — you need <span id="rbx-threshold-needed">0</span> more.
+          </div>
+        </div>
+
+        <div id="rbx-threshold-success" class="rbx-alert success" style="display: none;">
+          <span class="rbx-alert-icon">✅</span>
+          <div class="rbx-alert-text">
+            <strong>You can cash out!</strong> You have enough Robux for DevEx.
+          </div>
+        </div>
+
+        <!-- Fee Breakdown -->
+        <div id="rbx-fee-section" class="rbx-fee-breakdown" style="display: none;">
+          <div class="rbx-breakdown-row">
+            <span>Gross Robux:</span>
+            <span id="rbx-gross-display">0 R$</span>
+          </div>
+          <div class="rbx-breakdown-row" style="color: #ff6f00; font-weight: 600;">
+            <span>Roblox Takes 30%:</span>
+            <span id="rbx-fee-display">-0 R$</span>
+          </div>
+          <div class="rbx-breakdown-row" style="border-top: 1px solid var(--border); padding-top: 4px; margin-top: 4px; font-weight: 600;">
+            <span>You Keep (Net):</span>
+            <span id="rbx-net-display">0 R$</span>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="rbx-results-buying" class="rbx-result-row highlight">
+          <div>
+            <div class="rbx-result-label">💳 Cost to Buy This Robux</div>
+            <div class="rbx-result-sub">If you bought it with real money</div>
+          </div>
+          <div class="rbx-result-value" id="rbx-buy-val">$21.25</div>
+        </div>
+
+        <div id="rbx-results-devex" style="display: none;">
+          <div class="rbx-result-row">
+            <div>
+              <div class="rbx-result-label">💰 Cash Out Value</div>
+              <div class="rbx-result-sub" id="rbx-devex-sub-text">You'd get this if you cashed out</div>
+            </div>
+            <div class="rbx-result-value" id="rbx-devex-val">$6.46</div>
+          </div>
+        </div>
+
+        <div id="rbx-results-reverse" class="rbx-result-row" style="display: none;">
+          <div>
+            <div class="rbx-result-label">🔄 How Many Robux to Buy?</div>
+            <div class="rbx-result-sub">Reverse calculation from USD</div>
+          </div>
+          <div class="rbx-result-value" id="rbx-from-usd-val">0 R$</div>
+        </div>
+
+        <button class="button-primary" id="rbx-copy" style="width: 100%; margin-top: 12px;">📋 Copy Results</button>
+      </div>
+
+      <!-- Simple Worth Calculator -->
+      <div class="calc-card">
+        <div class="calc-card-title">💎 What's It Worth?</div>
+        <p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;">Quick check: How much is any Robux amount worth in dollars?</p>
+        <div class="field-grid">
+          <div class="field-group span-2">
+            <label class="field-label" for="rbx-worth-amount">Enter Robux</label>
+            <input class="field-input" type="number" id="rbx-worth-amount" min="0" step="1" value="200" inputmode="numeric">
+          </div>
+        </div>
+        <div class="rbx-result-row" style="margin-top: 12px;">
+          <div>
+            <div class="rbx-result-label">= Worth in USD</div>
+            <div class="rbx-result-sub">Simple conversion</div>
+          </div>
+          <div class="rbx-result-value" id="rbx-worth-val">$2.50</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Column -->
+    <div class="calc-info-col">
+      <section id="calc-history" class="calc-card"></section>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <section class="page-section">
+    <div class="section-label">📚 Learn More</div>
+    <h2>Quick Answers About Robux & DevEx</h2>
+    
+    <h3>🤔 What is Robux?</h3>
+    <p>Robux is the money in Roblox games. You can buy Robux with real money, then use it to buy game passes, cool outfits, pets, and other stuff in games. Think of it like coins in an arcade!</p>
+
+    <h3>💵 How much does 1 Robux cost?</h3>
+    <p>
+      <strong>When you're buying:</strong> About $0.0125 per Robux (so 1,000 Robux = about $12.50)<br>
+      <strong>When you cash out:</strong> You get less! About $0.0038 per Robux at the normal rate, or $0.0054 if you're 18+ and verified in the US. Think of it like selling something second-hand — you don't get back what you paid.
+    </p>
+
+    <h3>❓ Why does cashing out pay way less?</h3>
+    <p>Roblox keeps some money to run the platform, keep servers safe, and pay other creators. It's just how it works. The buy price and sell price are always different — kind of like trading cards. You might pay $10 for a card, but when you sell it to a shop, they might only give you $5.</p>
+
+    <h3>🎮 What is DevEx?</h3>
+    <p><strong>DevEx = Developer Exchange.</strong> It's how Roblox creators get paid real money for the Robux that players earn in their games. You can only use DevEx for Robux you <em>earned</em> from making games, NOT for Robux you bought yourself.</p>
+
+    <h3>⚠️ What do I need to know about cashing out?</h3>
+    <ul>
+      <li>🔢 <strong>Minimum:</strong> You need at least 30,000 earned Robux</li>
+      <li>🎂 <strong>Age:</strong> You must be at least 13 years old (or have a parent set it up for you)</li>
+      <li>✅ <strong>Verification:</strong> Your account and payment info need to be verified</li>
+      <li>🌍 <strong>Location:</strong> You need to be in an allowed country (check Roblox for the full list)</li>
+    </ul>
+
+    <h3>💸 What's the 30% Roblox Fee?</h3>
+    <p>When you sell something in Roblox (like a game pass), Roblox takes 30% as their cut. So if you earn 1,000 Robux from sales, Roblox keeps 300 and you keep 700 before cashing out. Use the "Apply Fee" toggle above to see how this affects your numbers.</p>
+
+    <h3>👤 What's the 18+ US Rate?</h3>
+    <p>Roblox pays a higher rate ($0.0054 instead of $0.0038) to creators who are 18+ and verified in the United States. It's a bonus if you qualify! You need to prove your age and be located in the US to get this rate.</p>
+
+    <h3>❌ Is this calculator official?</h3>
+    <p><strong>No.</strong> This is just an estimate based on Roblox's published rates. Roblox can change prices and rates whenever they want. You can only buy Robux in fixed bundles (like $4.99 for 400 Robux), not in exact amounts. <strong>Always check Roblox.com for current prices before buying or cashing out!</strong></p>
+  </section>
+
+  <section class="page-section">
+    <div class="section-label">Similar Calculators</div>
+    <div class="pill-list">
+      <div class="pill-row"><span class="pill-dot" style="background:var(--tools)"></span><a class="pill-link" href="fuel-cost-calculator.html">Fuel Cost Calculator</a><span class="pill-meta">Everyday Tools</span></div>
+      <div class="pill-row"><span class="pill-dot" style="background:var(--tools)"></span><a class="pill-link" href="electricity-cost-calculator.html">Electricity Cost Calculator</a><span class="pill-meta">Everyday Tools</span></div>
+      <div class="pill-row"><span class="pill-dot" style="background:var(--tools)"></span><a class="pill-link" href="qr-code-generator.html">QR Code Generator</a><span class="pill-meta">Everyday Tools</span></div>
+      <div class="pill-row"><span class="pill-dot" style="background:var(--tools)"></span><a class="pill-link" href="password-generator.html">Password Generator</a><span class="pill-meta">Everyday Tools</span></div>
+      <div class="pill-row"><span class="pill-dot" style="background:var(--finance)"></span><a class="pill-link" href="sales-tax-calculator.html">Sales Tax Calculator</a><span class="pill-meta">Finance & Investment</span></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+  <p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'robux-to-usd-calculator');
+
+(function () {
+  const BUY_RATE = 0.0125;
+  const DEVEX_STD = 0.0038;
+  const DEVEX_18 = 0.0054;
+  const MIN_DEVEX_ROBUX = 30000;
+  const MARKETPLACE_FEE = 0.30;
+
+  // DOM Elements
+  const rbxInput = document.getElementById('rbx-amount');
+  const usdInput = document.getElementById('rbx-usd');
+  const useDevExCheckbox = document.getElementById('rbx-use-devex');
+  const devExRateRadios = document.querySelectorAll('input[name="rbx-devex-rate"]');
+  const applyFeeCheckbox = document.getElementById('rbx-apply-fee');
+  
+  const buyEl = document.getElementById('rbx-buy-val');
+  const devExEl = document.getElementById('rbx-devex-val');
+  const devExSubEl = document.getElementById('rbx-devex-sub-text');
+  const devExResultsEl = document.getElementById('rbx-results-devex');
+  const buyResultsEl = document.getElementById('rbx-results-buying');
+  const devExOptions = document.getElementById('rbx-devex-options');
+  const feeSection = document.getElementById('rbx-fee-section');
+  const thresholdAlert = document.getElementById('rbx-threshold-alert');
+  const thresholdSuccess = document.getElementById('rbx-threshold-success');
+  const quickpicksEl = document.getElementById('rbx-quickpicks');
+  const fromUsdEl = document.getElementById('rbx-from-usd-val');
+  const worthAmountEl = document.getElementById('rbx-worth-amount');
+  const worthValEl = document.getElementById('rbx-worth-val');
+
+  function fmtUSD(n) {
+    if (!isFinite(n) || n < 0) n = 0;
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtRBX(n) {
+    if (!isFinite(n) || n < 0) n = 0;
+    return Math.round(n).toLocaleString('en-US') + ' R$';
+  }
+
+  function updateFromUSD() {
+    const usd = parseFloat(usdInput.value) || 0;
+    fromUsdEl.textContent = fmtRBX(usd / BUY_RATE);
+  }
+
+  function updateWorth() {
+    const rbx = parseFloat(worthAmountEl.value) || 0;
+    const worth = rbx * BUY_RATE;
+    worthValEl.textContent = fmtUSD(worth);
+  }
+
+  function updateCalculations() {
+    const rbx = parseFloat(rbxInput.value) || 0;
+    const isDevEx = useDevExCheckbox.checked;
+    const use18Plus = document.querySelector('input[name="rbx-devex-rate"]:checked').value === '18plus';
+    const applyFee = applyFeeCheckbox.checked;
+
+    // Calculate net Robux after fee
+    const netRobux = applyFee ? rbx * (1 - MARKETPLACE_FEE) : rbx;
+    const feeAmount = applyFee ? rbx * MARKETPLACE_FEE : 0;
+
+    // Show/hide fee breakdown
+    if (applyFee && isDevEx) {
+      feeSection.style.display = 'block';
+      document.getElementById('rbx-gross-display').textContent = fmtRBX(rbx);
+      document.getElementById('rbx-fee-display').textContent = fmtRBX(feeAmount);
+      document.getElementById('rbx-net-display').textContent = fmtRBX(netRobux);
+    } else {
+      feeSection.style.display = 'none';
+    }
+
+    // Update buy cost
+    const buyCost = rbx * BUY_RATE;
+    buyEl.textContent = fmtUSD(buyCost);
+
+    // Show/hide DevEx results
+    if (isDevEx) {
+      buyResultsEl.style.display = 'none';
+      devExResultsEl.style.display = 'block';
+      devExOptions.style.display = 'flex';
+
+      const devExRate = use18Plus ? DEVEX_18 : DEVEX_STD;
+      const devExValue = netRobux * devExRate;
+      devExEl.textContent = fmtUSD(devExValue);
+
+      const rateLabel = use18Plus ? 'at 18+ US rate' : 'at standard rate';
+      devExSubEl.textContent = `You'd get this if you cashed out ${rateLabel}`;
+
+      // Threshold check
+      if (netRobux < MIN_DEVEX_ROBUX) {
+        thresholdAlert.style.display = 'flex';
+        thresholdSuccess.style.display = 'none';
+        document.getElementById('rbx-threshold-amount').textContent = fmtRBX(netRobux);
+        document.getElementById('rbx-threshold-needed').textContent = fmtRBX(MIN_DEVEX_ROBUX - netRobux);
+      } else {
+        thresholdAlert.style.display = 'none';
+        thresholdSuccess.style.display = 'flex';
+      }
+    } else {
+      buyResultsEl.style.display = 'block';
+      devExResultsEl.style.display = 'none';
+      devExOptions.style.display = 'none';
+      thresholdAlert.style.display = 'none';
+      thresholdSuccess.style.display = 'none';
+      feeSection.style.display = 'none';
+    }
+
+    // Update quick-picks
+    let activeSet = false;
+    quickpicksEl.querySelectorAll('.rbx-quickpick-btn').forEach(btn => {
+      const isMatch = parseFloat(btn.getAttribute('data-val')) === rbx;
+      btn.classList.toggle('active', isMatch);
+      if (isMatch) activeSet = true;
+    });
+
+    // Add to history
+    if (rbx > 0) {
+      const historyLabel = isDevEx 
+        ? `${fmtRBX(rbx)} → ${fmtUSD(netRobux * (use18Plus ? DEVEX_18 : DEVEX_STD))} (DevEx)`
+        : `${fmtRBX(rbx)} → ${fmtUSD(buyCost)} (Buy)`;
+      
+      CalcHub.addHistory({
+        calcId: 'robux-to-usd-calculator',
+        calcName: 'Robux to USD Calculator',
+        category: 'tools',
+        label: historyLabel,
+        resultValue: fmtUSD(isDevEx ? netRobux * (use18Plus ? DEVEX_18 : DEVEX_STD) : buyCost)
+      });
+      CalcHub.addRecent('robux-to-usd-calculator');
+    }
+  }
+
+  // Event listeners
+  rbxInput.addEventListener('input', updateCalculations);
+  usdInput.addEventListener('input', updateFromUSD);
+  worthAmountEl.addEventListener('input', updateWorth);
+  useDevExCheckbox.addEventListener('change', updateCalculations);
+  devExRateRadios.forEach(radio => radio.addEventListener('change', updateCalculations));
+  applyFeeCheckbox.addEventListener('change', updateCalculations);
+
+  quickpicksEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.rbx-quickpick-btn');
+    if (!btn) return;
+    rbxInput.value = btn.getAttribute('data-val');
+    updateCalculations();
+  });
+
+  document.getElementById('rbx-copy').addEventListener('click', () => {
+    const rbx = parseFloat(rbxInput.value) || 0;
+    const isDevEx = useDevExCheckbox.checked;
+    const use18Plus = document.querySelector('input[name="rbx-devex-rate"]:checked').value === '18plus';
+    const applyFee = applyFeeCheckbox.checked;
+    const netRobux = applyFee ? rbx * (1 - MARKETPLACE_FEE) : rbx;
+
+    let text;
+    if (isDevEx) {
+      const rate = use18Plus ? DEVEX_18 : DEVEX_STD;
+      const devExValue = netRobux * rate;
+      text = `${fmtRBX(rbx)} = ${fmtUSD(devExValue)} via DevEx (${use18Plus ? '18+' : 'standard'} rate)`;
+      if (applyFee) {
+        text += ` [after 30% fee: ${fmtRBX(netRobux)}]`;
+      }
+    } else {
+      text = `${fmtRBX(rbx)} costs ${fmtUSD(rbx * BUY_RATE)} to buy`;
+    }
+    CalcHub.copyText(text);
+  });
+
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'robux-to-usd-calculator',
+    title: '',
+    emptyText: "Type a Robux amount above and it'll be saved here automatically."
+  });
+
+  // Initial update
+  updateCalculations();
+  updateFromUSD();
+  updateWorth();
+})();
+</script>
+</body>
+</html>

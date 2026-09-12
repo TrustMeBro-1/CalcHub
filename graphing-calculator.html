@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://www.desmos.com/api/v1.12/calculator.js?apiKey=5cacdc3bd5a24aa0a8dd8e760a67541b"></script>    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Graphing Calculator: Free Graphing Calculator - Plot Functions & Equations Online</title>
+<meta name="description" content="Plot a function of x, evaluate it at a specific point, and see approximate roots — just like a graphing calculator.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/graphing-calculator">
+<meta property="og:title" content="Graphing Calculator: Free Graphing Calculator - Plot Functions & Equations Online">
+<meta property="og:description" content="Plot a function of x, evaluate it at a specific point, and see approximate roots — just like a graphing calculator.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/graphing-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Graphing Calculator: Free Graphing Calculator - Plot Functions & Equations Online">
+<meta name="twitter:description" content="Plot a function of x, evaluate it at a specific point, and see approximate roots — just like a graphing calculator.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Graphing Calculator: Free Graphing Calculator - Plot Functions & Equations Online",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Plot a function of x, evaluate it at a specific point, and see approximate roots — just like a graphing calculator.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  .calc-desmos-wrap { position: relative; }
+  .calc-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background:
+      repeating-linear-gradient(0deg, rgba(26,79,153,0.07) 0px, rgba(26,79,153,0.07) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, rgba(26,79,153,0.07) 0px, rgba(26,79,153,0.07) 1px, transparent 1px, transparent 24px);
+    background-color: var(--surface, rgba(20,24,34,0.85));
+    border-radius: 8px;
+    z-index: 5;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  .calc-loading-overlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .calc-loading-svg { width: 92px; height: 56px; }
+  .calc-loading-path {
+    fill: none;
+    stroke: #6366f1;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: calc-draw-line 1.5s ease-in-out infinite;
+  }
+  .calc-loading-dot {
+    fill: #6366f1;
+    animation: calc-dot-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes calc-draw-line {
+    0% { stroke-dashoffset: 220; }
+    50% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -220; }
+  }
+  @keyframes calc-dot-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+  .calc-loading-text {
+    font-size: 0.82rem;
+    color: #8b93ff;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-math">Mathematics & Algebra</a><span>/</span>
+    <span>Graphing Calculator: Free Graphing Calculator - Plot Functions & Equations Online</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Graphing Calculator: Free Graphing Calculator - Plot Functions & Equations Online</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Plot a function of x, evaluate it at a specific point, and see approximate roots — just like a graphing calculator.</p>
+  
+  <div id="calc-root" class="calc-layout"></div>
+
+  <section class="calc-explainer">
+<h2>What a "gap" in the graph usually means</h2>
+<p>If a function fails to plot at certain x-values — like 1/x at x = 0, or √x for negative x — that's not a rendering bug. It means the function is genuinely undefined there, and the graph correctly shows a gap or asymptote instead of a continuous line.</p>
+<h2>Reading the shape, not just the plot</h2>
+<p>Zooming too far in or out can make a smooth curve look like a straight line, or make an asymptote appear to touch an axis it never actually reaches. Adjust the view window deliberately when a function's behavior near zero or infinity is what you're trying to understand.</p>
+<h1>Graphing Calculations</h1>
+<p>A graphing calculator is a digital charting utility capable of plotting mathematical equations, solving simultaneous variables, and performing complex algebraic tasks. Unlike standard calculators that only output raw numbers, a graphing tool visualizes mathematical functions on a two-dimensional coordinate grid. This spatial representation helps students and professionals identify intersections, visual trends, slopes, and behavior patterns within data sets. Visualizing equations bridges the gap between abstract formulas and concrete geometric shapes, making it an indispensable resource for advanced mathematics, physics, and engineering applications.</p>
+
+<h2>Graphing Calculator Components</h2>
+<p>Utilizing a graphing tool effectively requires interacting with an equation interface and adjusting your spatial viewing boundaries.</p>
+<ul>
+    <li><strong>Function Input:</strong> The text field where you enter algebraic equations, using standard variables and mathematical operators.</li>
+    <li><strong>Viewing Window:</strong> The coordinate grid boundaries that dictate the minimum and maximum X and Y values visible on your screen.</li>
+    <li><strong>Trace and Zoom:</strong> Navigation tools that allow you to glide along a plotted curve to inspect specific coordinate points or look closer at intersections.</li>
+</ul>
+
+<h2>Common Graphing Functions</h2>
+<p>Graphing systems can process multiple equation types to display different geometric paths on the coordinate plane.</p>
+<ul>
+    <li><strong>Linear Equations:</strong> Straight lines that represent constant rates of change, typically written in slope-intercept form.</li>
+    <li><strong>Quadratic Functions:</strong> U-shaped curves called parabolas that display accelerating trajectories or optimization curves.</li>
+    <li><strong>Trigonometric Graphs:</strong> Repeating wave patterns like sine and cosine curves that model cyclical natural phenomena like sound waves or tidal patterns.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What do the X and Y axes represent on the calculator grid?</h3>
+<p>The horizontal X-axis represents the independent variable, which is the input value you alter. The vertical Y-axis represents the dependent variable, which is the output value calculated by the equation based on your input.</p>
+
+<h3>How do I find where two lines intersect using the graph?</h3>
+<p>To find where two lines cross, plot both equations simultaneously in the interface. The point where the curves overlap represents the shared solution where both equations yield the exact same X and Y values. Most calculators feature an intersection tool that identifies these coordinates instantly.</p>
+
+<h3>Why is my graph blank or showing an error?</h3>
+<p>A blank screen usually means your viewing window boundaries are misconfigured. If your equation calculates values in the hundreds, but your grid view is only set to look at values between negative ten and positive ten, the plotted line will fall entirely outside your visible screen area.</p>
+
+<h3>What is the difference between an algebraic input and a polar input?</h3>
+<p>Algebraic inputs use traditional Cartesian coordinates based on horizontal and vertical distances on a grid. Polar inputs plot points based on an angle of rotation and a direct distance from a central origin point, which is useful for calculating circular and spiral paths.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'graphing-calculator');
+
+(function(){
+  var meta = CalcHub.getCalcMeta('graphing-calculator');
+  var root = document.getElementById('calc-root');
+  var last = CalcHub.getLastInputs('graphing-calculator') || { fn: 'x^2 - 3*x + 2' };
+
+  root.innerHTML =
+    '<div class="calc-form-col">' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Function Input</div>' +
+        '<form id="graph-form">' +
+          '<div class="field-grid">' +
+            '<div class="field-group span-2"><label class="field-label">f(x) =</label><input class="field-input" id="g-fn" value="'+last.fn+'"></div>' +
+          '</div>' +
+          '<button type="submit" class="btn-primary" style="margin-top:12px">Update Desmos Plot</button>' +
+        '</form>' +
+      '</div>' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Your History &mdash; ' + meta.name + '</div>' +
+        '<div id="calc-history"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="calc-side-col">' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Desmos Graph</div>' +
+        '<div class="calc-desmos-wrap">' +
+          '<div class="calc-loading-overlay" id="graph-loading-overlay">' +
+            '<svg class="calc-loading-svg" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">' +
+              '<path class="calc-loading-path" d="M2,50 Q25,10 50,30 T98,10" />' +
+              '<circle class="calc-loading-dot" cx="50" cy="30" r="3" />' +
+            '</svg>' +
+            '<div class="calc-loading-text">Loading graph engine&hellip;</div>' +
+          '</div>' +
+          '<div id="desmos-calculator" style="width: 100%; height: 600px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);"></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  var desmosCalc = null;
+
+  // Initialize Desmos Calculator Instance
+  function initDesmos() {
+    var elt = document.getElementById('desmos-calculator');
+    var overlay = document.getElementById('graph-loading-overlay');
+    if (elt && typeof Desmos !== 'undefined') {
+      desmosCalc = Desmos.GraphingCalculator(elt, {
+        keypad: true,
+        graphpaper: true,
+        expressions: true,
+        settingsMenu: true
+      });
+      setTimeout(function(){ if (overlay) overlay.classList.add('is-hidden'); }, 500);
+    } else if (overlay) {
+      overlay.classList.add('is-hidden');
+    }
+  }
+
+  function run(e) {
+    if (e) e.preventDefault();
+    var exprStr = document.getElementById('g-fn').value.trim();
+
+    CalcHub.saveLastInputs('graphing-calculator', { fn: exprStr });
+
+    if (desmosCalc) {
+      // Plot the expression inside Desmos
+      desmosCalc.setExpression({ id: 'mainGraph', latex: 'y = ' + exprStr });
+
+      // Save to CalcHub history log
+      CalcHub.addHistory({
+        calcId: 'graphing-calculator',
+        calcName: meta.name,
+        category: meta.category,
+        label: 'Plotted y = ' + exprStr,
+        resultValue: 'Interactive Plot'
+      });
+      CalcHub.addRecent('graphing-calculator');
+    }
+  }
+
+  // Render Desmos and load initial state
+  initDesmos();
+  var form = document.getElementById('graph-form');
+  if (form) form.addEventListener('submit', run);
+
+  // Initial plot run
+  run();
+
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'graphing-calculator', title: '',
+    emptyText: "Plot a function above and it'll be saved here automatically."
+  });
+})();
+</script>
+</body>
+</html>
+
+

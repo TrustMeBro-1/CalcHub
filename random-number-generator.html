@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Random Number Generator — CalcHub</title>
+<meta name="description" content="Generate a set of random numbers within a range, with or without duplicates.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/random-number-generator">
+<meta property="og:title" content="Random Number Generator — CalcHub">
+<meta property="og:description" content="Generate a set of random numbers within a range, with or without duplicates.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/random-number-generator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Random Number Generator — CalcHub">
+<meta name="twitter:description" content="Generate a set of random numbers within a range, with or without duplicates.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Random Number Generator — CalcHub",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Generate a set of random numbers within a range, with or without duplicates.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-math">Mathematics & Algebra</a><span>/</span>
+    <span>Random Number Generator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Random Number Generator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Generate a set of random numbers within a range, with or without duplicates.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>What "random" means here</h2>
+<p>This generates pseudo-random numbers using the browser's built-in random function — statistically fine for games, sampling, or picking a winner, but not cryptographically secure, so it shouldn't be used for anything security-sensitive like generating passwords or encryption keys.</p>
+<h2>Why repeated results can look "unrandom"</h2>
+<p>True randomness sometimes produces streaks or clusters, like the same number twice in a row, that feel wrong intuitively. Humans are generally poor at recognizing genuine randomness, which often looks more patterned than expected.</p>
+      <h1>Random Number Generation</h1>
+<p>A random number generator (RNG) is a computational utility that produces a sequence of numbers or symbols that lack any discernible pattern or predictable order. In software architecture, cryptography, and casual decision-making, generating unpredictable variables forms the core of application security, fair-play gaming mechanics, and scientific sampling models. Standard computer processors rely on structured algorithms to create pseudo-random values that simulate true chance conditions for non-critical systems. Automating these selections removes human bias, delivering clean data subsets for sorting items, running simulations, or drawing contest winners.</p>
+
+<h2>Generator System Components</h2>
+<p>Isolating a randomized numerical output requires defining your numerical boundaries and configuring duplication behaviors.</p>
+<ul>
+    <li><strong>Minimum Bound:</strong> The lowest possible integer value allowed to appear within your randomized selection pool.</li>
+    <li><strong>Maximum Bound:</strong> The highest possible integer value allowed to appear within your randomized selection pool.</li>
+    <li><strong>Quantity Count:</strong> The total number of randomized digits the system should generate and display simultaneously in a single command.</li>
+    <li><strong>Allow Duplicates:</strong> A boolean configuration toggle that dictates whether the same number can appear multiple times inside a single output list.</li>
+</ul>
+
+<h2>PRNGs vs. TRNGs</h2>
+<p>Digital platforms utilize two distinct processing architectures to generate randomized digits, depending on your underlying security demands.</p>
+<ul>
+    <li><strong>Pseudo-Random Number Generators (PRNGs):</strong> Algorithm-driven systems that use math formulas to scale a starting "seed" value into a sequence that mimics randomness, ideal for gaming and simulations.</li>
+    <li><strong>True Random Number Generators (TRNGs):</strong> Hardware-driven systems that capture chaotic physical phenomena, such as atmospheric radio noise or microscopic atomic decay, to provide absolute, unhackable unpredictability for cryptography.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is a random seed value and why does it matter?</h3>
+<p>A random seed value is the initial numerical input used by a pseudo-random algorithm to start generating its sequence. If you input the exact same seed value into a PRNG algorithm twice, the calculator will output the identical sequence of "random" numbers every single time.</p>
+
+<h3>How does a generator prevent selection bias?</h3>
+<p>Human brains naturally favor specific number patterns or avoid edge values when asked to pick a random number. A digital generator uses balanced probability distributions, ensuring that every single number within your chosen minimum and maximum range carries an identical statistical probability of being selected.</p>
+
+<h3>Can a random number generator be used for secure passwords?</h3>
+<p>Yes, provided you utilize a Cryptographically Secure Pseudo-Random Number Generator (CSPRNG). These specialized algorithms are hardened against reverse-engineering, preventing malicious software from predicting your security keys by studying your previously generated sequences.</p>
+
+<h3>What is a uniform distribution in number generation?</h3>
+<p>A uniform distribution means that across a long timeline of generations, every option appears roughly the same number of times. If you generate a number between one and six ten thousand times, each digit will claim approximately 16.6 percent of the final output data pool, perfectly simulating a balanced physical die.</p>
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'random-number-generator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'random-number-generator',
+  fields: [
+    {id:'min', label:'Minimum', default:1, step:1},
+    {id:'max', label:'Maximum', default:100, step:1},
+    {id:'count', label:'How Many', type:'select', default:5, options:[{value:1,label:'1'},{value:5,label:'5'},{value:10,label:'10'},{value:20,label:'20'}]},
+    {id:'dupes', label:'Allow Duplicates', type:'select', default:'yes', options:[{value:'yes',label:'Yes'},{value:'no',label:'No'}]}
+  ],
+  compute: function(v){
+    var lo = Math.min(v.min,v.max), hi = Math.max(v.min,v.max);
+    var range = hi-lo+1;
+    var results = [];
+    if (v.dupes==='no'){
+      var pool = [];
+      for (var i=lo;i<=hi;i++) pool.push(i);
+      for (var k=pool.length-1;k>0;k--){ var j=Math.floor(Math.random()*(k+1)); var t=pool[k]; pool[k]=pool[j]; pool[j]=t; }
+      results = pool.slice(0, Math.min(v.count, pool.length));
+    } else {
+      for (var m=0;m<v.count;m++) results.push(lo+Math.floor(Math.random()*range));
+    }
+    var avg = results.reduce(function(a,b){return a+b;},0)/results.length;
+    return {
+      label: 'Generated Numbers',
+      headline: results.join(', '),
+      stats: [
+        {label:'Average', value: CalcHub.fmtNum(avg,2)},
+        {label:'Min Generated', value: String(Math.min.apply(null,results))},
+        {label:'Max Generated', value: String(Math.max.apply(null,results))}
+      ],
+      chart: {type:'bar', labels: results.map(function(_,i){return '#'+(i+1);}), series:[{name:'Value', data: results, color:'#1a4f99'}]},
+      historyLabel: results.length + ' number' + (results.length>1?'s':'') + ' between ' + lo + '–' + hi,
+      copyValue: results.join(', ')
+    };
+  }
+});
+
+</script>
+</body>
+</html>

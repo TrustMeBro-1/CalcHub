@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Algebra and Calculus Solver: Solve Equations, Inequalities & Systems - Free Online Algebra Calculator</title>
+<meta name="description" content="Solve algebra equations, inequalities, systems, and calculus problems step by step, plus generate random practice problems. Free and runs entirely in your browser.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/algebra-solver">
+<meta property="og:title" content="Algebra and Calculus Solver: Solve Equations, Inequalities & Systems - Free Online Algebra Calculator">
+<meta property="og:description" content="Solve algebra equations, inequalities, systems, and calculus problems step by step, plus generate random practice problems. Free and runs entirely in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/algebra-solver.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Algebra and Calculus Solver: Solve Equations, Inequalities & Systems - Free Online Algebra Calculator">
+<meta name="twitter:description" content="Solve algebra equations, inequalities, systems, and calculus problems step by step, plus generate random practice problems. Free and runs entirely in your browser.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Algebra Solver: Solve Equations, Inequalities & Systems - Free Online Algebra Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Solve algebra equations, inequalities, systems, and calculus problems step by step, plus generate random practice problems. Free and runs entirely in your browser.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What kinds of algebra problems can this solver handle?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It solves linear, quadratic, cubic, and quartic equations with step-by-step work, polynomial and quadratic inequalities, systems of two or three linear equations, trigonometric and logarithmic equations, matrix operations, and general algebraic expressions (simplifying, expanding, and factoring). A Calculus tab handles derivatives and integrals, a Graphing tab plots any function of x, and a Division tab performs synthetic division of a polynomial by a linear factor." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can it solve trigonometric or logarithmic equations?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Common closed forms like log(x) = c, ln(x) = c, or a^x = b get an exact algebraic answer. Anything more complex, including trig equations like sin(x) = 0.5, is solved numerically by scanning a domain you specify for sign changes and refining each one with bisection." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the algebra solver support matrices?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Matrices tab supports addition, subtraction, multiplication, determinant, inverse, transpose, and solving a linear system Ax = b, for matrices entered row by row." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I graph a function on this page?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Graphing tab plots any function of x over a range you choose, and lists the y-intercept along with any real x-intercepts it can find in that range." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this algebra calculator actually free to use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every tool on this page runs entirely in your browser using open-source math libraries, so there's no sign-up, no paywall, and nothing you type is ever sent to a server." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the solver sometimes show a warning about dropped solutions?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For cubic and quartic equations, the underlying symbolic engine can occasionally return a root that doesn't actually satisfy the original equation. This tool substitutes every candidate solution back into the equation and flags or removes any that fail that check, so you never see a silently wrong answer." }
+    },
+    {
+      "@type": "Question",
+      "name": "What does it mean when an equation has a complex solution?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A complex solution (containing i, the imaginary unit) shows up when a quadratic or higher-degree equation has no real number that satisfies it — for example, x^2 + 1 = 0 has no real solution because no real number squared equals -1. These solutions are mathematically valid but won't correspond to a point on a standard x-y graph." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this tool show its work, or does it just give the final answer?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For quadratic equations it shows the full quadratic-formula work, including the discriminant and what it means. For polynomial division, it shows every step of the synthetic division process. Other tools show the key intermediate forms (simplified, expanded, and factored) rather than a full line-by-line derivation." }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the random practice mode useful for studying algebra?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The Random Practice tab generates a fresh problem on demand at Basic or Advanced difficulty, lets you type in an answer to self-check, and can reveal the correct answer (with steps, for quadratics) whenever you're stuck. It's built for repeated, low-stakes practice rather than a graded test." }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+
+<!-- nerdamer: core + add-on modules (browser-equivalent of nerdamer/all — that's a Node require()
+     shortcut; in a browser you load the same files as separate <script> tags) -->
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/nerdamer.core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Algebra.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Calculus.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Solve.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Extra.js"></script>
+
+<!-- math.js: numeric evaluation + clean random-problem generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.1.1/math.js"></script>
+
+<!-- Algebrite: handles derivatives/integrals cleanly for the Calculus tab -->
+<script src="https://cdn.jsdelivr.net/npm/algebrite@1.4.0/dist/algebrite.bundle-for-browser.min.js"></script>
+
+<style>
+  /* ---------- Algebra Solver tool widgets (not covered by core.css) ---------- */
+  .as-tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--border);margin-bottom:var(--sp-lg);}
+  .as-tab{background:none;border:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--text-muted);padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;transition:.15s;white-space:nowrap;}
+  .as-tab:hover{color:var(--text);}
+  .as-tab.active{color:var(--link);border-bottom-color:var(--link);}
+  .as-panel{display:none;}
+  .as-panel.active{display:block;}
+  .as-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  .as-row > *{flex:1;min-width:120px;}
+  .as-btn{background:var(--link);color:#fff;border:none;font-family:inherit;font-weight:700;font-size:14px;padding:11px 18px;border-radius:var(--radius-md);cursor:pointer;transition:.15s;}
+  .as-btn:hover{background:var(--link-hover);}
+  .as-btn.secondary{background:var(--surface-alt);color:var(--text);border:1px solid var(--border);}
+  .as-btn.secondary:hover{background:var(--border);}
+  .as-btn.ghost{background:none;border:1px dashed var(--link);color:var(--link);font-size:12.5px;padding:8px 13px;}
+  .as-btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center;}
+  .as-hint{font-size:12px;color:var(--text-light);margin-top:8px;line-height:1.6;}
+  .as-hint code{color:var(--math);font-family:'IBM Plex Mono',monospace;background:var(--surface-alt);padding:1px 5px;border-radius:4px;}
+  .as-hint strong{color:var(--text);}
+  .as-result{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border);}
+  .as-result .as-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);margin-bottom:4px;font-weight:700;}
+  .as-result .as-value{font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--math);word-break:break-word;margin-bottom:14px;}
+  .as-result .as-value.err{color:var(--health);}
+  .as-result .as-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.5;}
+  .as-steps{margin:6px 0 14px;padding-left:0;list-style:none;}
+  .as-steps li{font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--text);padding:8px 0;border-bottom:1px dashed var(--border);}
+  .as-steps li:last-child{border-bottom:none;}
+  .as-steps .as-step-label{color:var(--text-light);font-family:'Inter',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px;}
+  .as-practice-problem{font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--math);text-align:center;padding:20px 10px;border:1px dashed var(--border);border-radius:var(--radius-md);margin-bottom:14px;min-height:24px;line-height:1.6;background:var(--surface-alt);}
+  .as-feedback{margin-top:12px;font-size:14px;font-weight:600;padding:10px 12px;border-radius:var(--radius-md);display:none;font-family:'IBM Plex Mono',monospace;}
+  .as-feedback.show{display:block;}
+  .as-feedback.correct{background:color-mix(in srgb, var(--finance) 14%, transparent);color:var(--finance);}
+  .as-feedback.wrong{background:color-mix(in srgb, var(--health) 14%, transparent);color:var(--health);}
+  .as-feedback.info{background:color-mix(in srgb, var(--education) 14%, transparent);color:var(--education);}
+  .as-difficulty-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap;gap:8px;}
+  .as-difficulty-badge{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);font-family:'IBM Plex Mono',monospace;}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-math">Mathematics &amp; Algebra</a><span>/</span>
+    <span>Algebra Solver</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Algebra and Calculus Solver: Equations, Systems, Trig, Matrices &amp; Graphing</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Solve equations, inequalities, systems of 2 or 3 variables, trig and logarithmic equations, matrices, and calculus problems — or graph a function and generate random practice problems. Everything runs entirely in your browser — nothing you type is ever sent anywhere.</p>
+
+  <nav class="as-tabs">
+    <button data-tab="eq" class="as-tab active">Equations</button>
+    <button data-tab="ineq" class="as-tab">Inequalities</button>
+    <button data-tab="systems" class="as-tab">Systems</button>
+    <button data-tab="expr" class="as-tab">Expressions</button>
+    <button data-tab="trig" class="as-tab">Trig &amp; Log</button>
+    <button data-tab="matrix" class="as-tab">Matrices</button>
+    <button data-tab="calc" class="as-tab">Calculus</button>
+    <button data-tab="graph" class="as-tab">Graphing</button>
+    <button data-tab="division" class="as-tab">Division</button>
+    <button data-tab="practice" class="as-tab">Random Practice</button>
+  </nav>
+
+  <!-- EQUATIONS -->
+  <div class="as-panel active" id="panel-eq">
+    <div class="calc-card">
+      <label for="eq-input" class="field-label">Equation</label>
+      <input type="text" id="eq-input" class="field-input" placeholder="e.g. 2x^2 - 5x - 3 = 0" value="2x^2 - 5x - 3 = 0">
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="solveEquation()">Solve</button>
+        <button class="as-btn secondary" onclick="clearResult('eq-result')">Clear</button>
+      </div>
+      <div class="as-hint">Reliable for linear and quadratic equations (quadratics also show the quadratic-formula work). Cubic and quartic equations are solved and then double-checked by substitution, because the solver can occasionally return a wrong root — if that happens you'll see a warning here instead of a silently wrong answer. Use <code>^</code> for exponents. Variable is auto-detected (defaults to <code>x</code>).</div>
+      <div class="as-result" id="eq-result"></div>
+    </div>
+  </div>
+
+  <!-- INEQUALITIES -->
+  <div class="as-panel" id="panel-ineq">
+    <div class="calc-card">
+      <label for="ineq-input" class="field-label">Inequality</label>
+      <input type="text" id="ineq-input" class="field-input" placeholder="e.g. x^2 - 4 > 0" value="x^2 - 4 > 0">
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="solveInequality()">Solve</button>
+        <button class="as-btn secondary" onclick="clearResult('ineq-result')">Clear</button>
+      </div>
+      <div class="as-hint">
+        Works via root-finding + sign analysis, so it's solid for polynomial inequalities (linear, quadratic, cubic).
+        It does <strong>not</strong> correctly handle inequalities with the variable in a denominator (rational expressions) —
+        those need domain restrictions this solver doesn't check. Avoid inputs like <code>1/(x-2) &gt; 0</code>.
+      </div>
+      <div class="as-result" id="ineq-result"></div>
+    </div>
+  </div>
+
+  <!-- EXPRESSIONS -->
+  <div class="as-panel" id="panel-expr">
+    <div class="calc-card">
+      <label for="expr-input" class="field-label">Expression</label>
+      <input type="text" id="expr-input" class="field-input" placeholder="e.g. (x+3)(x-2) + 4x" value="(x+3)(x-2) + 4x">
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="solveExpression()">Simplify</button>
+        <button class="as-btn secondary" onclick="clearResult('expr-result')">Clear</button>
+      </div>
+      <div class="as-hint">Shows the simplified, expanded, and factored form. If your expression has no variables, you'll also get a decimal value.</div>
+      <div class="as-result" id="expr-result"></div>
+    </div>
+  </div>
+
+  <!-- SYSTEMS -->
+  <div class="as-panel" id="panel-systems">
+    <div class="calc-card">
+      <label for="sys-eq1" class="field-label">Equation 1</label>
+      <input type="text" id="sys-eq1" class="field-input" placeholder="e.g. 2x + 3y = 12" value="2x + 3y = 12">
+      <div style="height:10px;"></div>
+      <label for="sys-eq2" class="field-label">Equation 2</label>
+      <input type="text" id="sys-eq2" class="field-input" placeholder="e.g. x - y = 1" value="x - y = 1">
+      <div id="sys-eq3-wrap" style="display:none;">
+        <div style="height:10px;"></div>
+        <label for="sys-eq3" class="field-label">Equation 3</label>
+        <input type="text" id="sys-eq3" class="field-input" placeholder="e.g. x + y + z = 6">
+      </div>
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="solveSystem()">Solve system</button>
+        <button class="as-btn secondary" onclick="clearResult('sys-result')">Clear</button>
+        <button class="as-btn ghost" id="sys-toggle3" onclick="toggleThirdEquation()">+ Add third equation</button>
+      </div>
+      <div class="as-hint">Solves a system of two linear equations in two variables (e.g. x and y), or three equations in three variables (e.g. x, y, z) — click "Add third equation" for the latter.</div>
+      <div class="as-result" id="sys-result"></div>
+    </div>
+  </div>
+
+  <!-- TRIG & LOGARITHMIC EQUATIONS -->
+  <div class="as-panel" id="panel-trig">
+    <div class="calc-card">
+      <label for="trig-input" class="field-label">Equation (variable must be x)</label>
+      <input type="text" id="trig-input" class="field-input" placeholder="e.g. sin(x) = 0.5" value="sin(x) = 0.5">
+      <div class="as-row">
+        <div>
+          <label for="trig-min" class="field-label">Search domain min</label>
+          <input type="text" id="trig-min" class="field-input" value="0">
+        </div>
+        <div>
+          <label for="trig-max" class="field-label">Search domain max</label>
+          <input type="text" id="trig-max" class="field-input" value="6.2832">
+        </div>
+      </div>
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="solveTrigLog()">Solve</button>
+        <button class="as-btn secondary" onclick="clearResult('trig-result')">Clear</button>
+      </div>
+      <div class="as-hint">Handles trig equations (<code>sin</code>, <code>cos</code>, <code>tan</code>), logarithms (<code>log</code> = base 10, <code>ln</code> = natural log), and exponentials (<code>2^x = 8</code>). Common forms like <code>log(x) = c</code> or <code>a^x = b</code> get an exact answer; anything else is solved numerically by scanning the domain above for sign changes, so widen the domain if you expect a solution outside it. Trig equations are periodic — solutions repeat outside the domain shown.</div>
+      <div class="as-result" id="trig-result"></div>
+    </div>
+  </div>
+
+  <!-- MATRICES -->
+  <div class="as-panel" id="panel-matrix">
+    <div class="calc-card">
+      <label for="mat-a" class="field-label">Matrix A (one row per line, values comma-separated)</label>
+      <textarea id="mat-a" class="field-input" rows="3" style="font-family:'IBM Plex Mono',monospace;resize:vertical;">1,2
+3,4</textarea>
+      <div style="height:10px;"></div>
+      <label for="mat-op" class="field-label">Operation</label>
+      <select id="mat-op" class="field-select" onchange="onMatrixOpChange()">
+        <option value="add">A + B</option>
+        <option value="sub">A − B</option>
+        <option value="mul">A × B</option>
+        <option value="det">Determinant of A</option>
+        <option value="inv">Inverse of A</option>
+        <option value="trans">Transpose of A</option>
+        <option value="solve">Solve Ax = b</option>
+      </select>
+      <div id="mat-b-wrap">
+        <div style="height:10px;"></div>
+        <label for="mat-b" class="field-label">Matrix B</label>
+        <textarea id="mat-b" class="field-input" rows="3" style="font-family:'IBM Plex Mono',monospace;resize:vertical;">1,0
+0,1</textarea>
+      </div>
+      <div id="mat-vec-wrap" style="display:none;">
+        <div style="height:10px;"></div>
+        <label for="mat-vec" class="field-label">Vector b (comma-separated)</label>
+        <input type="text" id="mat-vec" class="field-input" value="5,6">
+      </div>
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="computeMatrix()">Compute</button>
+        <button class="as-btn secondary" onclick="clearResult('mat-result')">Clear</button>
+      </div>
+      <div class="as-hint">Enter each row on its own line, values separated by commas (e.g. <code>1,2</code> then <code>3,4</code> for a 2×2 matrix). Works well up to about 4×4. Determinant, inverse, and solve all require a square matrix A.</div>
+      <div class="as-result" id="mat-result"></div>
+    </div>
+  </div>
+
+  <!-- CALCULUS -->
+  <div class="as-panel" id="panel-calc">
+    <div class="calc-card">
+      <label for="calc-input" class="field-label">Function of x</label>
+      <input type="text" id="calc-input" class="field-input" placeholder="e.g. x^3 - 4x^2 + 2x" value="x^3 - 4x^2 + 2x">
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="computeDerivative()">Derivative</button>
+        <button class="as-btn" onclick="computeIntegral()">Integral</button>
+        <button class="as-btn secondary" onclick="clearResult('calc-result')">Clear</button>
+      </div>
+      <div class="as-hint">Uses a separate symbolic-math engine from the equation solver, since it handles derivatives and integrals more reliably. Supports polynomials plus <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>ln</code>, <code>sqrt</code>. Indefinite integrals omit the "+ C" — remember to add it yourself.</div>
+      <div class="as-result" id="calc-result"></div>
+    </div>
+  </div>
+
+  <!-- GRAPHING -->
+  <div class="as-panel" id="panel-graph">
+    <div class="calc-card">
+      <label for="graph-input" class="field-label">Function f(x)</label>
+      <input type="text" id="graph-input" class="field-input" placeholder="e.g. x^2 - 4" value="x^2 - 4">
+      <div class="as-row">
+        <div>
+          <label for="graph-min" class="field-label">x min</label>
+          <input type="text" id="graph-min" class="field-input" value="-10">
+        </div>
+        <div>
+          <label for="graph-max" class="field-label">x max</label>
+          <input type="text" id="graph-max" class="field-input" value="10">
+        </div>
+      </div>
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="plotGraph()">Plot</button>
+        <button class="as-btn secondary" onclick="clearGraph()">Clear</button>
+      </div>
+      <div class="as-hint">Plots f(x) over the given x-range. Supports <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>log</code>, <code>ln</code>, <code>sqrt</code>, and <code>^</code> for powers. Below the graph you'll see the y-intercept and any real x-intercepts found in that range.</div>
+      <div class="chart-wrap" style="margin-top:16px;"><canvas id="graph-canvas"></canvas></div>
+      <div class="as-result" id="graph-result"></div>
+    </div>
+  </div>
+
+  <!-- POLYNOMIAL DIVISION -->
+  <div class="as-panel" id="panel-division">
+    <div class="calc-card">
+      <label for="div-poly" class="field-label">Polynomial (in x)</label>
+      <input type="text" id="div-poly" class="field-input" placeholder="e.g. x^3 - 6x^2 + 11x - 6" value="x^3 - 6x^2 + 11x - 6">
+      <div style="height:10px;"></div>
+      <label for="div-root" class="field-label">Divide by (x − r) — enter r</label>
+      <input type="text" id="div-root" class="field-input" placeholder="e.g. 1" value="1">
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="syntheticDivision()">Divide</button>
+        <button class="as-btn secondary" onclick="clearResult('div-result')">Clear</button>
+      </div>
+      <div class="as-hint">Runs synthetic division of a polynomial by a linear factor (x − r) and shows every step, plus the remainder. If the remainder is 0, (x − r) is a factor.</div>
+      <div class="as-result" id="div-result"></div>
+    </div>
+  </div>
+
+  <!-- RANDOM PRACTICE -->
+  <div class="as-panel" id="panel-practice">
+    <div class="calc-card">
+      <label for="practice-type" class="field-label">Problem type</label>
+      <select id="practice-type" class="field-select">
+        <option value="linear-eq">Linear equation</option>
+        <option value="quad-eq">Quadratic equation</option>
+        <option value="linear-ineq">Linear inequality</option>
+        <option value="quad-ineq">Quadratic inequality</option>
+        <option value="expr">Simplify expression</option>
+      </select>
+      <div class="as-btn-row">
+        <button class="as-btn" onclick="generateProblem()">New problem</button>
+      </div>
+
+      <div class="as-practice-problem" id="practice-problem">Press "New problem" to start</div>
+
+      <div id="practice-answer-block" style="display:none;">
+        <label for="practice-answer" class="field-label">Your answer</label>
+        <input type="text" id="practice-answer" class="field-input" placeholder="e.g. x = 3, -1">
+        <div class="as-btn-row">
+          <button class="as-btn" onclick="checkPracticeAnswer()">Check</button>
+          <button class="as-btn secondary" onclick="revealPracticeAnswer()">Reveal answer</button>
+        </div>
+        <div class="as-hint" id="practice-hint"></div>
+      </div>
+
+      <div class="as-feedback" id="practice-feedback"></div>
+
+      <div class="as-difficulty-row">
+        <span class="as-difficulty-badge" id="difficulty-badge">Difficulty: Basic</span>
+        <button class="as-btn ghost" id="difficulty-toggle" onclick="toggleDifficulty()">Too simple? Click Here!</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-card-title">Your History &mdash; Algebra and Calculus Solver</div>
+    <div id="calc-history"></div>
+  </div>
+
+  <section class="calc-explainer">
+<h2>What This Algebra Solver Does</h2>
+<p>This tool brings together ten of the most common algebra and pre-calculus tasks in one page: solving equations (with full step-by-step work for linear, quadratic, and many cubic equations), solving inequalities, solving systems of two or three linear equations, simplifying expressions, solving trigonometric and logarithmic equations, matrix operations, taking derivatives and integrals, graphing functions, dividing polynomials, and generating random practice problems. It's built for students checking homework, anyone brushing up on algebra, or anyone who just needs a quick answer without opening a full computer algebra system. All of the math happens client-side in your browser, so there's no waiting on a server and nothing you type ever leaves your device.</p>
+
+<h2>What Is Algebra?</h2>
+<p>Algebra is the branch of mathematics that uses letters and symbols, called variables, to represent unknown or changing quantities. Instead of working only with specific numbers, algebra lets you write general rules and relationships — like "twice a number plus five equals seventeen" — and then solve for what that unknown number must be. It's the mathematical language that connects basic arithmetic to more advanced fields like calculus, statistics, and physics, and it underlies nearly every quantitative subject taught after elementary math.</p>
+<p>At its core, algebra revolves around a small set of ideas applied over and over: an <strong>equation</strong> states that two expressions are equal, an <strong>inequality</strong> states that one expression is greater than, less than, or not equal to another, and an <strong>expression</strong> is any combination of numbers, variables, and operations that can be simplified but doesn't assert equality or inequality on its own. Learning to move fluently between these forms — solving, simplifying, expanding, and factoring — is what most introductory and intermediate algebra courses are built around.</p>
+
+<h2>The Algebra Concepts Behind Each Tool</h2>
+<ul>
+    <li><strong>Equations:</strong> An equation is solved by isolating the variable — performing the same operation to both sides until only the variable remains on one side. Linear equations (degree 1) show the isolation steps directly; quadratic equations (degree 2) show the full quadratic-formula work, including the discriminant; many cubic equations (degree 3) show a rational-root-theorem search followed by synthetic division down to a quadratic. Quartic equations still solve, but without a full step breakdown.</li>
+    <li><strong>Inequalities:</strong> Instead of a single value, an inequality's solution is usually a range of values, often written in interval notation like (2, 5] or (-∞, 3). Polynomial inequalities are typically solved by finding the boundary points (where the expression equals zero) and then testing the sign of the expression in each interval between those points.</li>
+    <li><strong>Systems of Equations:</strong> A system of two linear equations in two variables has one solution wherever the two lines intersect on a graph, unless the lines are parallel (no solution) or identical (infinitely many solutions). A system of three equations in three variables works the same way, just in three dimensions — the solution is the single point where all three planes meet.</li>
+    <li><strong>Expressions:</strong> Simplifying combines like terms; expanding multiplies out parentheses (for example, turning (x+3)(x-2) into x² + x - 6); factoring reverses that process, rewriting an expression as a product of simpler terms.</li>
+    <li><strong>Trigonometric &amp; Logarithmic Equations:</strong> Logarithmic and exponential equations of the form log(x) = c or aˣ = b have exact solutions found by applying logarithm rules. Trig equations like sin(x) = 0.5 are periodic — they have infinitely many solutions — so this tool finds every solution within a domain you choose rather than one single answer.</li>
+    <li><strong>Matrices:</strong> A matrix is a rectangular grid of numbers used to represent and solve systems of equations compactly. Multiplying, finding a determinant, or inverting a matrix are the building blocks behind solving larger linear systems and behind topics like transformations in geometry and computer graphics.</li>
+    <li><strong>Calculus (Derivatives &amp; Integrals):</strong> A derivative measures how fast a function is changing at any given point — its instantaneous rate of change. An integral does the reverse: it finds a function whose derivative is the one you started with, and is closely tied to computing area under a curve.</li>
+    <li><strong>Graphing:</strong> Plotting a function visually shows its shape, where it crosses the x-axis (its roots) and y-axis (its y-intercept), and how it behaves as x grows or shrinks — often the fastest way to sanity-check an algebraic answer.</li>
+    <li><strong>Polynomial (Synthetic) Division:</strong> Synthetic division is a shortcut for dividing a polynomial by a linear factor of the form (x − r). If the remainder comes out to zero, that confirms (x − r) is an exact factor of the polynomial — a key step in fully factoring higher-degree polynomials.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What kinds of algebra problems can this solver handle?</h3>
+<p>It solves linear, quadratic, cubic, and quartic equations with step-by-step work, polynomial and quadratic inequalities, systems of two or three linear equations, trigonometric and logarithmic equations, matrix operations, and general algebraic expressions (simplifying, expanding, and factoring). A Calculus tab handles derivatives and integrals, a Graphing tab plots any function of x, and a Division tab performs synthetic division of a polynomial by a linear factor.</p>
+
+<h3>Can it solve trigonometric or logarithmic equations?</h3>
+<p>Yes. Common closed forms like log(x) = c, ln(x) = c, or aˣ = b get an exact algebraic answer. Anything more complex, including trig equations like sin(x) = 0.5, is solved numerically by scanning a domain you specify for sign changes and refining each one with bisection.</p>
+
+<h3>Does the algebra solver support matrices?</h3>
+<p>Yes. The Matrices tab supports addition, subtraction, multiplication, determinant, inverse, transpose, and solving a linear system Ax = b, for matrices entered row by row.</p>
+
+<h3>Can I graph a function on this page?</h3>
+<p>Yes. The Graphing tab plots any function of x over a range you choose, and lists the y-intercept along with any real x-intercepts it can find in that range.</p>
+
+<h3>Is this algebra calculator actually free to use?</h3>
+<p>Yes. Every tool on this page runs entirely in your browser using open-source math libraries, so there's no sign-up, no paywall, and nothing you type is ever sent to a server.</p>
+
+<h3>Why does the solver sometimes show a warning about dropped solutions?</h3>
+<p>For cubic and quartic equations, the underlying symbolic engine can occasionally return a root that doesn't actually satisfy the original equation. This tool substitutes every candidate solution back into the equation and flags or removes any that fail that check, so you never see a silently wrong answer.</p>
+
+<h3>What does it mean when an equation has a complex solution?</h3>
+<p>A complex solution (containing i, the imaginary unit) shows up when a quadratic or higher-degree equation has no real number that satisfies it — for example, x² + 1 = 0 has no real solution because no real number squared equals -1. These solutions are mathematically valid but won't correspond to a point on a standard x-y graph.</p>
+
+<h3>Can this tool show its work, or does it just give the final answer?</h3>
+<p>For quadratic equations it shows the full quadratic-formula work, including the discriminant and what it means. For polynomial division, it shows every step of the synthetic division process. Other tools show the key intermediate forms (simplified, expanded, and factored) rather than a full line-by-line derivation.</p>
+
+<h3>How is the random practice mode useful for studying algebra?</h3>
+<p>The Random Practice tab generates a fresh problem on demand at Basic or Advanced difficulty, lets you type in an answer to self-check, and can reveal the correct answer (with steps, for quadratics) whenever you're stuck. It's built for repeated, low-stakes practice rather than a graded test.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were solving works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'algebra-solver');
+CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+  calcId: 'algebra-solver',
+  title: '',
+  emptyText: "Solve something above and it'll be saved here automatically."
+});
+</script>
+<script>
+/* ---------- tabs ---------- */
+document.querySelectorAll('nav.as-tabs .as-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.as-tabs .as-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.as-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+function clearResult(id){document.getElementById(id).innerHTML='';}
+
+function showError(containerId, msg){
+  document.getElementById(containerId).innerHTML =
+    `<div class="as-value err">Couldn't solve that</div><div class="as-sub">${msg}</div>`;
+}
+
+/* ---------- history logging (CalcHub core.js integration) ---------- */
+function saveAlgHistory(label, resultValue){
+  if(window.CalcHub && typeof CalcHub.addHistory === 'function'){
+    try{
+      CalcHub.addHistory({
+        calcId: 'algebra-solver',
+        calcName: 'Algebra and Calculus Solver',
+        category: 'math',
+        label: label,
+        resultValue: resultValue || label
+      });
+      if(typeof CalcHub.addRecent === 'function') CalcHub.addRecent('algebra-solver');
+    }catch(e){ /* CalcHub history API not present in this context */ }
+  }
+}
+
+/* ---------- helpers ---------- */
+function detectVariable(expr){
+  try{
+    const vars = nerdamer(expr).variables();
+    if(vars && vars.length) return vars[0];
+  }catch(e){}
+  return 'x';
+}
+
+function isRealNumber(str){
+  return typeof str === 'string' && !/i(?!nf)/.test(str) && str.trim() !== '';
+}
+
+function toNumberSafe(nerdString){
+  try{
+    const v = nerdamer(nerdString).evaluate().text('decimals');
+    const n = parseFloat(v);
+    return Number.isFinite(n) ? n : null;
+  }catch(e){ return null; }
+}
+
+function trimNum(n){
+  const r = Math.round(n*1e6)/1e6;
+  return r.toString();
+}
+
+// nerdamer.coeffs() returns a Vector-like object, NOT a plain array — coeffs[0] is undefined.
+// The actual values live in coeffs.symbol.elements. This normalizes it to ascending [c0, c1, c2, ...].
+function getCoeffsArray(expr, variable){
+  const raw = nerdamer.coeffs(expr, variable);
+  const elements = (raw && raw.symbol && raw.symbol.elements) ? raw.symbol.elements : [];
+  return elements.map(el => parseFloat(nerdamer(el.toString()).evaluate().text('decimals')));
+}
+
+/* ---------- EQUATIONS ---------- */
+function buildQuadraticSteps(diff, variable){
+  // hand-built, deterministic quadratic-formula steps — no step-solver library needed for this case
+  try{
+    const coeffs = getCoeffsArray(diff, variable); // ascending [c, b, a]
+    if(!coeffs || coeffs.length !== 3) return '';
+    const a = coeffs[2];
+    const b = coeffs[1];
+    const c = coeffs[0];
+    if(!Number.isFinite(a) || a === 0) return '';
+    const discriminant = b*b - 4*a*c;
+    const discText = `(${trimNum(b)})^2 - 4(${trimNum(a)})(${trimNum(c)}) = ${trimNum(discriminant)}`;
+    let natureText;
+    if(discriminant > 0) natureText = 'Discriminant is positive → two real solutions.';
+    else if(discriminant === 0) natureText = 'Discriminant is zero → one repeated real solution.';
+    else natureText = 'Discriminant is negative → two complex solutions.';
+    return `
+      <div class="as-label">Method: Quadratic Formula</div>
+      <ol class="as-steps">
+        <li><span class="as-step-label">Identify a, b, c</span>a = ${trimNum(a)}, b = ${trimNum(b)}, c = ${trimNum(c)}</li>
+        <li><span class="as-step-label">Discriminant (b² − 4ac)</span>${discText}</li>
+        <li><span class="as-step-label">Nature of roots</span>${natureText}</li>
+        <li><span class="as-step-label">Apply the formula</span>${variable} = (−b ± √(b²−4ac)) / 2a = (${trimNum(-b)} ± √(${trimNum(discriminant)})) / ${trimNum(2*a)}</li>
+      </ol>`;
+  }catch(e){ return ''; }
+}
+
+function buildLinearSteps(diff, variable){
+  // hand-built isolation steps for a degree-1 equation written as diff = 0
+  try{
+    const coeffs = getCoeffsArray(diff, variable); // ascending [c, b]
+    if(!coeffs || coeffs.length !== 2) return '';
+    const b = coeffs[1], c = coeffs[0];
+    if(!Number.isFinite(b) || b === 0) return '';
+    const root = -c/b;
+    return `
+      <div class="as-label">Method: Isolate the Variable</div>
+      <ol class="as-steps">
+        <li><span class="as-step-label">Standard form</span>${trimNum(b)}${variable} ${c>=0?'+ '+trimNum(c):'- '+trimNum(-c)} = 0</li>
+        <li><span class="as-step-label">Move the constant to the other side</span>${trimNum(b)}${variable} = ${trimNum(-c)}</li>
+        <li><span class="as-step-label">Divide both sides by ${trimNum(b)}</span>${variable} = ${trimNum(-c)} / ${trimNum(b)} = ${trimNum(root)}</li>
+      </ol>`;
+  }catch(e){ return ''; }
+}
+
+// Rational Root Theorem search + synthetic division: finds one exact rational root of a cubic
+// (when one exists among small integer/fraction candidates), reduces it to a quadratic via
+// synthetic division, and reuses buildQuadraticSteps for the remainder. Falls back to an empty
+// string (no steps shown, solutions above still stand) when no rational root is found.
+function buildCubicSteps(diff, variable){
+  try{
+    const coeffsAsc = getCoeffsArray(diff, variable); // ascending [d,c,b,a]
+    if(!coeffsAsc || coeffsAsc.length !== 4) return '';
+    const coeffsDesc = [...coeffsAsc].reverse(); // [a,b,c,d]
+    if(coeffsDesc.some(c=>Math.abs(c - Math.round(c)) > 1e-6)) return ''; // need integer coeffs for a clean search
+    const intCoeffs = coeffsDesc.map(Math.round);
+    const a = intCoeffs[0], d = intCoeffs[3];
+    if(a === 0) return '';
+    function divisors(n){
+      n = Math.abs(n);
+      if(n === 0) return [1];
+      const out = [];
+      for(let i=1; i<=n; i++) if(n % i === 0) out.push(i);
+      return out;
+    }
+    const pDivs = divisors(d === 0 ? 1 : d);
+    const qDivs = divisors(a);
+    let foundRoot = null;
+    outer:
+    for(const p of pDivs){
+      for(const q of qDivs){
+        for(const sign of [1,-1]){
+          const candidate = sign * p / q;
+          const val = intCoeffs.reduce((acc,c,idx)=>acc + c*Math.pow(candidate, intCoeffs.length-1-idx), 0);
+          if(Math.abs(val) < 1e-6){ foundRoot = candidate; break outer; }
+        }
+      }
+    }
+    if(foundRoot === null){
+      return '<div class="as-sub">No rational root found within a reasonable search range, so a full step-by-step isn\'t shown for this cubic — the solutions above are still valid.</div>';
+    }
+    const bring = [intCoeffs[0]];
+    for(let i=1; i<intCoeffs.length; i++){
+      bring.push(intCoeffs[i] + bring[i-1]*foundRoot);
+    }
+    const quotient = bring.slice(0,-1); // [a, b, c] of the reduced quadratic
+    const quadExpr = `${quotient[0]}${variable}^2 ${quotient[1]>=0?'+ '+quotient[1]:'- '+Math.abs(quotient[1])}${variable} ${quotient[2]>=0?'+ '+quotient[2]:'- '+Math.abs(quotient[2])}`;
+    const quadSteps = buildQuadraticSteps(quadExpr, variable);
+    return `
+      <div class="as-label">Method: Rational Root Theorem + Synthetic Division</div>
+      <ol class="as-steps">
+        <li><span class="as-step-label">Try rational candidates ±p/q</span>Testing factors of the constant term (${trimNum(d)}) over factors of the leading coefficient (${trimNum(a)}).</li>
+        <li><span class="as-step-label">Found a root</span>${variable} = ${trimNum(foundRoot)} satisfies the equation exactly.</li>
+        <li><span class="as-step-label">Divide by (${variable} − ${trimNum(foundRoot)})</span>Reduces to the quadratic ${quadExpr} = 0</li>
+      </ol>
+      ${quadSteps}`;
+  }catch(e){ return ''; }
+}
+
+// Substitution check: the cubic formula (Cardano's, "irreducible case") can occasionally
+// return garbled results for cubics with three distinct real roots — the complex intermediate
+// terms don't always cancel cleanly. Plugging each candidate solution back into the original
+// expression catches this instead of silently showing a wrong answer.
+function verifySolution(diff, variable, solStr){
+  try{
+    const xVal = nerdamer(solStr).evaluate().text('decimals');
+    const val = nerdamer(diff).evaluate({[variable]: xVal}).text('decimals');
+    const num = parseFloat(val);
+    return Number.isFinite(num) && Math.abs(num) < 1e-3;
+  }catch(e){ return false; }
+}
+
+function solveEquation(){
+  const raw = document.getElementById('eq-input').value.trim();
+  const resultEl = 'eq-result';
+  if(!raw.includes('=')){
+    showError(resultEl, 'An equation needs an "=" sign. For a bare expression, use the Expressions tab instead.');
+    return;
+  }
+  try{
+    const [lhs, rhs] = raw.split('=');
+    const diff = `(${lhs})-(${rhs})`;
+    const variable = detectVariable(diff);
+    const solutions = nerdamer.solveEquations(raw, variable);
+    const list = Array.isArray(solutions) ? solutions : [solutions];
+    if(!list.length){
+      showError(resultEl, 'No solution found. Double-check the equation is written correctly.');
+      return;
+    }
+
+    const verified = list.filter(s => verifySolution(diff, variable, s.toString()));
+    const droppedCount = list.length - verified.length;
+    const useList = verified.length ? verified : list; // fall back to unverified rather than show nothing
+
+    const formatted = useList.map(s=>{
+      const str = s.toString();
+      const num = toNumberSafe(str);
+      if(isRealNumber(str) && num !== null){
+        return (Number.isInteger(num) ? num.toString() : nerdamer(str).text('decimals'));
+      }
+      return str;
+    });
+
+    let stepsHtml = '';
+    let degree = null;
+    try{
+      const expandedDiff = nerdamer(`expand(${diff})`).text();
+      degree = parseFloat(nerdamer(`deg(${expandedDiff},${variable})`).text());
+      if(degree === 1) stepsHtml = buildLinearSteps(expandedDiff, variable);
+      else if(degree === 2) stepsHtml = buildQuadraticSteps(expandedDiff, variable);
+      else if(degree === 3) stepsHtml = buildCubicSteps(expandedDiff, variable);
+    }catch(e){ /* degree detection failed, skip steps */ }
+
+    let warning = '';
+    if(droppedCount > 0){
+      warning = `<div class="as-sub" style="color:var(--health);">Dropped ${droppedCount} result${droppedCount>1?'s':''} that failed a substitution check — the cubic/quartic solver can occasionally return incorrect roots. ${verified.length===0 ? 'None verified — treat this answer as unreliable and double check by hand or with the Division tool.' : ''}</div>`;
+    } else if(degree >= 3){
+      warning = `<div class="as-sub">Verified by plugging each solution back into the original equation.</div>`;
+    }
+
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">${variable} =</div>
+      <div class="as-value">${formatted.join(',  ')}</div>
+      <div class="as-sub">${formatted.length} solution${formatted.length>1?'s':''} found${formatted.some(f=>f.includes('i'))?' (includes complex roots)':''}</div>
+      ${warning}
+      ${stepsHtml}
+    `;
+    saveAlgHistory(`${raw} → ${variable} = ${formatted.join(', ')}`);
+  }catch(e){
+    showError(resultEl, 'This solver handles polynomial equations well but may not isolate every equation type (e.g. some equations mixing logs/trig with polynomials).');
+  }
+}
+
+/* ---------- INEQUALITIES (custom sign-analysis layer) ---------- */
+function parseInequality(raw){
+  let op, lhs, rhs;
+  if(raw.includes('<=')){ [lhs,rhs]=raw.split('<='); op='<='; }
+  else if(raw.includes('>=')){ [lhs,rhs]=raw.split('>='); op='>='; }
+  else if(raw.includes('<')){ [lhs,rhs]=raw.split('<'); op='<'; }
+  else if(raw.includes('>')){ [lhs,rhs]=raw.split('>'); op='>'; }
+  else return null;
+  return {lhs, rhs, op};
+}
+
+// pure compute function — no DOM access, so it can be reused by the Inequalities tab
+// AND the Random Practice "reveal answer" flow without one clobbering the other's inputs
+function computeInequality(raw){
+  const parsed = parseInequality(raw);
+  if(!parsed) return {error: 'Include one of < > <= >= in your input.'};
+  try{
+    const diff = `(${parsed.lhs})-(${parsed.rhs})`;
+    const variable = detectVariable(diff);
+    let roots = [];
+    try{
+      const raw_roots = nerdamer.solveEquations(`${diff}=0`, variable);
+      const arr = Array.isArray(raw_roots) ? raw_roots : [raw_roots];
+      roots = arr.map(r=>toNumberSafe(r.toString())).filter(n=>n!==null);
+    }catch(e){ roots = []; }
+
+    roots = [...new Set(roots.map(r=>Math.round(r*1e9)/1e9))].sort((a,b)=>a-b);
+
+    const testPoints = [];
+    if(roots.length === 0){ testPoints.push(0); }
+    else{
+      testPoints.push(roots[0]-1);
+      for(let i=0;i<roots.length-1;i++) testPoints.push((roots[i]+roots[i+1])/2);
+      testPoints.push(roots[roots.length-1]+1);
+    }
+    const signs = testPoints.map(tp=>{
+      const val = nerdamer(diff).evaluate({[variable]: tp}).text('decimals');
+      const n = parseFloat(val);
+      return n>0 ? 1 : (n<0 ? -1 : 0);
+    });
+
+    const wantPositive = (parsed.op === '>' || parsed.op === '>=');
+    const inclusive = (parsed.op === '<=' || parsed.op === '>=');
+    const bounds = [-Infinity, ...roots, Infinity];
+    let intervals = [];
+    for(let i=0;i<signs.length;i++){
+      const satisfies = wantPositive ? signs[i] > 0 : signs[i] < 0;
+      if(satisfies) intervals.push({lo: bounds[i], hi: bounds[i+1], loClosed: inclusive, hiClosed: inclusive});
+    }
+    intervals.sort((a,b)=>a.lo-b.lo);
+    const merged = [];
+    for(const iv of intervals){
+      const last = merged[merged.length-1];
+      if(last && last.hi === iv.lo && (last.hiClosed || iv.loClosed)){ last.hi = iv.hi; last.hiClosed = iv.hiClosed; }
+      else merged.push({...iv});
+    }
+    if(inclusive){
+      roots.forEach(r=>{
+        const covered = merged.some(iv => r >= iv.lo && r <= iv.hi);
+        if(!covered) merged.push({lo:r, hi:r, loClosed:true, hiClosed:true});
+      });
+      merged.sort((a,b)=>a.lo-b.lo);
+    }
+
+    if(merged.length === 0) return {variable, diff, roots, text: 'No solution', empty:true};
+    if(merged.length===1 && merged[0].lo===-Infinity && merged[0].hi===Infinity){
+      return {variable, diff, roots, text: 'All real numbers', allReals:true};
+    }
+    const pieces = merged.map(iv=>{
+      if(iv.lo === iv.hi) return `{${trimNum(iv.lo)}}`;
+      const loSym = iv.lo===-Infinity ? '(' : (iv.loClosed ? '[' : '(');
+      const hiSym = iv.hi===Infinity ? ')' : (iv.hiClosed ? ']' : ')');
+      const loStr = iv.lo===-Infinity ? '-\u221e' : trimNum(iv.lo);
+      const hiStr = iv.hi===Infinity ? '\u221e' : trimNum(iv.hi);
+      return `${loSym}${loStr}, ${hiStr}${hiSym}`;
+    });
+    return {variable, diff, roots, text: pieces.join(' \u222a ')};
+  }catch(e){
+    return {error: 'Could not analyze this inequality — likely too complex for polynomial sign analysis (e.g. contains a variable in a denominator).'};
+  }
+}
+
+function solveInequality(){
+  const raw = document.getElementById('ineq-input').value.trim();
+  const resultEl = 'ineq-result';
+  const res = computeInequality(raw);
+  if(res.error){ showError(resultEl, res.error); return; }
+  if(res.empty){
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">Solution</div>
+      <div class="as-value">No solution</div>
+      <div class="as-sub">${res.diff} never satisfies the inequality for real ${res.variable}.</div>`;
+    saveAlgHistory(`${raw} → No solution`);
+    return;
+  }
+  document.getElementById(resultEl).innerHTML = `
+    <div class="as-label">${res.variable} \u2208</div>
+    <div class="as-value">${res.text}</div>
+    <div class="as-sub">Found by solving ${res.diff} = 0 (boundary points: ${res.roots.length? res.roots.map(trimNum).join(', ') : 'none'}) then checking the sign of each interval.</div>
+  `;
+  saveAlgHistory(`${raw} → ${res.variable} \u2208 ${res.text}`);
+}
+
+/* ---------- EXPRESSIONS ---------- */
+function solveExpression(){
+  const raw = document.getElementById('expr-input').value.trim();
+  const resultEl = 'expr-result';
+  if(raw.includes('=')){
+    showError(resultEl, 'This looks like an equation. Use the Equations tab for anything with an "=" sign.');
+    return;
+  }
+  try{
+    const simplified = nerdamer(raw).text();
+    const expanded = nerdamer(`expand(${raw})`).text();
+    let factored = '';
+    try{ factored = nerdamer(`factor(${raw})`).text(); }catch(e){ factored = simplified; }
+
+    let numericLine = '';
+    const vars = nerdamer(raw).variables();
+    if(!vars || vars.length===0){
+      const val = math.evaluate(raw);
+      numericLine = `<div class="as-label">Decimal value</div><div class="as-value">${val}</div>`;
+    }
+
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">Simplified</div>
+      <div class="as-value">${simplified}</div>
+      <div class="as-label">Expanded</div>
+      <div class="as-value" style="font-size:16px;color:var(--text);">${expanded}</div>
+      <div class="as-label">Factored</div>
+      <div class="as-value" style="font-size:16px;color:var(--text);">${factored}</div>
+      ${numericLine}
+    `;
+    saveAlgHistory(`${raw} → ${simplified}`);
+  }catch(e){
+    showError(resultEl, 'Could not parse that expression. Check parentheses and operators.');
+  }
+}
+
+/* ---------- SYSTEMS OF EQUATIONS (2 or 3 variables) ---------- */
+function toggleThirdEquation(){
+  const wrap = document.getElementById('sys-eq3-wrap');
+  const btn = document.getElementById('sys-toggle3');
+  const showing = wrap.style.display !== 'none';
+  wrap.style.display = showing ? 'none' : 'block';
+  btn.textContent = showing ? '+ Add third equation' : '\u2212 Remove third equation';
+  if(showing) document.getElementById('sys-eq3').value = '';
+}
+
+function solveSystem(){
+  const eq1 = document.getElementById('sys-eq1').value.trim();
+  const eq2 = document.getElementById('sys-eq2').value.trim();
+  const eq3wrap = document.getElementById('sys-eq3-wrap');
+  const eq3 = (eq3wrap && eq3wrap.style.display !== 'none') ? document.getElementById('sys-eq3').value.trim() : '';
+  const resultEl = 'sys-result';
+  const eqs = [eq1, eq2].concat(eq3 ? [eq3] : []);
+  if(eqs.some(e=>!e.includes('='))){
+    showError(resultEl, 'Every equation needs an "=" sign.');
+    return;
+  }
+  try{
+    const solution = nerdamer.solveEquations(eqs);
+    if(!solution || !solution.length){
+      showError(resultEl, `No unique solution found — the system may be inconsistent (no solution) or dependent (infinite solutions).`);
+      return;
+    }
+    const lines = solution.map(pair=>{
+      const [varName, val] = pair;
+      const num = toNumberSafe(val.toString ? val.toString() : val);
+      const shown = (num !== null && Number.isInteger(num)) ? num.toString() : (num !== null ? nerdamer(val.toString()).text('decimals') : val.toString());
+      return `${varName} = ${shown}`;
+    });
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">Solution</div>
+      <div class="as-value">${lines.join(',  ')}</div>
+      <div class="as-sub">Solved simultaneously${eqs.length===3 ? ' — three equations, three unknowns.' : ' — this is the point where both lines intersect.'}</div>
+    `;
+    saveAlgHistory(`System (${eqs.join(', ')}) → ${lines.join(', ')}`);
+  }catch(e){
+    showError(resultEl, 'Could not solve this system. Check that all equations are linear and written correctly (matching variable names).');
+  }
+}
+
+/* ---------- CALCULUS (Algebrite) ---------- */
+function computeDerivative(){
+  const raw = document.getElementById('calc-input').value.trim();
+  const resultEl = 'calc-result';
+  try{
+    const result = Algebrite.run(`d(${raw},x)`);
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">d/dx [ ${raw} ]</div>
+      <div class="as-value">${result}</div>
+    `;
+    saveAlgHistory(`d/dx [${raw}] = ${result}`);
+  }catch(e){
+    showError(resultEl, 'Could not differentiate that. Check the syntax (use * for multiplication, ^ for powers).');
+  }
+}
+
+function computeIntegral(){
+  const raw = document.getElementById('calc-input').value.trim();
+  const resultEl = 'calc-result';
+  try{
+    const result = Algebrite.run(`integral(${raw},x)`);
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">∫ ${raw} dx</div>
+      <div class="as-value">${result} + C</div>
+      <div class="as-sub">Don't forget the constant of integration — added here manually since it's not part of the computed antiderivative.</div>
+    `;
+    saveAlgHistory(`∫ ${raw} dx = ${result} + C`);
+  }catch(e){
+    showError(resultEl, 'Could not integrate that. Check the syntax (use * for multiplication, ^ for powers).');
+  }
+}
+
+/* ---------- POLYNOMIAL DIVISION (synthetic division, hand-coded — no library needed) ---------- */
+function syntheticDivision(){
+  const polyRaw = document.getElementById('div-poly').value.trim();
+  const rRaw = document.getElementById('div-root').value.trim();
+  const resultEl = 'div-result';
+  try{
+    const r = parseFloat(rRaw);
+    if(!Number.isFinite(r)) throw new Error('bad root');
+    const coeffsAsc = getCoeffsArray(polyRaw, 'x'); // ascending: [c0, c1, c2, ...]
+    const coeffs = [...coeffsAsc].reverse(); // descending, leading first
+    if(coeffs.length < 2 || coeffs.some(c=>!Number.isFinite(c))) throw new Error('non-numeric coefficients');
+
+    const bring = [coeffs[0]];
+    let steps = [`Bring down leading coefficient: ${trimNum(coeffs[0])}`];
+    for(let i=1;i<coeffs.length;i++){
+      const mult = bring[i-1]*r;
+      const sum = coeffs[i]+mult;
+      bring.push(sum);
+      steps.push(`${trimNum(coeffs[i])} + (${trimNum(r)} × ${trimNum(bring[i-1])}) = ${trimNum(sum)}`);
+    }
+    const remainder = bring[bring.length-1];
+    const quotientCoeffs = bring.slice(0,-1);
+    const degree = quotientCoeffs.length - 1;
+    const quotientTerms = quotientCoeffs.map((c,idx)=>{
+      const pow = degree - idx;
+      if(c===0) return null;
+      const coefStr = (Math.abs(c)===1 && pow>0) ? (c<0?'-':'') : trimNum(c);
+      const varPart = pow===0 ? '' : (pow===1 ? 'x' : `x^${pow}`);
+      return `${coefStr}${varPart}`;
+    }).filter(Boolean);
+    let quotientStr = quotientTerms.join(' + ').replace(/\+ -/g,'- ');
+    if(quotientStr==='') quotientStr='0';
+
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">Quotient</div>
+      <div class="as-value">${quotientStr}</div>
+      <div class="as-label">Remainder</div>
+      <div class="as-value">${trimNum(remainder)}</div>
+      <div class="as-sub">${remainder===0 ? `Remainder is 0 → (x − ${trimNum(r)}) IS a factor of the polynomial.` : `Remainder is nonzero → (x − ${trimNum(r)}) is NOT a factor.`}</div>
+      <div class="as-label">Steps</div>
+      <ol class="as-steps">${steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+    `;
+    saveAlgHistory(`(${polyRaw}) ÷ (x − ${trimNum(r)}) → quotient ${quotientStr}, remainder ${trimNum(remainder)}`);
+  }catch(e){
+    showError(resultEl, 'Could not divide. Make sure the polynomial is written in terms of x, and r is a plain number.');
+  }
+}
+
+/* ---------- TRIG & LOGARITHMIC EQUATIONS ---------- */
+function qNumeric(s){ return /^-?[\d.]+$/.test(s.trim()); }
+function safeEval(f, x){ try{ const y = f(x); return Number.isFinite(y) ? y : null; }catch(e){ return null; } }
+function bisect(f, a, b){
+  let ya = safeEval(f, a);
+  for(let i=0; i<60; i++){
+    const m = (a+b)/2, ym = safeEval(f, m);
+    if(ym === null) return m;
+    if((ya < 0 && ym < 0) || (ya > 0 && ym > 0)){ a = m; ya = ym; } else { b = m; }
+  }
+  return (a+b)/2;
+}
+function renderTrigExact(resultEl, variable, val, formula, note){
+  document.getElementById(resultEl).innerHTML = `
+    <div class="as-label">${variable} =</div>
+    <div class="as-value">${trimNum(val)}</div>
+    <div class="as-sub">${formula}</div>
+    <div class="as-sub">${note}</div>
+  `;
+  saveAlgHistory(`${formula} → ${variable} = ${trimNum(val)}`);
+}
+
+function solveTrigLog(){
+  const raw = document.getElementById('trig-input').value.trim();
+  const resultEl = 'trig-result';
+  if(!raw.includes('=')){ showError(resultEl, 'An equation needs an "=" sign.'); return; }
+  const [lhsRaw, rhsRaw] = raw.split('=').map(s=>s.trim());
+
+  // --- exact shortcuts for common closed forms: log(x)=c, ln(x)=c, a^x=b ---
+  try{
+    let m;
+    if((m = lhsRaw.match(/^log\(([a-zA-Z])\)$/i)) && qNumeric(rhsRaw)){
+      const c = parseFloat(rhsRaw);
+      renderTrigExact(resultEl, m[1], Math.pow(10,c), `${m[1]} = 10^${trimNum(c)}`, 'Base-10 logarithm: log(x) = c means x = 10^c.');
+      return;
+    }
+    if((m = lhsRaw.match(/^ln\(([a-zA-Z])\)$/i)) && qNumeric(rhsRaw)){
+      const c = parseFloat(rhsRaw);
+      renderTrigExact(resultEl, m[1], Math.exp(c), `${m[1]} = e^${trimNum(c)}`, 'Natural logarithm: ln(x) = c means x = e^c.');
+      return;
+    }
+    if((m = lhsRaw.match(/^([\d.]+)\s*\^\s*([a-zA-Z])$/)) && qNumeric(rhsRaw)){
+      const base = parseFloat(m[1]), b = parseFloat(rhsRaw);
+      if(base > 0 && base !== 1 && b > 0){
+        const val = Math.log(b)/Math.log(base);
+        renderTrigExact(resultEl, m[2], val, `${m[2]} = ln(${trimNum(b)}) / ln(${trimNum(base)})`, `Exponential equation: ${trimNum(base)}^x = ${trimNum(b)} solved by taking logs of both sides.`);
+        return;
+      }
+    }
+  }catch(e){ /* fall through to numeric */ }
+
+  // --- numeric fallback: scan domain for sign changes, refine via bisection ---
+  try{
+    const xMin = parseFloat(document.getElementById('trig-min').value);
+    const xMax = parseFloat(document.getElementById('trig-max').value);
+    if(!Number.isFinite(xMin) || !Number.isFinite(xMax) || xMin >= xMax) throw new Error('bad domain');
+    const compiled = math.compile(`(${lhsRaw})-(${rhsRaw})`);
+    const f = x => compiled.evaluate({x});
+    const N = 2000;
+    const step = (xMax-xMin)/N;
+    let roots = [];
+    let prevX = xMin, prevY = safeEval(f, prevX);
+    for(let i=1; i<=N; i++){
+      const x = xMin + i*step;
+      const y = safeEval(f, x);
+      if(prevY !== null && y !== null){
+        if(prevY === 0) roots.push(prevX);
+        else if(prevY*y < 0) roots.push(bisect(f, prevX, x));
+      }
+      prevX = x; prevY = y;
+    }
+    roots = [...new Set(roots.map(r=>Math.round(r*1e6)/1e6))].sort((a,b)=>a-b);
+    if(!roots.length){
+      showError(resultEl, `No solutions found between ${trimNum(xMin)} and ${trimNum(xMax)}. Try widening the domain.`);
+      return;
+    }
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">x \u2248</div>
+      <div class="as-value">${roots.map(trimNum).join(',  ')}</div>
+      <div class="as-sub">${roots.length} solution${roots.length>1?'s':''} found by scanning [${trimNum(xMin)}, ${trimNum(xMax)}] for sign changes. If the equation is periodic (sin/cos/tan), there are infinitely many more solutions outside this domain, spaced by the function's period.</div>
+    `;
+    saveAlgHistory(`${raw} → x ≈ ${roots.map(trimNum).join(', ')}`);
+  }catch(e){
+    showError(resultEl, 'Could not solve. Check the equation syntax (use * for multiplication, ^ for powers) and that the domain fields contain valid numbers.');
+  }
+}
+
+/* ---------- MATRICES ---------- */
+function onMatrixOpChange(){
+  const op = document.getElementById('mat-op').value;
+  document.getElementById('mat-b-wrap').style.display = ['add','sub','mul'].includes(op) ? 'block' : 'none';
+  document.getElementById('mat-vec-wrap').style.display = (op === 'solve') ? 'block' : 'none';
+}
+
+function parseMatrix(text){
+  const rows = text.trim().split('\n').map(r=>r.trim()).filter(r=>r.length);
+  const mat = rows.map(r=>r.split(',').map(v=>parseFloat(v.trim())));
+  const width = mat[0] ? mat[0].length : 0;
+  if(!mat.length || mat.some(r=>r.length!==width || r.some(v=>!Number.isFinite(v)))) throw new Error('bad matrix');
+  return mat;
+}
+function parseVector(text){
+  const v = text.split(',').map(s=>parseFloat(s.trim()));
+  if(!v.length || v.some(n=>!Number.isFinite(n))) throw new Error('bad vector');
+  return v;
+}
+function fmtMatrix(m){
+  const arr = m.toArray ? m.toArray() : m;
+  const rows = arr.map(r=>{
+    const cells = Array.isArray(r) ? r : [r];
+    return cells.map(v=>trimNum(v)).join(',  ');
+  });
+  return rows.map(r=>`[ ${r} ]`).join('\n');
+}
+
+function computeMatrix(){
+  const resultEl = 'mat-result';
+  const op = document.getElementById('mat-op').value;
+  try{
+    const A = parseMatrix(document.getElementById('mat-a').value);
+    let resultHtml = '';
+    if(op === 'add' || op === 'sub' || op === 'mul'){
+      const B = parseMatrix(document.getElementById('mat-b').value);
+      const R = op === 'add' ? math.add(A,B) : op === 'sub' ? math.subtract(A,B) : math.multiply(A,B);
+      resultHtml = `<div class="as-label">Result</div><pre class="as-value" style="font-size:15px;white-space:pre-wrap;">${fmtMatrix(R)}</pre>`;
+    } else if(op === 'det'){
+      resultHtml = `<div class="as-label">Determinant</div><div class="as-value">${trimNum(math.det(A))}</div>`;
+    } else if(op === 'inv'){
+      resultHtml = `<div class="as-label">Inverse</div><pre class="as-value" style="font-size:15px;white-space:pre-wrap;">${fmtMatrix(math.inv(A))}</pre>`;
+    } else if(op === 'trans'){
+      resultHtml = `<div class="as-label">Transpose</div><pre class="as-value" style="font-size:15px;white-space:pre-wrap;">${fmtMatrix(math.transpose(A))}</pre>`;
+    } else if(op === 'solve'){
+      const b = parseVector(document.getElementById('mat-vec').value);
+      const R = math.lusolve(A, b);
+      const flat = (R.toArray ? R.toArray() : R).map(r=>r[0]);
+      resultHtml = `<div class="as-label">Solution vector x</div><div class="as-value">${flat.map((v,i)=>`x${i+1} = ${trimNum(v)}`).join(',  ')}</div><div class="as-sub">Solved via LU decomposition (Ax = b).</div>`;
+    }
+    document.getElementById(resultEl).innerHTML = resultHtml;
+    saveAlgHistory(`Matrix ${op} computed`);
+  }catch(e){
+    showError(resultEl, 'Could not compute — check that A (and B, if used) are valid rectangular matrices with matching dimensions for the chosen operation, and that A is square for determinant/inverse/solve.');
+  }
+}
+
+/* ---------- GRAPHING ---------- */
+function clearGraph(){
+  const canvas = document.getElementById('graph-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  document.getElementById('graph-result').innerHTML = '';
+}
+
+function plotGraph(){
+  const raw = document.getElementById('graph-input').value.trim();
+  const resultEl = 'graph-result';
+  try{
+    const xMin = parseFloat(document.getElementById('graph-min').value);
+    const xMax = parseFloat(document.getElementById('graph-max').value);
+    if(!Number.isFinite(xMin) || !Number.isFinite(xMax) || xMin >= xMax) throw new Error('bad domain');
+    const compiled = math.compile(raw);
+    const fn = x => { try{ const y = compiled.evaluate({x}); return Number.isFinite(y) ? y : NaN; }catch(e){ return NaN; } };
+
+    const canvas = document.getElementById('graph-canvas');
+    CalcHub.plotFunction(canvas, {xMin, xMax, samples:300, fn});
+
+    let yIntText = 'undefined at x = 0';
+    const y0 = fn(0);
+    if(Number.isFinite(y0)) yIntText = `(0, ${trimNum(y0)})`;
+
+    let rootsText = 'none found in range';
+    try{
+      const rootsRaw = nerdamer.solveEquations(`${raw}=0`, 'x');
+      const arr = Array.isArray(rootsRaw) ? rootsRaw : [rootsRaw];
+      const nums = arr.map(r=>toNumberSafe(r.toString())).filter(n=>n!==null && n>=xMin && n<=xMax);
+      const uniq = [...new Set(nums.map(n=>Math.round(n*1e6)/1e6))].sort((a,b)=>a-b);
+      if(uniq.length) rootsText = uniq.map(trimNum).join(', ');
+    }catch(e){ /* not every function is symbolically solvable (e.g. trig) — leave as "none found" */ }
+
+    document.getElementById(resultEl).innerHTML = `
+      <div class="as-label">y-intercept</div>
+      <div class="as-value" style="font-size:16px;">${yIntText}</div>
+      <div class="as-label">x-intercept(s) in range</div>
+      <div class="as-value" style="font-size:16px;">${rootsText}</div>
+    `;
+    saveAlgHistory(`Graphed y = ${raw} → y-int ${yIntText}, x-int ${rootsText}`);
+  }catch(e){
+    showError(resultEl, 'Could not plot that function. Check the syntax (use * for multiplication, ^ for powers) and that x min is less than x max.');
+  }
+}
+
+/* ---------- RANDOM PRACTICE ---------- */
+let currentProblem = null;
+let practiceDifficulty = 'basic';
+
+const BASIC_TYPES = [
+  {value:'linear-eq', label:'Linear equation'},
+  {value:'quad-eq', label:'Quadratic equation'},
+  {value:'linear-ineq', label:'Linear inequality'},
+  {value:'quad-ineq', label:'Quadratic inequality'},
+  {value:'expr', label:'Simplify expression'},
+];
+const ADVANCED_TYPES = [
+  {value:'quad-formula', label:'Quadratic formula (with steps)'},
+  {value:'cubic-eq', label:'Cubic equation'},
+  {value:'abs-eq', label:'Absolute value equation'},
+  {value:'system-eq', label:'System of two equations'},
+];
+
+function toggleDifficulty(){
+  practiceDifficulty = (practiceDifficulty === 'basic') ? 'advanced' : 'basic';
+  const select = document.getElementById('practice-type');
+  const list = practiceDifficulty === 'basic' ? BASIC_TYPES : ADVANCED_TYPES;
+  select.innerHTML = list.map(t=>`<option value="${t.value}">${t.label}</option>`).join('');
+  document.getElementById('difficulty-badge').textContent = 'Difficulty: ' + (practiceDifficulty === 'basic' ? 'Basic' : 'Advanced');
+  document.getElementById('difficulty-toggle').textContent = practiceDifficulty === 'basic' ? 'Too simple? Click Here!' : 'Too complex? Click Here!';
+  currentProblem = null;
+  document.getElementById('practice-problem').textContent = 'Press "New problem" to start';
+  document.getElementById('practice-answer-block').style.display = 'none';
+  document.getElementById('practice-feedback').className = 'as-feedback';
+}
+
+function randInt(min, max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function nz(min,max){ let n=0; while(n===0) n=randInt(min,max); return n; }
+
+function buildQuadTerms(a, r1, r2){
+  const bCoef = -a*(r1+r2);
+  const cCoef = a*r1*r2;
+  const terms = [];
+  terms.push(`${a===1?'':a===-1?'-':a}x^2`);
+  if(bCoef!==0) terms.push(`${bCoef>0?'+ ':'- '}${Math.abs(bCoef)===1?'':Math.abs(bCoef)}x`);
+  if(cCoef!==0) terms.push(`${cCoef>0?'+ ':'- '}${Math.abs(cCoef)}`);
+  return terms.join(' ');
+}
+
+function generateProblem(){
+  const type = document.getElementById('practice-type').value;
+  const answerBlock = document.getElementById('practice-answer-block');
+  const feedback = document.getElementById('practice-feedback');
+  feedback.className = 'as-feedback';
+  document.getElementById('practice-answer').value = '';
+  answerBlock.style.display = 'block';
+
+  if(type === 'linear-eq'){
+    const a = nz(-9,9), r = randInt(-12,12), b = randInt(-15,15);
+    const c = a*r + b;
+    const display = `${a}x ${b>=0?'+ '+b:'- '+Math.abs(b)} = ${c}`;
+    currentProblem = {type, display, answerType:'numbers', answer:[r]};
+    document.getElementById('practice-hint').textContent = 'Enter the value of x, e.g. "3" or "-2".';
+  }
+  else if(type === 'quad-eq'){
+    const a = nz(-3,3);
+    const r1 = randInt(-8,8), r2 = randInt(-8,8);
+    const display = buildQuadTerms(a,r1,r2) + ' = 0';
+    const roots = [...new Set([r1,r2])].sort((a,b)=>a-b);
+    currentProblem = {type, display, answerType:'numbers', answer:roots};
+    document.getElementById('practice-hint').textContent = 'Enter all solutions separated by commas, e.g. "2, -5".';
+  }
+  else if(type === 'linear-ineq'){
+    const a = nz(-6,6), r = randInt(-10,10), b = randInt(-10,10);
+    const c = a*r + b;
+    const ops = ['<','>','<=','>='];
+    const op = ops[randInt(0,3)];
+    const display = `${a}x ${b>=0?'+ '+b:'- '+Math.abs(b)} ${op} ${c}`;
+    currentProblem = {type, display, answerType:'reveal-only'};
+    document.getElementById('practice-hint').textContent = 'Inequalities are self-checked — use "Reveal answer" and compare your interval.';
+  }
+  else if(type === 'quad-ineq'){
+    const a = nz(-2,2);
+    const r1 = randInt(-6,6), r2 = randInt(-6,6);
+    const ops = ['<','>'];
+    const op = ops[randInt(0,1)];
+    const display = buildQuadTerms(a,r1,r2) + ` ${op} 0`;
+    currentProblem = {type, display, answerType:'reveal-only'};
+    document.getElementById('practice-hint').textContent = 'Inequalities are self-checked — use "Reveal answer" and compare your interval.';
+  }
+  else if(type === 'expr'){
+    const a=nz(-8,8), b=randInt(-8,8), c=nz(-8,8), d=randInt(-8,8);
+    const display = `(${a}x ${b>=0?'+':'-'} ${Math.abs(b)})(${c}x ${d>=0?'+':'-'} ${Math.abs(d)})`;
+    currentProblem = {type, display, answerType:'reveal-only'};
+    document.getElementById('practice-hint').textContent = 'Expand it in your head, then reveal the answer to self-check.';
+  }
+  else if(type === 'quad-formula'){
+    const a = nz(-4,4);
+    const r1 = randInt(-9,9), r2 = randInt(-9,9);
+    const display = buildQuadTerms(a,r1,r2) + ' = 0';
+    const roots = [...new Set([r1,r2])].sort((a,b)=>a-b);
+    currentProblem = {type, display, answerType:'numbers', answer:roots};
+    document.getElementById('practice-hint').textContent = 'Solve using the quadratic formula. Enter solutions separated by commas, or reveal to see full steps.';
+  }
+  else if(type === 'cubic-eq'){
+    let r1,r2,r3;
+    do{ r1=randInt(-5,5); r2=randInt(-5,5); r3=randInt(-5,5); }while(r1===r2 && r2===r3);
+    const display = `(x ${r1>=0?'- '+r1:'+ '+Math.abs(r1)})(x ${r2>=0?'- '+r2:'+ '+Math.abs(r2)})(x ${r3>=0?'- '+r3:'+ '+Math.abs(r3)}) = 0`;
+    const roots = [...new Set([r1,r2,r3])].sort((a,b)=>a-b);
+    currentProblem = {type, display, answerType:'numbers', answer:roots};
+    document.getElementById('practice-hint').textContent = 'Enter all real solutions separated by commas.';
+  }
+  else if(type === 'abs-eq'){
+    let r1,r2;
+    do{ r1=randInt(-10,10); r2=randInt(-10,10); }while(r1===r2 || (r1+r2)%2!==0);
+    const m = (r1+r2)/2, d = Math.abs((r2-r1)/2);
+    const display = `|x ${m>=0?'- '+m:'+ '+Math.abs(m)}| = ${d}`;
+    const roots = [Math.min(r1,r2), Math.max(r1,r2)];
+    currentProblem = {type, display, answerType:'numbers', answer:roots};
+    document.getElementById('practice-hint').textContent = 'Absolute value equations usually have two solutions — enter both, comma-separated.';
+  }
+  else if(type === 'system-eq'){
+    let a1,b1,a2,b2;
+    do{
+      a1=nz(-6,6); b1=nz(-6,6); a2=nz(-6,6); b2=nz(-6,6);
+    }while((a1*b2-a2*b1)===0);
+    const xVal = randInt(-8,8), yVal = randInt(-8,8);
+    const c1 = a1*xVal+b1*yVal, c2 = a2*xVal+b2*yVal;
+    const display = `${a1}x ${b1>=0?'+ '+b1:'- '+Math.abs(b1)}y = ${c1}\n${a2}x ${b2>=0?'+ '+b2:'- '+Math.abs(b2)}y = ${c2}`;
+    currentProblem = {type, display, answerType:'system', answer:{x:xVal,y:yVal}};
+    document.getElementById('practice-hint').textContent = 'Enter as: x, y  e.g. "3, -2".';
+  }
+
+  document.getElementById('practice-problem').innerHTML = currentProblem.display.replace(/\n/g,'<br>');
+}
+
+function checkPracticeAnswer(){
+  const feedback = document.getElementById('practice-feedback');
+  if(!currentProblem){
+    feedback.className = 'as-feedback show info';
+    feedback.textContent = 'Generate a problem first with "New problem".';
+    return;
+  }
+  if(currentProblem.answerType === 'reveal-only'){
+    feedback.className = 'as-feedback show info';
+    feedback.textContent = 'This problem type is self-checked — click "Reveal answer" to compare.';
+    return;
+  }
+  const raw = document.getElementById('practice-answer').value.trim();
+  if(!raw){ return; }
+
+  if(currentProblem.answerType === 'system'){
+    const nums = raw.split(',').map(s=>parseFloat(s.trim())).filter(n=>!isNaN(n));
+    const isMatch = nums.length===2 && Math.abs(nums[0]-currentProblem.answer.x)<1e-6 && Math.abs(nums[1]-currentProblem.answer.y)<1e-6;
+    feedback.className = 'as-feedback show ' + (isMatch ? 'correct' : 'wrong');
+    feedback.textContent = isMatch ? 'Correct!' : 'Not quite. Try again, or reveal the answer.';
+    return;
+  }
+
+  const userNums = raw.split(',').map(s=>parseFloat(s.trim())).filter(n=>!isNaN(n)).sort((a,b)=>a-b);
+  const correct = [...currentProblem.answer].sort((a,b)=>a-b);
+  const isMatch = userNums.length === correct.length &&
+    userNums.every((n,i)=>Math.abs(n-correct[i])<1e-6);
+
+  feedback.className = 'as-feedback show ' + (isMatch ? 'correct' : 'wrong');
+  feedback.textContent = isMatch ? 'Correct!' : 'Not quite. Try again, or reveal the answer.';
+}
+
+function revealPracticeAnswer(){
+  const feedback = document.getElementById('practice-feedback');
+  if(!currentProblem){
+    feedback.className = 'as-feedback show info';
+    feedback.textContent = 'Generate a problem first with "New problem".';
+    return;
+  }
+  feedback.className = 'as-feedback show info';
+
+  try{
+    if(['linear-eq','quad-eq','cubic-eq','abs-eq'].includes(currentProblem.type)){
+      feedback.textContent = `x = ${currentProblem.answer.join(', ')}`;
+    }
+    else if(currentProblem.type === 'quad-formula'){
+      const [lhs] = currentProblem.display.split('=');
+      const stepsHtml = buildQuadraticSteps(lhs, 'x');
+      feedback.innerHTML = `x = ${currentProblem.answer.join(', ')}${stepsHtml}`;
+    }
+    else if(currentProblem.type === 'linear-ineq' || currentProblem.type === 'quad-ineq'){
+      const res = computeInequality(currentProblem.display);
+      feedback.textContent = res.error ? res.error : ('x \u2208 ' + (res.text || res.pieces));
+    }
+    else if(currentProblem.type === 'expr'){
+      const expanded = nerdamer(`expand(${currentProblem.display})`).text();
+      feedback.textContent = expanded;
+    }
+    else if(currentProblem.type === 'system-eq'){
+      feedback.textContent = `x = ${currentProblem.answer.x}, y = ${currentProblem.answer.y}`;
+    }
+  }catch(e){
+    feedback.textContent = 'Could not compute the answer — try "New problem".';
+  }
+}
+</script>
+</body>
+</html>

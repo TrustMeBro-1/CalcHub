@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Unit Converter: Convert Length, Weight, Volume & Area Between Any Units</title>
+<meta name="description" content="Convert between any two units of length, weight, volume, or area — metric or imperial, in either direction — using exact, standards-based conversion factors.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/unit-converter">
+<meta property="og:title" content="Unit Converter: Convert Length, Weight, Volume & Area Between Any Units">
+<meta property="og:description" content="Convert between any two units of length, weight, volume, or area — metric or imperial, in either direction — using exact, standards-based conversion factors.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/unit-converter.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unit Converter: Convert Length, Weight, Volume & Area Between Any Units">
+<meta name="twitter:description" content="Convert between any two units of length, weight, volume, or area — metric or imperial, in either direction — using exact, standards-based conversion factors.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Unit Converter: Convert Length, Weight, Volume & Area Between Any Units",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Convert between any two units of length, weight, volume, or area — metric or imperial, in either direction — using exact, standards-based conversion factors.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why did the metric system become the universal standard for scientific research?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The metric system is favored in science because its base-10 structure simplifies scaling calculations. Changing a metric unit from meters to kilometers requires shifting a decimal point three places, whereas scaling imperial feet into miles requires dividing by the arbitrary constant of 5,280."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are the conversion factors used here?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator uses exact, internationally defined conversion constants (for example, 1 inch = 0.0254 meters exactly, 1 pound = 0.45359237 kilograms exactly) rather than rounded approximations, so results are accurate to the precision shown regardless of how many decimal places you display."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert entirely different attributes, like pounds to gallons?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. You cannot directly convert across different physical dimensions because they measure fundamentally different properties — pounds measure mass, gallons measure volume. Linking them requires a third property, density, which varies by substance and isn't part of a general unit converter."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does SI stand for and why does it matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SI stands for the International System of Units, the modern, globally standardized form of the metric system. It defines base units such as the meter (length) and kilogram (mass) so that measurements are consistent and comparable across countries and scientific disciplines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this converter handle temperature?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Temperature conversion (Celsius, Fahrenheit, Kelvin) isn't a simple multiplication — it requires an offset, not just a ratio — so it uses a dedicated Temperature Converter tool instead of being folded into this general unit converter."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-science">Science & Physics</a><span>/</span>
+    <span>Unit Converter</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Unit Converter: Convert Length, Weight, Volume & Area Between Any Units</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Pick a category, choose any two units, and convert in either direction using exact, standards-based conversion factors — not rounded approximations.</p>
+  <div id="calc-root" class="calc-layout"></div>
+
+  <section class="calc-explainer">
+<h2>Why "convert" is really "multiply by a ratio of 1"</h2>
+<p>Any unit conversion works by multiplying by a conversion factor that equals 1 — like 12 inches per 1 foot. The value doesn't change, only the units describing it, which is why chaining several conversions together still gives an exact answer.</p>
+<h2>The rounding trap in multi-step conversions</h2>
+<p>Rounding an intermediate result before finishing a multi-step conversion — miles to feet to inches, for instance — can introduce small errors that compound. This tool avoids that by converting through a single fixed base unit per category (meters, kilograms, liters, or square meters) internally, then rounding only the final displayed result.</p>
+<h1>Unit Conversion</h1>
+<p>A unit converter translates physical quantities across measurement systems and unit scales without changing the underlying quantity itself. Because different regions and industries use different standards — metric versus imperial, for example — accurately bridging between them matters in engineering, cooking, shipping, construction, and science. This tool covers four measurement categories and lets you convert between any two units within a category in either direction, rather than offering only a fixed list of one-way pairs.</p>
+
+<h2>Categories and Units Supported</h2>
+<ul>
+    <li><strong>Length:</strong> millimeters, centimeters, meters, kilometers, inches, feet, yards, miles, nautical miles.</li>
+    <li><strong>Weight / Mass:</strong> milligrams, grams, kilograms, metric tons, ounces, pounds, stone, US tons.</li>
+    <li><strong>Volume:</strong> milliliters, liters, cubic meters, US teaspoons, tablespoons, fluid ounces, cups, pints, quarts, gallons.</li>
+    <li><strong>Area:</strong> square meters, square kilometers, square centimeters, hectares, square feet, square yards, acres, square miles.</li>
+</ul>
+<p>Temperature isn't included here — see the note in the FAQ below on why it needs its own tool.</p>
+
+<h2>How the Conversion Actually Works</h2>
+<p>Every unit in a category is defined relative to one fixed base unit: meters for length, kilograms for mass, liters for volume, and square meters for area. Converting your input to the base unit, then from the base unit to your target unit, means only two multiplications ever happen — regardless of which two units you pick — which keeps results exact and avoids compounding rounding errors from chained conversions.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Why did the metric system become the universal standard for scientific research?</h3>
+<p>The metric system is favored in science because its base-10 structure simplifies scaling calculations. Changing a metric unit from meters to kilometers requires shifting a decimal point three places, whereas scaling imperial feet into miles requires dividing by the arbitrary constant of 5,280.</p>
+
+<h3>How accurate are the conversion factors used here?</h3>
+<p>This calculator uses exact, internationally defined conversion constants — for example, 1 inch = 0.0254 meters exactly, and 1 pound = 0.45359237 kilograms exactly — rather than rounded approximations, so results are accurate to the precision shown regardless of how many decimal places you display.</p>
+
+<h3>Can I convert entirely different attributes, like pounds to gallons?</h3>
+<p>No. You cannot directly convert across different physical dimensions because they measure fundamentally different properties — pounds measure mass, gallons measure volume. Linking them requires a third property, density, which varies by substance and isn't part of a general unit converter.</p>
+
+<h3>What does SI stand for and why does it matter?</h3>
+<p>SI stands for the International System of Units, the modern, globally standardized form of the metric system. It defines base units such as the meter (length) and kilogram (mass) so that measurements are consistent and comparable across countries and scientific disciplines.</p>
+
+<h3>Does this converter handle temperature?</h3>
+<p>No. Temperature conversion (Celsius, Fahrenheit, Kelvin) isn't a simple multiplication — it requires an offset, not just a ratio — so it uses a dedicated <a href="temperature-converter.html">Temperature Converter</a> tool instead of being folded into this general unit converter.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'unit-converter');
+
+(function () {
+  var meta = CalcHub.getCalcMeta('unit-converter') || { name: 'Unit Converter', category: 'science' };
+  var root = document.getElementById('calc-root');
+
+  // Exact conversion factors to one fixed base unit per category.
+  var CATEGORIES = {
+    length: {
+      label: 'Length',
+      base: 'm',
+      units: {
+        mm: { label: 'Millimeters (mm)', factor: 0.001 },
+        cm: { label: 'Centimeters (cm)', factor: 0.01 },
+        m:  { label: 'Meters (m)', factor: 1 },
+        km: { label: 'Kilometers (km)', factor: 1000 },
+        in: { label: 'Inches (in)', factor: 0.0254 },
+        ft: { label: 'Feet (ft)', factor: 0.3048 },
+        yd: { label: 'Yards (yd)', factor: 0.9144 },
+        mi: { label: 'Miles (mi)', factor: 1609.344 },
+        nmi:{ label: 'Nautical Miles (nmi)', factor: 1852 }
+      }
+    },
+    weight: {
+      label: 'Weight / Mass',
+      base: 'kg',
+      units: {
+        mg: { label: 'Milligrams (mg)', factor: 0.000001 },
+        g:  { label: 'Grams (g)', factor: 0.001 },
+        kg: { label: 'Kilograms (kg)', factor: 1 },
+        t:  { label: 'Metric Tons (t)', factor: 1000 },
+        oz: { label: 'Ounces (oz)', factor: 0.028349523125 },
+        lb: { label: 'Pounds (lb)', factor: 0.45359237 },
+        st: { label: 'Stone (st)', factor: 6.35029318 },
+        ust:{ label: 'US Tons (short tons)', factor: 907.18474 }
+      }
+    },
+    volume: {
+      label: 'Volume',
+      base: 'L',
+      units: {
+        mL:  { label: 'Milliliters (mL)', factor: 0.001 },
+        L:   { label: 'Liters (L)', factor: 1 },
+        m3:  { label: 'Cubic Meters (m\u00b3)', factor: 1000 },
+        tsp: { label: 'Teaspoons (US)', factor: 0.0049289216 },
+        tbsp:{ label: 'Tablespoons (US)', factor: 0.0147867648 },
+        floz:{ label: 'Fluid Ounces (US)', factor: 0.0295735295625 },
+        cup: { label: 'Cups (US)', factor: 0.2365882365 },
+        pt:  { label: 'Pints (US)', factor: 0.473176473 },
+        qt:  { label: 'Quarts (US)', factor: 0.946352946 },
+        gal: { label: 'Gallons (US)', factor: 3.785411784 }
+      }
+    },
+    area: {
+      label: 'Area',
+      base: 'm2',
+      units: {
+        cm2:  { label: 'Square Centimeters (cm\u00b2)', factor: 0.0001 },
+        m2:   { label: 'Square Meters (m\u00b2)', factor: 1 },
+        ha:   { label: 'Hectares (ha)', factor: 10000 },
+        km2:  { label: 'Square Kilometers (km\u00b2)', factor: 1000000 },
+        ft2:  { label: 'Square Feet (ft\u00b2)', factor: 0.09290304 },
+        yd2:  { label: 'Square Yards (yd\u00b2)', factor: 0.83612736 },
+        acre: { label: 'Acres', factor: 4046.8564224 },
+        mi2:  { label: 'Square Miles (mi\u00b2)', factor: 2589988.110336 }
+      }
+    }
+  };
+
+  function unitOptions(catKey, selected) {
+    var units = CATEGORIES[catKey].units;
+    return Object.keys(units).map(function (k) {
+      return '<option value="' + k + '"' + (k === selected ? ' selected' : '') + '>' + CalcHub.escapeHTML(units[k].label) + '</option>';
+    }).join('');
+  }
+
+  root.innerHTML =
+    '<div class="calc-form-col">' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Convert</div>' +
+        '<div class="field-grid">' +
+          '<div class="field-group span-2"><label class="field-label" for="uc-cat">Category</label>' +
+            '<select class="field-select" id="uc-cat">' +
+              Object.keys(CATEGORIES).map(function (k) { return '<option value="' + k + '">' + CATEGORIES[k].label + '</option>'; }).join('') +
+            '</select></div>' +
+          '<div class="field-group"><label class="field-label" for="uc-value">Value</label>' +
+            '<input class="field-input" type="number" id="uc-value" value="1" step="any"></div>' +
+          '<div class="field-group"><label class="field-label" for="uc-from">From Unit</label>' +
+            '<select class="field-select" id="uc-from"></select></div>' +
+          '<div class="field-group span-2"><label class="field-label" for="uc-to">To Unit</label>' +
+            '<select class="field-select" id="uc-to"></select></div>' +
+        '</div>' +
+        '<button type="button" class="btn-secondary" id="uc-swap" style="width:auto;display:inline-block">Swap Units</button>' +
+      '</div>' +
+      '<div class="calc-card result-panel visible" id="result-panel">' +
+        '<div class="result-headline-label">Converted Value</div>' +
+        '<div class="result-headline" id="result-headline"></div>' +
+        '<div class="stat-grid" id="result-stats"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="calc-side-col">' +
+      '<div class="calc-card" id="chart-card">' +
+        '<div class="calc-card-title">Visual Comparison</div>' +
+        '<div class="chart-wrap"><canvas id="result-chart"></canvas></div>' +
+      '</div>' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Your History &mdash; ' + CalcHub.escapeHTML(meta.name) + '</div>' +
+        '<div id="calc-history"></div>' +
+      '</div>' +
+    '</div>';
+
+  var catSel = document.getElementById('uc-cat');
+  var fromSel = document.getElementById('uc-from');
+  var toSel = document.getElementById('uc-to');
+  var valueInput = document.getElementById('uc-value');
+
+  function populateUnits(catKey, fromDefault, toDefault) {
+    var keys = Object.keys(CATEGORIES[catKey].units);
+    var from = fromDefault && CATEGORIES[catKey].units[fromDefault] ? fromDefault : keys[0];
+    var to = toDefault && CATEGORIES[catKey].units[toDefault] ? toDefault : keys[1];
+    fromSel.innerHTML = unitOptions(catKey, from);
+    toSel.innerHTML = unitOptions(catKey, to);
+  }
+
+  var saved = CalcHub.getLastInputs('unit-converter');
+  var initialCat = (saved && CATEGORIES[saved.cat]) ? saved.cat : 'length';
+  catSel.value = initialCat;
+  populateUnits(initialCat, saved && saved.from, saved && saved.to);
+  if (saved && typeof saved.value === 'number') valueInput.value = saved.value;
+
+  function convert() {
+    var catKey = catSel.value;
+    var cat = CATEGORIES[catKey];
+    var fromKey = fromSel.value, toKey = toSel.value;
+    var val = parseFloat(valueInput.value);
+    if (isNaN(val)) val = 0;
+
+    var fromFactor = cat.units[fromKey].factor;
+    var toFactor = cat.units[toKey].factor;
+    var baseVal = val * fromFactor;
+    var result = baseVal / toFactor;
+
+    var fromLabel = cat.units[fromKey].label.replace(/\s*\(.+\)/, '');
+    var toLabel = cat.units[toKey].label.replace(/\s*\(.+\)/, '');
+
+    document.getElementById('result-headline').textContent = CalcHub.fmtNum(result, 6) + ' ' + toLabel;
+    document.getElementById('result-stats').innerHTML =
+      '<div class="stat-card"><div class="stat-card-label">Input</div><div class="stat-card-value">' + CalcHub.fmtNum(val, 6) + ' ' + CalcHub.escapeHTML(fromLabel) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Category Base Unit</div><div class="stat-card-value">' + CalcHub.fmtNum(baseVal, 6) + ' ' + cat.base + '</div></div>' +
+      '<div class="stat-card highlight"><div class="stat-card-label">Result</div><div class="stat-card-value">' + CalcHub.fmtNum(result, 6) + ' ' + CalcHub.escapeHTML(toLabel) + '</div></div>';
+
+    requestAnimationFrame(function () {
+      CalcHub.drawChart(document.getElementById('result-chart'), {
+        type: 'bar',
+        labels: [fromLabel, toLabel],
+        series: [{ name: 'Value', data: [val, result], color: '#5a1a8a' }]
+      });
+    });
+
+    CalcHub.saveLastInputs('unit-converter', { cat: catKey, from: fromKey, to: toKey, value: val });
+    CalcHub.addHistory({
+      calcId: 'unit-converter', calcName: meta.name, category: meta.category,
+      label: CalcHub.fmtNum(val, 4) + ' ' + fromLabel + ' = ' + CalcHub.fmtNum(result, 4) + ' ' + toLabel,
+      resultValue: CalcHub.fmtNum(result, 6) + ' ' + toLabel
+    });
+    CalcHub.addRecent('unit-converter');
+  }
+
+  catSel.addEventListener('change', function () {
+    populateUnits(catSel.value);
+    convert();
+  });
+  fromSel.addEventListener('change', convert);
+  toSel.addEventListener('change', convert);
+  valueInput.addEventListener('input', convert);
+
+  document.getElementById('uc-swap').addEventListener('click', function () {
+    var f = fromSel.value, t = toSel.value;
+    fromSel.value = t; toSel.value = f;
+    convert();
+  });
+
+  convert();
+
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'unit-converter', title: '',
+    emptyText: "Convert a value above and it'll be saved here automatically."
+  });
+})();
+</script>
+</body>
+</html>

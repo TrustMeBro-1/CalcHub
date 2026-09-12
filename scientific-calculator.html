@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Advanced Scientific Calculator: Graphing, Matrix & Complex Numbers - Desmos-Like Tool</title>
+<meta name="description" content="Professional-grade scientific calculator with graphing, advanced functions, matrix operations, derivatives, integrals, and complex numbers. Like Desmos but as a full scientific calculator.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/scientific-calculator">
+<meta property="og:title" content="Advanced Scientific Calculator with Graphing">
+<meta property="og:description" content="Scientific calculator with graphing, advanced math, matrices, and complex numbers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/scientific-calculator.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.1.1/math.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-math">Mathematics & Algebra</a><span>/</span>
+    <span>Advanced Scientific Calculator with Graphing</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Advanced Scientific Calculator with Graphing</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Professional scientific calculator with graphing, advanced math functions, matrix operations, derivatives, integrals, and complex numbers. Click on the display to type expressions.</p>
+  
+  <div class="sci-calc-wrapper">
+    <!-- Mode Switcher -->
+    <div class="sci-mode-bar">
+      <div class="sci-mode-tabs">
+        <button class="sci-mode-tab active" data-mode="standard"><i class="bi bi-calculator"></i> Standard</button>
+        <button class="sci-mode-tab" data-mode="scientific"><i class="bi bi-graph-up"></i> Scientific</button>
+        <button class="sci-mode-tab" data-mode="programmer"><i class="bi bi-code-slash"></i> Programmer</button>
+        <button class="sci-mode-tab" data-mode="graphing"><i class="bi bi-bezier2"></i> Graphing</button>
+      </div>
+      <div class="sci-mode-controls">
+        <button id="sci-theme-toggle" class="sci-icon-btn" title="Toggle theme"><i class="bi bi-moon"></i></button>
+        <button id="sci-settings-btn" class="sci-icon-btn" title="Settings"><i class="bi bi-gear"></i></button>
+      </div>
+    </div>
+
+    <div class="sci-main-layout">
+      <!-- Left: Calculator -->
+      <div class="sci-calc-panel">
+        <!-- Display -->
+        <div class="sci-display-container">
+          <div class="sci-display-top">
+            <div class="sci-expression" id="sci-expr-display">0</div>
+            <div class="sci-radix-indicator">
+              <span id="sci-angle-mode" class="sci-badge">DEG</span>
+              <span id="sci-complex-mode" class="sci-badge" style="display:none;">CPLX</span>
+            </div>
+          </div>
+          <input type="text" id="sci-expr-input" class="sci-display-input" placeholder="Enter expression...">
+          <div class="sci-display-result" id="sci-result-display">=</div>
+          <div class="sci-calculation-steps" id="sci-steps"></div>
+        </div>
+
+        <!-- Memory/Variables Panel -->
+        <div class="sci-memory-strip">
+          <button class="sci-mem-btn" id="sci-mem-clear" title="Clear memory"><i class="bi bi-x-circle"></i> MC</button>
+          <button class="sci-mem-btn" id="sci-mem-recall" title="Recall memory"><i class="bi bi-arrow-repeat"></i> MR</button>
+          <button class="sci-mem-btn" id="sci-mem-plus" title="Add to memory"><i class="bi bi-plus-circle"></i> M+</button>
+          <button class="sci-mem-btn" id="sci-mem-minus" title="Subtract from memory"><i class="bi bi-dash-circle"></i> M−</button>
+          <div class="sci-mem-display" id="sci-mem-value">M: 0</div>
+        </div>
+
+        <!-- Keypad -->
+        <div class="sci-keypad-container">
+          <div class="sci-keypad" id="sci-keypad"></div>
+        </div>
+
+        <!-- Mode-specific controls -->
+        <div class="sci-mode-buttons">
+          <div class="sci-angle-toggle">
+            <button class="sci-angle-btn active" data-angle="deg"><i class="bi bi-circle"></i> DEG</button>
+            <button class="sci-angle-btn" data-angle="rad"><i class="bi bi-circle-half"></i> RAD</button>
+            <button class="sci-angle-btn" data-angle="grad"><i class="bi bi-circle-fill"></i> GRAD</button>
+          </div>
+          <button id="sci-complex-toggle" class="sci-control-btn"><i class="bi bi-diagram-3"></i> Complex</button>
+        </div>
+      </div>
+
+      <!-- Right: Graph/History/Variables -->
+      <div class="sci-right-panel">
+        <div class="sci-tabs-container">
+          <div class="sci-tab-buttons">
+            <button class="sci-tab-btn active" data-tab="graph"><i class="bi bi-graph-up"></i> Graph</button>
+            <button class="sci-tab-btn" data-tab="history"><i class="bi bi-clock-history"></i> History</button>
+            <button class="sci-tab-btn" data-tab="variables"><i class="bi bi-database"></i> Variables</button>
+          </div>
+
+          <!-- Graph Tab -->
+          <div class="sci-tab-content active" id="graph-tab">
+            <div class="sci-graph-controls">
+              <input type="text" id="sci-func-input" class="sci-graph-input" placeholder="f(x) = ">
+              <button id="sci-plot-btn" class="sci-btn-primary"><i class="bi bi-play"></i> Plot</button>
+            </div>
+            <div id="sci-graph" class="sci-graph-area"></div>
+            <div class="sci-graph-options">
+              <label><input type="number" id="sci-graph-min" value="-10" placeholder="Min X"> Min</label>
+              <label><input type="number" id="sci-graph-max" value="10" placeholder="Max X"> Max</label>
+              <label><input type="number" id="sci-graph-step" value="0.1" placeholder="Step" step="0.01"> Step</label>
+            </div>
+          </div>
+
+          <!-- History Tab -->
+          <div class="sci-tab-content" id="history-tab">
+            <div class="sci-history-search">
+              <input type="text" id="sci-history-filter" class="sci-search-input" placeholder="Search history...">
+              <button id="sci-history-clear" class="sci-btn-secondary"><i class="bi bi-trash"></i> Clear</button>
+            </div>
+            <div id="sci-history-list" class="sci-history-list"></div>
+          </div>
+
+          <!-- Variables Tab -->
+          <div class="sci-tab-content" id="variables-tab">
+            <div class="sci-variables-editor">
+              <div class="sci-var-input-group">
+                <input type="text" id="sci-var-name" placeholder="Variable name (a-z)">
+                <input type="text" id="sci-var-value" placeholder="Value">
+                <button id="sci-var-set" class="sci-btn-primary"><i class="bi bi-plus"></i> Set</button>
+              </div>
+              <div id="sci-variables-list" class="sci-variables-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="calc-explainer">
+<h2>Order of operations, still the most common error source</h2>
+<p>Standard order — parentheses, exponents, multiplication/division, then addition/subtraction — applies here exactly as it does on paper. Entering an expression in a different order than intended is by far the most common source of an unexpected result, not a calculator bug.</p>
+<h2>Degrees vs. radians</h2>
+<p>Trigonometric functions give completely different results depending on whether the input is treated as degrees or radians. If a sine or cosine result looks unexpected, check the angle mode before assuming the calculation itself is wrong.</p>
+<h1>Scientific Calculations</h1>
+<h1>Scientific Calculation</h1>
+<p>A scientific calculator is an advanced digital computing utility designed to solve complex mathematical, scientific, and engineering problems. Unlike standard calculators restricted to basic arithmetic, scientific processors evaluate advanced algebraic operations, trigonometric functions, logarithmic scaling, and exponential notations. These tools observe strict mathematical order of operations, allowing users to chain long multi-variable equations together seamlessly. Engineers, researchers, and students rely on these systems to bridge the gap between theoretical abstract concepts and highly precise physical numerical outputs.</p>
+
+<h2>Scientific Calculator Components</h2>
+<p>Interacting with an advanced computing interface requires utilizing specialized notation operators and mathematical toggles.</p>
+<ul>
+    <li><strong>Trigonometric Operators:</strong> Dedicated command keys to compute spatial angles and wave dynamics using Sine, Cosine, and Tangent functions.</li>
+    <li><strong>Logarithmic Keys:</strong> Function fields utilized to calculate exponential growth and decay rates across base-10 or natural log frequencies.</li>
+    <li><strong>Memory Registers:</strong> Storage commands (MS, MR, M+) that hold intermediate numerical values to execute complex multi-step formulas.</li>
+    <li><strong>Angle Mode Toggle:</strong> A configuration switch that switches the processing engine between Degrees and Radians to match your active geometric framework.</li>
+</ul>
+
+<h2>The Order of Operations Rule</h2>
+<p>The processing architecture utilizes strict algebraic logic chains to evaluate multi-tiered equations without computing errors.</p>
+<ul>
+    <li><strong>PEMDAS Order:</strong> The calculator scans and solves expressions sequentially: Parentheses first, followed by Exponents, Multiplication, Division, Addition, and Subtraction.</li>
+    <li><strong>Nested Parentheses:</strong> Placing brackets within brackets isolates localized equations, forcing the processing engine to calculate from the deepest interior outward.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the difference between Degree mode and Radian mode?</h3>
+<p>Degree mode slices a full geometric circle into 360 individual slices, which is the universal standard for basic navigation and construction geometry. Radian mode tracks circles by their radius lengths, where a full rotation equals 2-Pi, making it the required standard for advanced calculus and physics equations.</p>
+
+<h3>What does the "e" button represent on a scientific calculator keyboard?</h3>
+<p>The "e" key represents Euler's number, an irrational mathematical constant valued at approximately 2.71828. This constant forms the foundational base of natural logarithms and appears continuously across scientific models tracking compounding interest, continuous bacterial growth, or physical population decay lines.</p>
+
+<h3>Why does calculating the square root of a negative number show an error?</h3>
+<p>Standard calculators operate within the real number system, where multiplying any real number by itself always yields a positive result. Trying to extract the square root of a negative number breaks this mathematical rule, forcing the system to return an error unless switched to an advanced complex number mode.</p>
+
+<h3>What is the function of the reciprocal (1/x) button?</h3>
+<p>The reciprocal key divides the number one by whatever current value is active on your display screen. For example, inputting the number four and pressing the 1/x key instantly divides one by four, changing your active display output to 0.25.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+    <style>
+      :root {
+        --primary: #0066cc;
+        --primary-light: #e6f2ff;
+        --secondary: #f97316;
+        --success: #22c55e;
+        --danger: #ef4444;
+        --warning: #eab308;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --border-radius: 8px;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+        --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      }
+
+      [data-theme="dark"] {
+        --primary: #0084ff;
+        --primary-light: #1a3a4a;
+        --gray-50: #0f1419;
+        --gray-100: #111827;
+        --gray-200: #1f2937;
+        --gray-300: #374151;
+        --gray-400: #4b5563;
+        --gray-500: #6b7280;
+        --gray-600: #9ca3af;
+        --gray-700: #d1d5db;
+        --gray-800: #e5e7eb;
+        --gray-900: #f3f4f6;
+      }
+
+      .sci-calc-wrapper {
+        background: var(--gray-50);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        margin-bottom: 30px;
+      }
+
+      /* Mode Bar */
+      .sci-mode-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: var(--gray-100);
+        border-bottom: 2px solid var(--gray-200);
+        gap: 16px;
+      }
+
+      .sci-mode-tabs {
+        display: flex;
+        gap: 8px;
+      }
+
+      .sci-mode-tab {
+        padding: 8px 16px;
+        border: none;
+        background: transparent;
+        color: var(--gray-600);
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .sci-mode-tab:hover {
+        background: var(--gray-200);
+        color: var(--gray-800);
+      }
+
+      .sci-mode-tab.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .sci-mode-controls {
+        display: flex;
+        gap: 8px;
+      }
+
+      .sci-icon-btn {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: var(--gray-200);
+        color: var(--gray-700);
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition: all 0.2s;
+      }
+
+      .sci-icon-btn:hover {
+        background: var(--gray-300);
+        transform: translateY(-2px);
+      }
+
+      /* Main Layout */
+      .sci-main-layout {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 0;
+        min-height: 700px;
+      }
+
+      @media (max-width: 1400px) {
+        .sci-main-layout {
+          grid-template-columns: 1fr 1fr;
+          min-height: 600px;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .sci-main-layout {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+      }
+
+      /* Calculator Panel */
+      .sci-calc-panel {
+        display: flex;
+        flex-direction: column;
+        padding: 28px;
+        gap: 18px;
+        border-right: 2px solid var(--gray-200);
+        background: var(--gray-50);
+      }
+
+      @media (max-width: 1100px) {
+        .sci-calc-panel {
+          border-right: none;
+          border-bottom: 2px solid var(--gray-200);
+          padding: 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sci-calc-panel {
+          padding: 16px;
+          gap: 14px;
+        }
+      }
+
+      /* Display */
+      .sci-display-container {
+        background: var(--gray-800);
+        color: var(--gray-100);
+        border-radius: 10px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--gray-700);
+      }
+
+      .sci-display-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .sci-expression {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 18px;
+        color: var(--gray-400);
+        text-align: left;
+        overflow-x: auto;
+        white-space: nowrap;
+        max-width: calc(100% - 100px);
+        padding-right: 8px;
+      }
+
+      .sci-expression::-webkit-scrollbar {
+        height: 4px;
+      }
+
+      .sci-expression::-webkit-scrollbar-thumb {
+        background: var(--gray-600);
+        border-radius: 2px;
+      }
+
+      .sci-radix-indicator {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .sci-badge {
+        font-size: 9px;
+        padding: 4px 8px;
+        background: var(--primary);
+        color: white;
+        border-radius: 4px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+
+      .sci-display-input {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+      }
+
+      .sci-display-result {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--primary);
+        text-align: right;
+        word-wrap: break-word;
+        min-height: 48px;
+        letter-spacing: -0.5px;
+      }
+
+      @media (max-width: 768px) {
+        .sci-display-result {
+          font-size: 32px;
+          min-height: 40px;
+        }
+
+        .sci-expression {
+          font-size: 16px;
+          max-width: calc(100% - 60px);
+        }
+
+        .sci-display-container {
+          padding: 18px;
+          gap: 12px;
+        }
+      }
+
+      .sci-calculation-steps {
+        font-size: 11px;
+        color: var(--gray-500);
+        font-family: 'IBM Plex Mono', monospace;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--gray-700);
+        max-height: 40px;
+        overflow-y: auto;
+      }
+
+      /* Memory Strip */
+      .sci-memory-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr) auto;
+        gap: 8px;
+        padding: 12px;
+        background: var(--gray-100);
+        border-radius: 8px;
+        border: 1px solid var(--gray-200);
+      }
+
+      @media (max-width: 768px) {
+        .sci-memory-strip {
+          grid-template-columns: repeat(3, 1fr) auto;
+          gap: 6px;
+          padding: 10px;
+        }
+      }
+
+      .sci-mem-btn {
+        padding: 10px 8px;
+        border: 1px solid var(--gray-300);
+        background: white;
+        color: var(--gray-700);
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        min-height: 36px;
+      }
+
+      .sci-mem-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: translateY(-1px);
+      }
+
+      .sci-mem-btn:active {
+        transform: translateY(0);
+      }
+
+      .sci-mem-display {
+        background: var(--primary-light);
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        font-family: 'IBM Plex Mono', monospace;
+        color: var(--gray-900);
+        min-height: 36px;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 768px) {
+        .sci-mem-btn {
+          font-size: 10px;
+          padding: 8px 6px;
+          min-height: 34px;
+        }
+
+        .sci-mem-display {
+          font-size: 10px;
+          padding: 8px 10px;
+          min-height: 34px;
+        }
+      }
+
+      /* Keypad */
+      .sci-keypad-container {
+        flex: 1;
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sci-keypad {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        flex: 1;
+      }
+
+      .adv-key {
+        padding: 14px 8px;
+        border: none;
+        border-radius: 8px;
+        background: var(--gray-200);
+        color: var(--gray-900);
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        font-family: 'IBM Plex Mono', monospace;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        min-height: 50px;
+        word-break: break-word;
+      }
+
+      .adv-key:hover {
+        background: var(--gray-300);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+      }
+
+      .adv-key:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+      }
+
+      .adv-key.fn {
+        background: #dbeafe;
+        color: #0369a1;
+        font-weight: 700;
+      }
+
+      .adv-key.fn:hover {
+        background: #bfdbfe;
+      }
+
+      .adv-key.op {
+        background: #fed7aa;
+        color: #92400e;
+        font-weight: 700;
+      }
+
+      .adv-key.op:hover {
+        background: #fdba74;
+      }
+
+      .adv-key.clear {
+        background: #fecaca;
+        color: #7f1d1d;
+        font-weight: 700;
+      }
+
+      .adv-key.clear:hover {
+        background: #fca5a5;
+      }
+
+      .adv-key.equals {
+        background: #86efac;
+        color: #15803d;
+        font-weight: 700;
+      }
+
+      .adv-key.equals:hover {
+        background: #6ee7b7;
+      }
+      .graph-area {
+        background: white;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        padding: 16px;
+        min-height: 400px;
+      }
+      .calc-card-title {
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #0f172a;
+      }
+      .hist-item {
+        padding: 8px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        margin: 4px 0;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        border-left: 3px solid #0066cc;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      /* Mode Buttons */
+      .sci-mode-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .sci-angle-toggle {
+        display: flex;
+        gap: 4px;
+        background: var(--gray-100);
+        padding: 4px;
+        border-radius: 6px;
+        flex: 1;
+        min-width: 180px;
+      }
+
+      .sci-angle-btn {
+        flex: 1;
+        padding: 10px 12px;
+        border: none;
+        background: white;
+        color: var(--gray-700);
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+
+      .sci-angle-btn.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .sci-angle-btn:hover:not(.active) {
+        background: var(--gray-200);
+      }
+
+      .sci-control-btn {
+        flex: 1;
+        min-width: 140px;
+        padding: 10px 12px;
+        border: 1px solid var(--gray-300);
+        background: white;
+        color: var(--gray-700);
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .sci-control-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: translateY(-1px);
+      }
+
+      .sci-control-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      @media (max-width: 768px) {
+        .sci-mode-buttons {
+          gap: 10px;
+        }
+
+        .sci-angle-toggle {
+          min-width: auto;
+        }
+
+        .sci-angle-btn {
+          padding: 8px 10px;
+          font-size: 11px;
+        }
+
+        .sci-control-btn {
+          padding: 8px 10px;
+          font-size: 11px;
+          min-width: auto;
+        }
+      }
+
+      /* Right Panel */
+      .sci-right-panel {
+        display: flex;
+        flex-direction: column;
+        padding: 28px;
+        gap: 12px;
+        background: var(--gray-50);
+      }
+
+      @media (max-width: 1100px) {
+        .sci-right-panel {
+          padding: 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sci-right-panel {
+          padding: 16px;
+        }
+      }
+
+      .sci-tabs-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 12px;
+      }
+
+      .sci-tab-buttons {
+        display: flex;
+        gap: 8px;
+        border-bottom: 2px solid var(--gray-200);
+        flex-wrap: wrap;
+      }
+
+      .sci-tab-btn {
+        padding: 12px 16px;
+        border: none;
+        background: transparent;
+        color: var(--gray-600);
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: -2px;
+        white-space: nowrap;
+      }
+
+      .sci-tab-btn.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+
+      .sci-tab-btn:hover:not(.active) {
+        color: var(--gray-700);
+      }
+
+      .sci-tab-content {
+        display: none;
+        flex: 1;
+        overflow-y: auto;
+        gap: 12px;
+      }
+
+      .sci-tab-content.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      @media (max-width: 768px) {
+        .sci-tab-btn {
+          padding: 10px 12px;
+          font-size: 12px;
+        }
+      }
+
+      /* Graph */
+      .sci-graph-controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .sci-graph-input {
+        flex: 1;
+        min-width: 150px;
+        padding: 11px 12px;
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 13px;
+        background: white;
+        color: var(--gray-900);
+        transition: all 0.2s;
+      }
+
+      .sci-graph-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+      }
+
+      .sci-btn-primary {
+        padding: 11px 16px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        font-size: 13px;
+      }
+
+      .sci-btn-primary:hover {
+        background: #0052a3;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      .sci-btn-primary:active {
+        transform: translateY(0);
+      }
+
+      .sci-btn-secondary {
+        padding: 9px 12px;
+        background: var(--gray-200);
+        color: var(--gray-700);
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+
+      .sci-btn-secondary:hover {
+        background: var(--gray-300);
+        transform: translateY(-1px);
+      }
+
+      .sci-graph-area {
+        flex: 1;
+        min-height: 250px;
+        background: var(--gray-50);
+        border-radius: 6px;
+        border: 1px solid var(--gray-200);
+      }
+
+      .sci-graph-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        font-size: 12px;
+      }
+
+      .sci-graph-options label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--gray-100);
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid var(--gray-200);
+      }
+
+      .sci-graph-options input {
+        width: 65px;
+        padding: 6px 8px;
+        border: 1px solid var(--gray-300);
+        border-radius: 4px;
+        font-size: 12px;
+        font-family: 'IBM Plex Mono', monospace;
+      }
+
+      @media (max-width: 768px) {
+        .sci-graph-options {
+          grid-template-columns: 1fr;
+        }
+
+        .sci-graph-area {
+          min-height: 200px;
+        }
+
+        .sci-graph-input {
+          min-width: auto;
+        }
+      }
+
+      /* History */
+      .sci-history-search {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .sci-search-input {
+        flex: 1;
+        min-width: 150px;
+        padding: 11px 12px;
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        font-size: 13px;
+        background: white;
+        transition: all 0.2s;
+      }
+
+      .sci-search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+      }
+
+      .sci-history-list {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .sci-history-item {
+        padding: 12px;
+        background: var(--gray-100);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-family: 'IBM Plex Mono', monospace;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+      }
+
+      .sci-history-item:hover {
+        background: var(--gray-200);
+        border-color: var(--primary);
+        transform: translateX(2px);
+      }
+
+      .sci-history-item:active {
+        transform: translateX(0);
+      }
+
+      /* Variables */
+      .sci-variables-editor {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .sci-var-input-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 8px;
+      }
+
+      .sci-var-input-group input {
+        padding: 11px 12px;
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        font-size: 13px;
+        background: white;
+        transition: all 0.2s;
+      }
+
+      .sci-var-input-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+      }
+
+      .sci-var-input-group button {
+        padding: 11px 12px;
+      }
+
+      .sci-variables-list {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .sci-variable-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 11px 12px;
+        background: var(--gray-100);
+        border-radius: 6px;
+        font-size: 12px;
+        font-family: 'IBM Plex Mono', monospace;
+        border: 1px solid var(--gray-200);
+        transition: all 0.2s;
+      }
+
+      .sci-variable-item:hover {
+        border-color: var(--primary);
+        background: var(--gray-150, rgba(0,102,204,0.05));
+      }
+
+      .sci-variable-name {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .sci-variable-delete {
+        background: none;
+        border: none;
+        color: var(--danger);
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+        padding: 4px;
+      }
+
+      .sci-variable-delete:hover {
+        transform: scale(1.2);
+      }
+
+      @media (max-width: 768px) {
+        .sci-var-input-group {
+          grid-template-columns: 1fr;
+        }
+
+        .sci-search-input {
+          min-width: auto;
+        }
+
+        .sci-history-item {
+          font-size: 11px;
+          padding: 10px;
+        }
+
+        .sci-variable-item {
+          font-size: 11px;
+          padding: 10px;
+        }
+      }
+
+      /* Scrollbar styling */
+      .sci-history-list::-webkit-scrollbar,
+      .sci-variables-list::-webkit-scrollbar,
+      .sci-expression::-webkit-scrollbar,
+      .sci-calculation-steps::-webkit-scrollbar {
+        width: 6px;
+        height: 4px;
+      }
+
+      .sci-history-list::-webkit-scrollbar-track,
+      .sci-variables-list::-webkit-scrollbar-track,
+      .sci-expression::-webkit-scrollbar-track,
+      .sci-calculation-steps::-webkit-scrollbar-track {
+        background: var(--gray-200);
+        border-radius: 3px;
+      }
+
+      .sci-history-list::-webkit-scrollbar-thumb,
+      .sci-variables-list::-webkit-scrollbar-thumb,
+      .sci-expression::-webkit-scrollbar-thumb,
+      .sci-calculation-steps::-webkit-scrollbar-thumb {
+        background: var(--gray-400);
+        border-radius: 3px;
+      }
+
+      .sci-history-list::-webkit-scrollbar-thumb:hover,
+      .sci-variables-list::-webkit-scrollbar-thumb:hover,
+      .sci-expression::-webkit-scrollbar-thumb:hover,
+      .sci-calculation-steps::-webkit-scrollbar-thumb:hover {
+        background: var(--gray-500);
+      }
+
+      /* Responsive Media Queries */
+      @media (max-width: 1400px) {
+        .sci-mode-bar {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .sci-mode-tabs {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .sci-main-layout {
+          grid-template-columns: 1fr;
+          min-height: auto;
+          gap: 0;
+        }
+
+        .sci-calc-panel {
+          border-right: none;
+          border-bottom: 2px solid var(--gray-200);
+          padding: 24px;
+        }
+
+        .sci-right-panel {
+          border-top: 2px solid var(--gray-200);
+          padding: 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sci-calc-wrapper {
+          border-radius: 8px;
+          margin-bottom: 20px;
+        }
+
+        .sci-mode-bar {
+          padding: 10px 12px;
+          gap: 10px;
+        }
+
+        .sci-mode-tabs {
+          gap: 6px;
+        }
+
+        .sci-mode-tab {
+          padding: 6px 12px;
+          font-size: 12px;
+        }
+
+        .sci-icon-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 14px;
+        }
+
+        .sci-calc-panel {
+          padding: 16px;
+          gap: 12px;
+        }
+
+        .sci-right-panel {
+          padding: 16px;
+          gap: 10px;
+        }
+
+        .sci-display-container {
+          padding: 18px;
+          gap: 12px;
+          border-radius: 8px;
+        }
+
+        .sci-keypad {
+          gap: 6px;
+        }
+
+        .adv-key {
+          padding: 12px 6px;
+          font-size: 12px;
+          min-height: 44px;
+          border-radius: 6px;
+        }
+
+        .sci-memory-strip {
+          grid-template-columns: repeat(3, 1fr) auto;
+          gap: 6px;
+          padding: 10px;
+        }
+
+        .sci-mem-btn {
+          font-size: 10px;
+          padding: 8px 6px;
+          min-height: 34px;
+        }
+
+        .sci-mem-display {
+          font-size: 10px;
+          padding: 8px 10px;
+          min-height: 34px;
+        }
+
+        .sci-mode-buttons {
+          gap: 10px;
+          flex-direction: column;
+        }
+
+        .sci-angle-toggle {
+          min-width: auto;
+        }
+
+        .sci-angle-btn,
+        .sci-control-btn {
+          padding: 8px 10px;
+          font-size: 11px;
+          min-width: auto;
+        }
+
+        .sci-tab-btn {
+          padding: 10px 12px;
+          font-size: 12px;
+        }
+
+        .sci-graph-input,
+        .sci-search-input {
+          min-width: auto;
+        }
+
+        .sci-btn-primary {
+          padding: 10px 12px;
+          font-size: 12px;
+        }
+
+        .sci-graph-options {
+          grid-template-columns: 1fr;
+          gap: 6px;
+          font-size: 11px;
+        }
+
+        .sci-graph-options label {
+          padding: 8px;
+        }
+
+        .sci-graph-options input {
+          width: 55px;
+          padding: 5px 6px;
+          font-size: 11px;
+        }
+
+        .sci-var-input-group {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+
+        .sci-graph-area {
+          min-height: 180px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sci-mode-tab {
+          padding: 5px 10px;
+          font-size: 11px;
+        }
+
+        .sci-mode-tabs {
+          gap: 4px;
+        }
+
+        .sci-display-result {
+          font-size: 28px;
+          min-height: 36px;
+        }
+
+        .sci-expression {
+          font-size: 14px;
+          max-width: calc(100% - 50px);
+        }
+
+        .adv-key {
+          padding: 10px 4px;
+          font-size: 11px;
+          min-height: 40px;
+        }
+
+        .sci-memory-strip {
+          grid-template-columns: repeat(2, 1fr) auto;
+          gap: 4px;
+          padding: 8px;
+        }
+
+        .sci-mem-btn {
+          font-size: 9px;
+          padding: 6px 4px;
+          min-height: 30px;
+          gap: 2px;
+        }
+
+        .sci-mem-display {
+          font-size: 9px;
+          padding: 6px 8px;
+          min-height: 30px;
+        }
+
+        .sci-badge {
+          font-size: 8px;
+          padding: 3px 6px;
+        }
+
+        .sci-calc-panel,
+        .sci-right-panel {
+          padding: 12px;
+          gap: 10px;
+        }
+
+        .sci-display-container {
+          padding: 14px;
+          gap: 10px;
+        }
+
+        .sci-mode-buttons {
+          gap: 8px;
+        }
+
+        .sci-angle-btn,
+        .sci-control-btn {
+          padding: 7px 8px;
+          font-size: 10px;
+        }
+
+        .sci-tab-btn {
+          padding: 8px 10px;
+          font-size: 11px;
+        }
+
+        .sci-btn-primary,
+        .sci-btn-secondary {
+          font-size: 11px;
+          padding: 9px 10px;
+        }
+
+        .sci-graph-area {
+          min-height: 150px;
+        }
+
+        .sci-history-item,
+        .sci-variable-item {
+          font-size: 10px;
+          padding: 8px;
+        }
+      }
+    </style>
+
+    <script src="/assets/core.js"></script>
+    <script>
+// Initialize CalcHub
+if (window.CalcHub) {
+  CalcHub.initTheme();
+  CalcHub.initAnalytics();
+  CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'scientific-calculator');
+}
+
+(function(){
+  // State
+  var state = {
+    angleMode: 'deg',
+    complexMode: false,
+    expression: '',
+    memory: 0,
+    variables: {},
+    history: [],
+    mode: 'standard'
+  };
+
+  // Load from localStorage
+  var saved = localStorage.getItem('sci-calc-state');
+  if (saved) {
+    try {
+      state = JSON.parse(saved);
+    } catch(e) {}
+  }
+
+  // Elements
+  var exprInput = document.getElementById('sci-expr-input');
+  var exprDisplay = document.getElementById('sci-expr-display');
+  var resultDisplay = document.getElementById('sci-result-display');
+  var stepsDisplay = document.getElementById('sci-steps');
+  var memDisplay = document.getElementById('sci-mem-value');
+  var keysContainer = document.getElementById('sci-keypad');
+  var historyList = document.getElementById('sci-history-list');
+  var variablesList = document.getElementById('sci-variables-list');
+  
+  // Theme
+  var isDarkMode = localStorage.getItem('sci-theme') === 'dark';
+  if (isDarkMode) document.documentElement.setAttribute('data-theme', 'dark');
+  
+  document.getElementById('sci-theme-toggle').addEventListener('click', function() {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('sci-theme', isDarkMode ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+  });
+
+  // Keypad layouts for different modes
+  var KEYS_STANDARD = [
+    ['7', '8', '9', '÷', 'C'],
+    ['4', '5', '6', '×', '←'],
+    ['1', '2', '3', '−', '('],
+    ['0', '.', '=', '+', ')']
+  ];
+
+  var KEYS_SCIENTIFIC = [
+    ['sin', 'cos', 'tan', '^', 'C'],
+    ['asin', 'acos', 'atan', '√', '←'],
+    ['sinh', 'cosh', 'tanh', 'log', '('],
+    ['ln', 'log₂', 'π', 'e', ')'],
+    ['7', '8', '9', '÷', '|x|'],
+    ['4', '5', '6', '×', '%'],
+    ['1', '2', '3', '−', '!'],
+    ['0', '.', '=', '+', 'x²']
+  ];
+
+  var KEYS_PROGRAMMER = [
+    ['AND', 'OR', 'XOR', '<<', 'C'],
+    ['NOT', 'MOD', 'DIV', '>>', '←'],
+    ['7', '8', '9', 'A', '('],
+    ['4', '5', '6', 'B', ')'],
+    ['1', '2', '3', 'C', 'BIN'],
+    ['0', '.', '=', 'D', 'HEX'],
+    ['E', 'F', '+', '−', 'OCT']
+  ];
+
+  function renderKeypad() {
+    var KEYS = state.mode === 'scientific' ? KEYS_SCIENTIFIC : (state.mode === 'programmer' ? KEYS_PROGRAMMER : KEYS_STANDARD);
+    var html = '';
+    KEYS.forEach(function(row) {
+      row.forEach(function(k) {
+        var cls = 'adv-key';
+        if (k === '=') cls += ' equals';
+        else if (k === 'C') cls += ' clear';
+        else if (['+', '−', '×', '÷', '^'].includes(k)) cls += ' op';
+        else if (['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'sinh', 'cosh', 'tanh', 'log', 'ln', '√', '|x|', '!'].includes(k)) cls += ' fn';
+        html += '<button type="button" class="' + cls + '" data-key="' + k + '">' + k + '</button>';
+      });
+    });
+    keysContainer.innerHTML = html;
+  }
+
+  renderKeypad();
+
+  function insert(text) {
+    state.expression += text;
+    exprInput.value = state.expression;
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    state.expression = exprInput.value;
+    exprDisplay.textContent = state.expression || '0';
+    
+    try {
+      var expr = state.expression
+        .replace(/÷/g, '/')
+        .replace(/×/g, '*')
+        .replace(/π/g, 'pi')
+        .replace(/−/g, '-');
+      
+      // Replace variables
+      Object.keys(state.variables).forEach(function(v) {
+        expr = expr.replace(new RegExp('\\b' + v + '\\b', 'g'), '(' + state.variables[v] + ')');
+      });
+      
+      var result = math.evaluate(expr);
+      if (typeof result === 'number' && isFinite(result)) {
+        resultDisplay.textContent = '= ' + formatNumber(result);
+      } else {
+        resultDisplay.textContent = '';
+      }
+    } catch(e) {
+      resultDisplay.textContent = '';
+    }
+  }
+
+  function formatNumber(n) {
+    if (Math.abs(n) > 1e10 || (Math.abs(n) < 1e-5 && n !== 0)) {
+      return n.toExponential(8).replace(/\.?0+e/, 'e');
+    }
+    return parseFloat(n.toPrecision(12)).toString();
+  }
+
+  function commitResult() {
+    var expr = state.expression.trim();
+    if (!expr) return;
+    
+    try {
+      var evalExpr = expr
+        .replace(/÷/g, '/')
+        .replace(/×/g, '*')
+        .replace(/π/g, 'pi')
+        .replace(/−/g, '-');
+      
+      Object.keys(state.variables).forEach(function(v) {
+        evalExpr = evalExpr.replace(new RegExp('\\b' + v + '\\b', 'g'), '(' + state.variables[v] + ')');
+      });
+      
+      var result = math.evaluate(evalExpr);
+      if (typeof result === 'number' && isFinite(result)) {
+        state.history.unshift({expr: expr, result: result, timestamp: new Date()});
+        if (state.history.length > 50) state.history.pop();
+        
+        state.expression = result.toString();
+        exprInput.value = state.expression;
+        updateDisplay();
+        updateHistory();
+        saveState();
+        
+        if (window.CalcHub) {
+          CalcHub.addHistory({
+            calcId: 'scientific-calculator',
+            calcName: 'Scientific Calculator',
+            category: 'Mathematics',
+            label: expr + ' = ' + formatNumber(result),
+            resultValue: result.toString()
+          });
+          CalcHub.addRecent('scientific-calculator');
+        }
+      }
+    } catch(e) {
+      resultDisplay.textContent = 'Error';
+    }
+  }
+
+  function updateHistory() {
+    historyList.innerHTML = state.history.map(function(h, i) {
+      return '<div class="sci-history-item" onclick="exprInput.value=\'' + h.result.toString().replace(/'/g, "\\'") + '\';state.expression = exprInput.value;updateDisplay();">' +
+        '<div style="font-weight:600;">' + h.expr + '</div>' +
+        '<div style="color:var(--primary);font-size:14px;">' + formatNumber(h.result) + '</div>' +
+      '</div>';
+    }).join('') || '<div style="padding:20px;text-align:center;color:var(--gray-500);">No history yet</div>';
+  }
+
+  function saveState() {
+    localStorage.setItem('sci-calc-state', JSON.stringify(state));
+  }
+
+  // Keypad listener
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.adv-key');
+    if (!btn) return;
+    var k = btn.getAttribute('data-key');
+    
+    if (k === 'C') {
+      state.expression = '';
+      exprInput.value = '';
+      resultDisplay.textContent = '';
+      return;
+    }
+    if (k === '←') {
+      state.expression = state.expression.slice(0, -1);
+      exprInput.value = state.expression;
+      updateDisplay();
+      return;
+    }
+    if (k === '=') {
+      commitResult();
+      return;
+    }
+    if (k === '÷') return insert('÷');
+    if (k === '×') return insert('×');
+    if (k === '−') return insert('−');
+    if (k === 'π') return insert('π');
+    if (k === '√') return insert('√(');
+    if (k === '!') return insert('!');
+    if (k === 'x²') return insert('^2');
+    if (k === '|x|') return insert('|');
+    if (k === '%') return insert('%');
+    if (['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'sinh', 'cosh', 'tanh', 'log', 'ln', 'log₂'].includes(k)) {
+      var fn = k === 'log₂' ? 'log2' : k;
+      return insert(fn + '(');
+    }
+    insert(k);
+  });
+
+  // Display input
+  exprInput.addEventListener('input', updateDisplay);
+  exprInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      commitResult();
+    }
+  });
+
+  // Mode switching
+  document.querySelectorAll('.sci-mode-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      state.mode = this.getAttribute('data-mode');
+      document.querySelectorAll('.sci-mode-tab').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      renderKeypad();
+      saveState();
+    });
+  });
+
+  // Angle mode
+  document.querySelectorAll('.sci-angle-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var mode = this.getAttribute('data-angle');
+      document.querySelectorAll('.sci-angle-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      state.angleMode = mode;
+      document.getElementById('sci-angle-mode').textContent = mode.toUpperCase();
+      saveState();
+    });
+  });
+
+  // Complex mode
+  document.getElementById('sci-complex-toggle').addEventListener('click', function() {
+    state.complexMode = !state.complexMode;
+    this.classList.toggle('active');
+    document.getElementById('sci-complex-mode').style.display = state.complexMode ? 'inline-block' : 'none';
+    saveState();
+  });
+
+  // Memory operations
+  document.getElementById('sci-mem-clear').addEventListener('click', function() {
+    state.memory = 0;
+    updateMemDisplay();
+    saveState();
+  });
+
+  document.getElementById('sci-mem-recall').addEventListener('click', function() {
+    state.expression = state.memory.toString();
+    exprInput.value = state.expression;
+    updateDisplay();
+  });
+
+  document.getElementById('sci-mem-plus').addEventListener('click', function() {
+    try {
+      var expr = state.expression.replace(/÷/g, '/').replace(/×/g, '*').replace(/π/g, 'pi').replace(/−/g, '-');
+      var result = math.evaluate(expr);
+      state.memory += result;
+      updateMemDisplay();
+      saveState();
+    } catch(e) {}
+  });
+
+  document.getElementById('sci-mem-minus').addEventListener('click', function() {
+    try {
+      var expr = state.expression.replace(/÷/g, '/').replace(/×/g, '*').replace(/π/g, 'pi').replace(/−/g, '-');
+      var result = math.evaluate(expr);
+      state.memory -= result;
+      updateMemDisplay();
+      saveState();
+    } catch(e) {}
+  });
+
+  function updateMemDisplay() {
+    memDisplay.textContent = 'M: ' + (state.memory === 0 ? '0' : formatNumber(state.memory));
+  }
+
+  // Variables management
+  document.getElementById('sci-var-set').addEventListener('click', function() {
+    var name = document.getElementById('sci-var-name').value.trim();
+    var value = document.getElementById('sci-var-value').value.trim();
+    if (name && value) {
+      try {
+        state.variables[name] = parseFloat(value);
+        document.getElementById('sci-var-name').value = '';
+        document.getElementById('sci-var-value').value = '';
+        updateVariables();
+        saveState();
+      } catch(e) {
+        alert('Invalid value');
+      }
+    }
+  });
+
+  function updateVariables() {
+    variablesList.innerHTML = Object.keys(state.variables).map(function(name) {
+      return '<div class="sci-variable-item">' +
+        '<span><span class="sci-variable-name">' + name + '</span> = ' + formatNumber(state.variables[name]) + '</span>' +
+        '<button class="sci-variable-delete" onclick="delete state.variables[\'' + name + '\'];updateVariables();saveState();">×</button>' +
+      '</div>';
+    }).join('') || '<div style="padding:20px;text-align:center;color:var(--gray-500);">No variables yet</div>';
+  }
+
+  // Tab switching
+  document.querySelectorAll('.sci-tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var tab = this.getAttribute('data-tab');
+      document.querySelectorAll('.sci-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.sci-tab-content').forEach(function(c) { c.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(tab + '-tab').classList.add('active');
+    });
+  });
+
+  // History filtering
+  document.getElementById('sci-history-filter').addEventListener('input', function() {
+    var filter = this.value.toLowerCase();
+    var items = document.querySelectorAll('.sci-history-item');
+    items.forEach(function(item) {
+      item.style.display = item.textContent.toLowerCase().includes(filter) ? '' : 'none';
+    });
+  });
+
+  document.getElementById('sci-history-clear').addEventListener('click', function() {
+    if (confirm('Clear all history?')) {
+      state.history = [];
+      updateHistory();
+      saveState();
+    }
+  });
+
+  // Graphing function
+  function plotFunction() {
+    var funcStr = document.getElementById('sci-func-input').value;
+    var minX = parseFloat(document.getElementById('sci-graph-min').value) || -10;
+    var maxX = parseFloat(document.getElementById('sci-graph-max').value) || 10;
+    var step = parseFloat(document.getElementById('sci-graph-step').value) || 0.1;
+    
+    if (!funcStr) return;
+    
+    try {
+      var xVals = [];
+      var yVals = [];
+      
+      for (var x = minX; x <= maxX; x += step) {
+        try {
+          var evalFunc = funcStr.replace(/x/g, '(' + x + ')').replace(/π/g, 'pi');
+          Object.keys(state.variables).forEach(function(v) {
+            evalFunc = evalFunc.replace(new RegExp('\\b' + v + '\\b', 'g'), '(' + state.variables[v] + ')');
+          });
+          var y = math.evaluate(evalFunc);
+          if (typeof y === 'number' && isFinite(y)) {
+            xVals.push(x);
+            yVals.push(y);
+          }
+        } catch(e) {}
+      }
+      
+      var trace = {
+        x: xVals,
+        y: yVals,
+        mode: 'lines',
+        line: {color: '#0066cc', width: 2},
+        name: funcStr,
+        hovertemplate: 'x: %{x:.2f}<br>y: %{y:.4f}<extra></extra>'
+      };
+      
+      var layout = {
+        title: 'f(x) = ' + funcStr,
+        xaxis: {title: 'x', zeroline: true},
+        yaxis: {title: 'f(x)', zeroline: true},
+        hovermode: 'closest',
+        plot_bgcolor: isDarkMode ? '#111827' : '#f8f9fa',
+        paper_bgcolor: isDarkMode ? '#1f2937' : 'white',
+        font: {color: isDarkMode ? '#e5e7eb' : '#1f2937'},
+        margin: {l: 60, r: 40, t: 40, b: 40}
+      };
+      
+      Plotly.newPlot('sci-graph', [trace], layout, {responsive: true});
+    } catch(e) {
+      document.getElementById('sci-graph').innerHTML = '<div style="padding:40px;text-align:center;color:var(--danger);">Error plotting function: ' + e.message + '</div>';
+    }
+  }
+
+  document.getElementById('sci-plot-btn').addEventListener('click', plotFunction);
+  document.getElementById('sci-func-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') plotFunction();
+  });
+
+  // Initialize
+  updateDisplay();
+  updateMemDisplay();
+  updateHistory();
+  updateVariables();
+  
+  // Set angle mode display
+  var angleBtn = document.querySelector('[data-angle="' + state.angleMode + '"]');
+  if (angleBtn) {
+    document.querySelectorAll('.sci-angle-btn').forEach(function(b) { b.classList.remove('active'); });
+    angleBtn.classList.add('active');
+  }
+  
+  // Set mode display
+  var modeBtn = document.querySelector('[data-mode="' + state.mode + '"]');
+  if (modeBtn) {
+    document.querySelectorAll('.sci-mode-tab').forEach(function(b) { b.classList.remove('active'); });
+    modeBtn.classList.add('active');
+  }
+})();
+    </script>
+    
+
+</body>
+</html>

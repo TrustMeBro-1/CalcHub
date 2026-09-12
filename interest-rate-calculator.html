@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Interest Rate Calculator: Interest Rate Calculator - Calculate Loan or Savings APR</title>
+<meta name="description" content="Work out the annual growth rate needed to turn a starting amount into a target amount over time.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/interest-rate-calculator">
+<meta property="og:title" content="Interest Rate Calculator: Interest Rate Calculator - Calculate Loan or Savings APR">
+<meta property="og:description" content="Work out the annual growth rate needed to turn a starting amount into a target amount over time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/interest-rate-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Interest Rate Calculator: Interest Rate Calculator - Calculate Loan or Savings APR">
+<meta name="twitter:description" content="Work out the annual growth rate needed to turn a starting amount into a target amount over time.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Interest Rate Calculator: Interest Rate Calculator - Calculate Loan or Savings APR",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Work out the annual growth rate needed to turn a starting amount into a target amount over time.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Interest Rate Calculator: Interest Rate Calculator - Calculate Loan or Savings APR</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Interest Rate Calculator: Interest Rate Calculator - Calculate Loan or Savings APR</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Work out the annual growth rate needed to turn a starting amount into a target amount over time.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>Solving backward for the rate</h2>
+<p>Most loan tools start from a known rate and solve for the payment. This one works in reverse: given the payment, principal, and term, it solves for the implied interest rate — useful when a lender quotes you only a monthly dollar figure.</p>
+<h2>Rate vs. APR</h2>
+<p>The number produced here is the pure interest rate on the loan amount. It won't include fees or points bundled into a lender's advertised APR, which is why this figure can come out slightly different from a lender's quoted APR.</p>
+      <h1>Interest Rates</h1>
+<p>An interest rate is the percentage amount charged by a lender to a borrower for the use of assets, or the yield earned by an investor on a deposit account. Interest essentially serves as the cost of borrowing money or the reward for saving it over a fixed duration. These rates fluctuate constantly based on central bank monetary policy, broader economic inflation pressures, and the individual creditworthiness of the borrower. An interest rate calculator allows users to determine the real cost of debt financing or compute the growth yield on fixed-income investments, translating abstract percentages into transparent, actionable monthly cash numbers.</p>
+
+<h2>Interest Rate Calculator Components</h2>
+<p>Calculating or reverse-engineering an interest rate requires balancing the core contractual terms of a financial transaction.</p>
+<ul>
+    <li><strong>Principal Amount:</strong> The initial balance of money borrowed from a lender or deposited directly into an interest-bearing account.</li>
+    <li><strong>Repayment Term:</strong> The duration of time across which a loan must be paid back or an investment asset is left to mature.</li>
+    <li><strong>Payment Amount:</strong> The fixed recurring cash installment paid or received at regular intervals throughout the life of the agreement.</li>
+    <li><strong>Compounding Schedule:</strong> The frequency at which accrued interest is calculated and added back to the principal base, such as monthly or annually.</li>
+</ul>
+
+<h2>Nominal Interest Rate vs. APR vs. APY</h2>
+<p>Financial products express interest rates using distinct regulatory metrics that alter how costs and yields aggregate over time.</p>
+<ul>
+    <li><strong>Nominal Interest Rate:</strong> The baseline advertised interest rate that does not account for compounding frequencies or hidden origination fees.</li>
+    <li><strong>Annual Percentage Rate (APR):</strong> The total annualized cost of borrowing money, combining the nominal interest rate with mandatory upfront processing fees.</li>
+    <li><strong>Annual Percentage Yield (APY):</strong> The real annual rate of return earned on an investment account, fully factoring in the compounding growth cycle.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the difference between a fixed and a variable interest rate?</h3>
+<p>A fixed interest rate remains completely identical throughout the entire duration of the loan or investment term, ensuring predictable payments. A variable interest rate ties directly to market indices, meaning your interest costs can climb higher or drop lower over time as broader economic conditions shift.</p>
+
+<h3>How does compounding frequency change my true interest earnings?</h3>
+<p>The more frequently an account compounds interest, the faster your balance expands. Compounding daily generates a slightly higher overall yield than compounding monthly or annually because your interest begins earning fresh interest fractions almost immediately.</p>
+
+<h3>Why do credit cards have much higher interest rates than mortgages?</h3>
+<p>Mortgages are secured loans backed by collateral, meaning the bank can seize the physical home if you default on the debt. Credit card debt is entirely unsecured, representing a much higher financial risk for the lender. Banks charge higher interest rates on unsecured accounts to offset this risk of non-payment.</p>
+
+<h3>What is an amortization schedule in relation to interest rates?</h3>
+<p>An amortization schedule is a complete timeline displaying each monthly payment over the life of a loan. Early in the timeline, the bulk of your payment goes entirely toward covering accrued interest charges. As the principal drops, interest costs shrink, allowing more of your payment to wipe out the principal balance.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'interest-rate-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'interest-rate-calculator',
+  fields: [
+    {id:'pv', label:'Starting Amount', unit:'$', default:10000, step:500},
+    {id:'fv', label:'Target Amount', unit:'$', default:20000, step:500},
+    {id:'years', label:'Years', default:10, step:1}
+  ],
+  compute: function(v){
+    var rate = (Math.pow(v.fv/v.pv, 1/v.years) - 1) * 100;
+    var track=[v.pv], labels=['0'];
+    for (var y=1;y<=v.years;y++){ track.push(v.pv*Math.pow(1+rate/100,y)); labels.push(String(y)); }
+    return {
+      label: 'Required Annual Growth Rate',
+      headline: CalcHub.fmtPct(rate, 2),
+      stats: [
+        {label:'Starting Amount', value: CalcHub.fmtUSD0(v.pv)},
+        {label:'Target Amount', value: CalcHub.fmtUSD0(v.fv)},
+        {label:'Total Growth Needed', value: CalcHub.fmtUSD0(v.fv-v.pv)}
+      ],
+      chart: {type:'line', labels: labels, series:[{name:'Balance', data: track, color:'#1a4f99'}]},
+      historyLabel: CalcHub.fmtUSD0(v.pv) + ' \u2192 ' + CalcHub.fmtUSD0(v.fv) + ' needs ' + rate.toFixed(2) + '%/yr',
+      copyValue: rate.toFixed(2) + '% annual rate required'
+    };
+  }
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Body Fat Percentage Estimator — CalcHub</title>
+<meta name="description" content="Estimate body fat percentage using the U.S. Navy circumference method.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/body-fat-percentage">
+<meta property="og:title" content="Body Fat Percentage Estimator — CalcHub">
+<meta property="og:description" content="Estimate body fat percentage using the U.S. Navy circumference method.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/body-fat-percentage.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Body Fat Percentage Estimator — CalcHub">
+<meta name="twitter:description" content="Estimate body fat percentage using the U.S. Navy circumference method.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Body Fat Percentage Estimator — CalcHub",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Estimate body fat percentage using the U.S. Navy circumference method.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-health">Health & Wellness</a><span>/</span>
+    <span>Body Fat Percentage Estimator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Body Fat Percentage Estimator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Estimate body fat percentage using the U.S. Navy circumference method.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>Why this estimate differs from a body scan</h2>
+<p>Circumference-based methods like the U.S. Navy formula estimate body fat from measurements — neck and waist, plus hips for women — rather than directly measuring fat tissue. A DEXA scan or hydrostatic weighing will typically be more precise than any tape-based estimate.</p>
+<h2>What can throw off the result</h2>
+<p>Measurement technique matters more here than most people expect — a tape pulled too tight, or measured at the wrong landmark (waist at the belly button vs. the narrowest point), can shift the result by several percentage points, more than the formula's own margin of error.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Fat Percentage Calculator Guide</title>
+</head>
+<body>
+
+    <h1>Body Fat Percentage</h1>
+    <p>Body fat percentage represents the total mass of fat divided by total body mass, multiplied by 100. Total body fat consists of essential body fat and storage body fat. Essential body fat is necessary to maintain life and reproductive functions. Storage body fat consists of fat accumulation in adipose tissue, part of which protects internal organs in the chest and abdomen. Unlike the Body Mass Index (BMI), which only uses total weight and height, body fat percentage provides a clearer picture of body composition because it directly separates fat tissue from muscle mass, bones, and organs. This makes it a much more reliable metric for athletes and fitness enthusiasts who carry high amounts of muscle weight.</p>
+
+    <h2>Body Fat Calculator Components</h2>
+    <p>Estimating body fat requires specific physical body measurements. Most online calculators rely on the U.S. Navy Circumference Method to estimate these values without expensive medical equipment.</p>
+    <ul>
+        <li><strong>Gender:</strong> Biological sex alters biological fat distribution. Men typically store fat in the abdomen, while women store more fat around the hips and thighs.</li>
+        <li><strong>Age:</strong> Body composition naturally shifts as people age, which influences the calculation model.</li>
+        <li><strong>Weight and Height:</strong> Foundational measurements used to calculate overall body volume.</li>
+        <li><strong>Neck Circumference:</strong> Measured just below the larynx, keeping the tape horizontal.</li>
+        <li><strong>Waist Circumference:</strong> Measured horizontally around the narrowest part of the torso for women, or at the navel level for men.</li>
+        <li><strong>Hip Circumference (Women Only):</strong> Measured horizontally around the widest part of the gluteal muscles.</li>
+    </ul>
+
+    <h2>Healthy Body Fat Ranges</h2>
+    <p>The ideal percentage of body fat varies heavily between men and women due to physiological and hormonal differences.</p>
+
+    <h3>General Fitness Categories for Men</h3>
+    <ul>
+        <li><strong>Essential Fat:</strong> 2 to 5 percent</li>
+        <li><strong>Athletes:</strong> 6 to 13 percent</li>
+        <li><strong>Fitness:</strong> 14 to 17 percent</li>
+        <li><strong>Acceptable:</strong> 18 to 24 percent</li>
+        <li><strong>Obese:</strong> 25 percent or higher</li>
+    </ul>
+
+    <h3>General Fitness Categories for Women</h3>
+    <ul>
+        <li><strong>Essential Fat:</strong> 10 to 13 percent</li>
+        <li><strong>Athletes:</strong> 14 to 20 percent</li>
+        <li><strong>Fitness:</strong> 21 to 24 percent</li>
+        <li><strong>Acceptable:</strong> 25 to 31 percent</li>
+        <li><strong>Obese:</strong> 32 percent or higher</li>
+    </ul>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+    
+    <h3>How accurate is a body fat calculator?</h3>
+    <p>Tape measure methods like the U.S. Navy formula are generally accurate within 3 to 4 percent of your true body fat. While it is not as precise as a clinical DEXA scan or hydrostatic underwater weighing, it provides an excellent, free baseline to track your progress over time if you measure consistently.</p>
+
+    <h3>Why do women require a higher body fat percentage than men?</h3>
+    <p>Women require more essential body fat to support normal reproductive functions, hormonal balance, and childbearing. Essential fat drops below these physiological minimums can cause severe health complications, including chronic fatigue and bone density loss.</p>
+
+    <h3>Can I turn body fat into muscle?</h3>
+    <p>No, fat and muscle are two entirely different types of tissue, and one cannot physically convert into the other. Losing fat requires a caloric deficit, where your body burns stored fat for energy. Building muscle requires resistance training and sufficient protein intake to stimulate tissue growth.</p>
+
+    <h3>Why does my fitness tracker scale show a different body fat percentage?</h3>
+    <p>Smart scales use Bioelectrical Impedance Analysis (BIA), which sends a tiny, harmless electrical current through your legs. This method is highly sensitive to your hydration levels. If you are dehydrated, the scale will often overestimate your body fat, which is why a physical tape measurement can sometimes be more consistent.</p>
+
+</body>
+</html>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'body-fat-percentage');
+
+
+CalcHub.initCalculatorPage({
+  id: 'body-fat-percentage',
+  fields: [
+    {id:'sex', label:'Sex', type:'select', default:'F', options:[{value:'M',label:'Male'},{value:'F',label:'Female'}]},
+    {id:'height', label:'Height', unit:'cm', default:165, step:0.5},
+    {id:'neck', label:'Neck', unit:'cm', default:33, step:0.5},
+    {id:'waist', label:'Waist', unit:'cm', default:75, step:0.5},
+    {id:'hip', label:'Hip (female only)', unit:'cm', default:98, step:0.5}
+  ],
+  compute: function(v){
+    var bf;
+    if (v.sex==='M') {
+      bf = 495/(1.0324 - 0.19077*Math.log10(v.waist-v.neck) + 0.15456*Math.log10(v.height)) - 450;
+    } else {
+      bf = 495/(1.29579 - 0.35004*Math.log10(v.waist+v.hip-v.neck) + 0.22100*Math.log10(v.height)) - 450;
+    }
+    var category;
+    var thresholds = v.sex==='M' ? [6,14,18,25] : [14,21,25,32];
+    if (bf<thresholds[0]) category='Essential Fat';
+    else if (bf<thresholds[1]) category='Athletic';
+    else if (bf<thresholds[2]) category='Fitness';
+    else if (bf<thresholds[3]) category='Average';
+    else category='Above Average';
+    return {
+      label: 'Estimated Body Fat',
+      headline: CalcHub.fmtNum(bf,1) + '% — ' + category,
+      stats: [{label:'Body Fat %', value: CalcHub.fmtNum(bf,1)+'%'}, {label:'Category', value: category, highlight:true}],
+      chart: {type:'bar', labels: thresholds.map(function(t){return t+'%';}), series:[{name:'Category thresholds', data: thresholds, color:'#a32020'}]},
+      historyLabel: 'Body fat \u2248 '+CalcHub.fmtNum(bf,1)+'% ('+category+')',
+      copyValue: CalcHub.fmtNum(bf,1)+'% body fat'
+    };
+  },
+  explain: function(v, r){
+    var bf = parseFloat(r.headline);
+    if (v.sex==='M') {
+      if (bf < 6) return "This is below the typical essential-fat range for men (2\u20135%). Extremely low body fat can affect hormone levels and immune function \u2014 if this wasn't from a tape-measure error, it's worth discussing with a doctor.";
+      if (bf < 14) return "This sits in the athletic range typical of trained male athletes.";
+      if (bf < 18) return "This is a lean, fitness-level range for men.";
+      if (bf < 25) return "This is within the average, generally healthy range for men.";
+      return "This is above the commonly cited healthy range for men (roughly 25%+ is classified as high). It's not a diagnosis, but if this is a new or rising number, a conversation with a doctor about cardiovascular and metabolic risk factors is a reasonable next step.";
+    } else {
+      if (bf < 10) return "This is below the typical essential-fat range for women (10\u201313%). Very low body fat can disrupt menstrual cycles and bone health \u2014 worth discussing with a doctor if this is accurate.";
+      if (bf < 21) return "This sits in the athletic range typical of trained female athletes.";
+      if (bf < 25) return "This is a lean, fitness-level range for women.";
+      if (bf < 32) return "This is within the average, generally healthy range for women.";
+      return "This is above the commonly cited healthy range for women (roughly 32%+ is classified as high). It's not a diagnosis, but if this is a new or rising number, a conversation with a doctor about cardiovascular and metabolic risk factors is a reasonable next step.";
+    }
+  }
+});
+
+</script>
+</body>
+</html>

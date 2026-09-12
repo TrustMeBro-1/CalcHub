@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Time Zone Calculator: Time Zone Converter - Compare & Convert Global Time Differences</title>
+<meta name="description" content="Convert a time from one time zone to another, accounting for daylight saving automatically.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/time-zone-calculator">
+<meta property="og:title" content="Time Zone Calculator: Time Zone Converter - Compare & Convert Global Time Differences">
+<meta property="og:description" content="Convert a time from one time zone to another, accounting for daylight saving automatically.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/time-zone-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Time Zone Calculator: Time Zone Converter - Compare & Convert Global Time Differences">
+<meta name="twitter:description" content="Convert a time from one time zone to another, accounting for daylight saving automatically.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Time Zone Calculator: Time Zone Converter - Compare & Convert Global Time Differences",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Convert a time from one time zone to another, accounting for daylight saving automatically.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-tools">Everyday Tools</a><span>/</span>
+    <span>Time Zone Calculator: Time Zone Converter - Compare & Convert Global Time Differences</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Time Zone Calculator: Time Zone Converter - Compare & Convert Global Time Differences</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Convert a time from one time zone to another, accounting for daylight saving automatically.</p>
+  <div id="calc-root" class="calc-layout">
+    <div class="calc-form-col">
+      <div class="calc-card">
+        <div class="calc-card-title">Convert</div>
+        <div class="field-grid">
+          <label class="field"><span class="field-label">Date &amp; Time</span>
+            <input type="datetime-local" id="tz-datetime" class="field-input">
+          </label>
+          <label class="field"><span class="field-label">From Time Zone</span>
+            <select id="tz-from" class="field-input"></select>
+          </label>
+          <label class="field"><span class="field-label">To Time Zone</span>
+            <select id="tz-to" class="field-input"></select>
+          </label>
+        </div>
+        <button type="button" class="btn-primary" id="tz-convert" style="margin-top:10px;">Convert Time</button>
+      </div>
+    </div>
+    <div class="calc-side-col">
+      <div class="calc-card result-panel visible">
+        <div class="result-headline-label">Converted Time</div>
+        <div class="result-headline" id="tz-output">&nbsp;</div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Time Difference</div><div class="stat-value" id="tz-diff">&mdash;</div></div>
+          <div class="stat-card"><div class="stat-label">Target Date</div><div class="stat-value" id="tz-date">&mdash;</div></div>
+        </div>
+      </div>
+      <div class="calc-card">
+        <div class="calc-card-title">Your History</div>
+        <div id="calc-history"></div>
+      </div>
+    </div>
+  </div>
+  <section class="calc-explainer">
+<h2>Why this doesn't just add or subtract a fixed number of hours</h2>
+<p>Time zone offsets aren't constant year-round — daylight saving time shifts many zones by an hour for part of the year, and not every country observes it the same way or on the same dates. This tool uses your browser's built-in time zone database (via <code>Intl.DateTimeFormat</code>) rather than a hardcoded offset, so daylight saving is handled automatically for the date you pick.</p>
+<h2>A mistake worth avoiding</h2>
+<p>Scheduling a recurring meeting "at the same UTC offset" every week can quietly drift by an hour when one region's daylight saving starts or ends on a different date than the other's — this is why global teams occasionally show up an hour off. Recalculating for the actual date, not just once, avoids that.</p>
+<h1>Time Zone Calculations</h1>
+<p>A time zone calculator is a chronological scheduling tool that computes time differences across varying longitudinal regions of the globe. Because the Earth rotates continuously relative to the sun, different geographic coordinates experience daylight hours at shifting intervals, splitting the planet into distinct time tracking bands. Managing global communications, booking international travel flights, or organizing cross-border business meetings requires tracking these offsets carefully to prevent scheduling errors. Automating these time translations handles complex longitudinal offsets and fluctuating daylight saving rules seamlessly.</p>
+
+<h2>Time Zone Calculator Components</h2>
+<p>Mapping out global scheduling configurations requires identifying your geographic targets and accounting for dynamic seasonal changes.</p>
+<ul>
+    <li><strong>Source Location:</strong> The home city or time zone anchor where your base event schedule is currently planned.</li>
+    <li><strong>Target Location:</strong> The destination city or regional time zone where you want to translate the event schedule.</li>
+    <li><strong>Base Event Time:</strong> The calendar date and clock hour you want the calculation engine to process and shift.</li>
+</ul>
+
+<h2>Understanding UTC and GMT Offsets</h2>
+<p>Global time tracking relies on a centralized longitudinal baseline to calculate regional clock offsets around the world.</p>
+<ul>
+    <li><strong>Coordinated Universal Time (UTC):</strong> The primary high-precision atomic time standard used globally to regulate aviation, internet servers, and international tracking systems.</li>
+    <li><strong>The Offset Direction:</strong> Locations east of the prime meridian add hours to the UTC baseline (expressed as UTC+), while locations positioned to the west subtract hours from the baseline (expressed as UTC-).</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Why does the time gap between two cities shift during different months of the year?</h3>
+<p>Time gaps shift because different countries implement and terminate Daylight Saving Time (DST) on completely different calendar dates. If one region advances its clocks forward while a pairing region remains on standard time or observes different seasonal shifts, their relative time difference will expand or contract temporarily.</p>
+
+<h3>What is the International Date Line and how does it affect calculations?</h3>
+<p>The International Date Line is an imaginary boundary line running through the Pacific Ocean that marks the calendar transition between consecutive days. Crossing the line moving westward forces you to advance your calendar date by one full day, while crossing eastward drops you back into yesterday's calendar date.</p>
+
+<h3>Do all countries utilize Daylight Saving Time adjustments?</h3>
+<p>No, the vast majority of countries around the world do not observe Daylight Saving Time changes. DST is utilized primarily in Europe and North America, while equatorial regions skip seasonal clock shifts because their daily solar exposure remains relatively uniform throughout the entire year.</p>
+
+<h3>What is the difference between a time zone and a time offset?</h3>
+<p>A time zone is a legally defined geographic region that follows a standardized tracking system, such as Eastern Standard Time. A time offset is the specific amount of time added to or subtracted from the UTC baseline to reach that local time, such as negative five hours (-05:00).</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'time-zone-calculator');
+
+(function () {
+  var ZONES = [
+    'Pacific/Honolulu','America/Anchorage','America/Los_Angeles','America/Denver','America/Chicago',
+    'America/New_York','America/Sao_Paulo','UTC','Europe/London','Europe/Paris','Europe/Berlin',
+    'Europe/Moscow','Africa/Cairo','Asia/Dubai','Asia/Kolkata','Asia/Dhaka','Asia/Bangkok',
+    'Asia/Shanghai','Asia/Tokyo','Asia/Seoul','Australia/Sydney','Pacific/Auckland'
+  ];
+
+  var fromSel = document.getElementById('tz-from');
+  var toSel = document.getElementById('tz-to');
+  ZONES.forEach(function (z) {
+    var o1 = document.createElement('option'); o1.value = z; o1.textContent = z.replace('_', ' ');
+    var o2 = document.createElement('option'); o2.value = z; o2.textContent = z.replace('_', ' ');
+    fromSel.appendChild(o1); toSel.appendChild(o2);
+  });
+  try {
+    var localZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (ZONES.indexOf(localZone) === -1) { ZONES.push(localZone); var o = document.createElement('option'); o.value = localZone; o.textContent = localZone; fromSel.appendChild(o.cloneNode(true)); }
+    fromSel.value = localZone;
+  } catch (e) { fromSel.value = 'UTC'; }
+  toSel.value = 'Europe/London';
+
+  var dtInput = document.getElementById('tz-datetime');
+  var now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  dtInput.value = now.toISOString().slice(0, 16);
+
+  function offsetMinutes(date, timeZone) {
+    var dtf = new Intl.DateTimeFormat('en-US', {
+      timeZone: timeZone, hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    var parts = dtf.formatToParts(date).reduce(function (acc, p) { acc[p.type] = p.value; return acc; }, {});
+    var asUTC = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour === '24' ? 0 : parts.hour, parts.minute, parts.second);
+    return (asUTC - date.getTime()) / 60000;
+  }
+
+  function convert() {
+    var raw = dtInput.value;
+    if (!raw) { CalcHub.toast('Pick a date and time first.'); return; }
+    var fromZone = fromSel.value, toZone = toSel.value;
+
+    var naive = new Date(raw + ':00Z');
+    var fromOffset = offsetMinutes(naive, fromZone);
+    var trueUTC = new Date(naive.getTime() - fromOffset * 60000);
+    var toOffset = offsetMinutes(trueUTC, toZone);
+
+    var displayFmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: toZone, hour12: true, hour: 'numeric', minute: '2-digit'
+    });
+    var dateFmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: toZone, weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+
+    document.getElementById('tz-output').textContent = displayFmt.format(trueUTC);
+    document.getElementById('tz-date').textContent = dateFmt.format(trueUTC);
+    var diffHours = Math.round(((toOffset - fromOffset) / 60) * 100) / 100;
+    document.getElementById('tz-diff').textContent = (diffHours >= 0 ? '+' : '') + diffHours + ' hrs';
+
+    CalcHub.addRecent('time-zone-calculator');
+    CalcHub.saveLastInputs('time-zone-calculator', { datetime: raw, from: fromZone, to: toZone });
+    CalcHub.addHistory && CalcHub.addHistory({
+      calcId: 'time-zone-calculator',
+      label: fromZone.replace('_',' ') + ' \u2192 ' + toZone.replace('_',' '),
+      resultValue: displayFmt.format(trueUTC)
+    });
+  }
+
+  document.getElementById('tz-convert').addEventListener('click', convert);
+
+  var saved = CalcHub.getLastInputs('time-zone-calculator');
+  if (saved) {
+    if (saved.datetime) dtInput.value = saved.datetime;
+    if (saved.from) fromSel.value = saved.from;
+    if (saved.to) toSel.value = saved.to;
+  }
+  convert();
+
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'time-zone-calculator', title: '',
+    emptyText: "Convert a time above and it'll be saved here automatically."
+  });
+})();
+</script>
+</body>
+</html>

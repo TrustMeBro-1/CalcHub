@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Molar Mass Calculator: Molar Mass Calculator - Chemistry Molecular Weight Solver</title>
+<meta name="description" content="Enter a chemical formula (e.g. H2O, C6H12O6, Ca(OH)2) to calculate its molar mass.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/molar-mass-calculator">
+<meta property="og:title" content="Molar Mass Calculator: Molar Mass Calculator - Chemistry Molecular Weight Solver">
+<meta property="og:description" content="Enter a chemical formula (e.g. H2O, C6H12O6, Ca(OH)2) to calculate its molar mass.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/molar-mass-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Molar Mass Calculator: Molar Mass Calculator - Chemistry Molecular Weight Solver">
+<meta name="twitter:description" content="Enter a chemical formula (e.g. H2O, C6H12O6, Ca(OH)2) to calculate its molar mass.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Molar Mass Calculator: Molar Mass Calculator - Chemistry Molecular Weight Solver",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Enter a chemical formula (e.g. H2O, C6H12O6, Ca(OH)2) to calculate its molar mass.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-science">Science & Physics</a><span>/</span>
+    <span>Molar Mass Calculator: Molar Mass Calculator - Chemistry Molecular Weight Solver</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Molar Mass Calculator: Molar Mass Calculator - Chemistry Molecular Weight Solver</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Enter a chemical formula (e.g. H2O, C6H12O6, Ca(OH)2) to calculate its molar mass.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>Adding up atomic weights, element by element</h2>
+<p>Molar mass is the sum of the atomic weights of every atom in a molecular formula, using the periodic table's standard atomic weights — water's molar mass, for instance, comes from 2 hydrogen atoms plus 1 oxygen atom.</p>
+<h2>A formula-parsing mistake to watch for</h2>
+<p>Parentheses and subscripts change the atom count significantly — the 2 in Ca(OH)₂ multiplies everything inside the parentheses. Misreading a subscript's scope is the most common source of an incorrect molar mass.</p>
+<h1>Molar Mass</h1>
+<p>Molar mass is a physical property defined as the mass of a given substance divided by its amount of substance, typically expressed in grams per mole (g/mol). In chemistry, atoms and molecules are far too small to weigh individually. The mole serves as a bridging unit, representing exactly 6.02214076 * 10^23 particles (Avogadro's number). Knowing the molar mass of a chemical compound allows scientists, students, and lab technicians to convert accurately between the measurable weight of a substance in a laboratory and the actual number of chemical molecules interacting in a reaction beaker.</p>
+
+<h2>Molar Mass Calculator Components</h2>
+<p>Determining the weight of a chemical compound relies on isolating its atomic makeup from the periodic table of elements.</p>
+<ul>
+    <li><strong>Chemical Formula:</strong> The standard alphanumeric representation of a molecule, such as H2O or CO2, specifying the type and quantity of each element.</li>
+    <li><strong>Atomic Weight:</strong> The standard mass of a single element, sourced directly from the periodic table and measured in atomic mass units (amu).</li>
+    <li><strong>Subscript Multiplier:</strong> The integers within a chemical formula indicating how many atoms of that specific element are present in the molecule.</li>
+</ul>
+
+<h2>The Conversion Process</h2>
+<p>To calculate the total molar mass, the system parses your formula text and sums the weights of all individual components.</p>
+<ul>
+    <li><strong>Element Breakdown:</strong> The calculator identifies each unique chemical symbol inside your formula string.</li>
+    <li><strong>Mass Aggregation:</strong> The tool multiplies each element's standard atomic mass by its respective subscript number, then adds all totals together. For example, water (H2O) multiplies the mass of Hydrogen by two and adds the mass of a single Oxygen atom to equal roughly 18.015 g/mol.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is Avogadro's number and why does it matter?</h3>
+<p>Avogadro's number is a fundamental constant equal to 6.02214076 * 10^23. It represents the exact count of atoms or molecules contained inside one single mole of any substance, providing the foundation for chemical scaling and measurement.</p>
+
+<h3>What is the difference between molecular weight and molar mass?</h3>
+<p>Molecular weight measures the mass of a single, isolated molecule relative to the atomic mass unit scale. Molar mass tracks the mass of an entire mole of those molecules expressed in grams. While their numeric values are nearly identical, their units of measurement are different.</p>
+
+<h3>How does the calculator handle parentheses in a chemical formula?</h3>
+<p>Parentheses group specific clusters of atoms that act as a single polyatomic unit. The subscript integer placed directly outside the closing parenthesis tells the calculator to multiply every single element inside those brackets by that trailing number during calculation.</p>
+
+<h3>Why are atomic masses on the periodic table not whole numbers?</h3>
+<p>The atomic mass listed for an element represents a weighted average of all its naturally occurring isotopes found across the planet. Because different isotopes carry varying counts of neutrons, their combined global average results in a floating-point decimal value.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'molar-mass-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'molar-mass-calculator',
+  fields: [
+    {id:'formula', label:'Chemical Formula', type:'text', default:'Ca(OH)2', span2:true}
+  ],
+  compute: function(v){
+    var WEIGHTS = {H:1.008,He:4.003,Li:6.94,Be:9.012,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.18,
+      Na:22.99,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,K:39.098,Ar:39.948,Ca:40.078,
+      Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Ni:58.693,Co:58.933,Cu:63.546,Zn:65.38,
+      Ga:69.723,Ge:72.63,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Y:88.906,Zr:91.224,
+      Ag:107.868,Cd:112.414,Sn:118.71,I:126.904,Xe:131.293,Ba:137.327,Au:196.967,Hg:200.592,Pb:207.2,
+      U:238.029,W:183.84,Pt:195.084};
+    function expand(formula){
+      var stack = [{}];
+      var i = 0;
+      while (i < formula.length) {
+        var ch = formula[i];
+        if (ch === '(') { stack.push({}); i++; }
+        else if (ch === ')') {
+          i++;
+          var numStr = '';
+          while (i<formula.length && /[0-9]/.test(formula[i])) { numStr += formula[i]; i++; }
+          var mult = numStr ? parseInt(numStr,10) : 1;
+          var top = stack.pop();
+          var target = stack[stack.length-1];
+          for (var el in top) target[el] = (target[el]||0) + top[el]*mult;
+        } else if (/[A-Z]/.test(ch)) {
+          var sym = ch; i++;
+          if (i<formula.length && /[a-z]/.test(formula[i])) { sym += formula[i]; i++; }
+          var numStr2 = '';
+          while (i<formula.length && /[0-9]/.test(formula[i])) { numStr2 += formula[i]; i++; }
+          var count = numStr2 ? parseInt(numStr2,10) : 1;
+          var top2 = stack[stack.length-1];
+          top2[sym] = (top2[sym]||0) + count;
+        } else { i++; }
+      }
+      return stack[0];
+    }
+    var counts = expand(String(v.formula).replace(/\s/g,''));
+    var totalMass = 0, totalAtoms = 0, breakdownLabels=[], breakdownData=[], unknown=[];
+    for (var el in counts){
+      var w = WEIGHTS[el];
+      if (w === undefined) { unknown.push(el); continue; }
+      var contribution = w*counts[el];
+      totalMass += contribution;
+      totalAtoms += counts[el];
+      breakdownLabels.push(el+counts[el]);
+      breakdownData.push(Math.round(contribution*100)/100);
+    }
+    if (unknown.length) {
+      return {label:'Unrecognized element(s)', headline: unknown.join(', '), stats:[], chart:null};
+    }
+    return {
+      label: 'Molar Mass',
+      headline: CalcHub.fmtNum(totalMass,3) + ' g/mol',
+      stats: [
+        {label:'Total Atoms', value: String(totalAtoms)},
+        {label:'Elements', value: String(Object.keys(counts).length)}
+      ],
+      chart: {type:'bar', labels: breakdownLabels, series:[{name:'Mass contribution (g/mol)', data: breakdownData, color:'#5a1a8a'}]},
+      historyLabel: v.formula + ' = ' + CalcHub.fmtNum(totalMass,2) + ' g/mol',
+      copyValue: CalcHub.fmtNum(totalMass,3)+' g/mol'
+    };
+  }
+});
+
+</script>
+</body>
+</html>

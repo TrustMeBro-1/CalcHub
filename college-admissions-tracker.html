@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>College Admissions Tracker: College Admissions Probability Tracker & Acceptance Estimator</title>
+<meta name="description" content="Track every school you've applied to and its status to see your overall admissions picture.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/college-admissions-tracker">
+<meta property="og:title" content="College Admissions Tracker: College Admissions Probability Tracker & Acceptance Estimator">
+<meta property="og:description" content="Track every school you've applied to and its status to see your overall admissions picture.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/college-admissions-tracker.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="College Admissions Tracker: College Admissions Probability Tracker & Acceptance Estimator">
+<meta name="twitter:description" content="Track every school you've applied to and its status to see your overall admissions picture.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "College Admissions Tracker: College Admissions Probability Tracker & Acceptance Estimator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Track every school you've applied to and its status to see your overall admissions picture.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-education">Education & Grades</a><span>/</span>
+    <span>College Admissions Tracker: College Admissions Probability Tracker & Acceptance Estimator College Admissions Tracker</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">College Admissions Tracker: College Admissions Probability Tracker & Acceptance Estimator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Track every school you've applied to and its status to see your overall admissions picture.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>What this tool is — and isn't</h2>
+<p>This tracks the schools, deadlines, and requirements you enter. It doesn't predict admission odds or compare you against other applicants — think of it as a checklist and calendar for your own application process, not an admissions calculator.</p>
+<h2>A deadline mistake worth avoiding</h2>
+<p>Early Decision, Early Action, and Regular Decision deadlines often differ by weeks between schools on the same list. Track each deadline individually rather than assuming one universal date, especially since binding Early Decision agreements carry real commitment implications if you're accepted.</p>
+<h1>College Admissions Tracking</h1>
+<p>A college admissions tracker is an organization tool used by high school students to manage applications, deadlines, and requirements across multiple universities. Navigating higher education admissions can turn into a complex process filled with unique school deadlines, varying fee structures, testing windows, and essay requirements. A tracker centralizes your prospective universities into a cohesive workflow so you never miss an execution deadline. By laying out your academic metrics alongside your application targets, you can build a balanced roadmap that balances your safety schools, target choices, and aspirational reach universities.</p>
+
+<h2>Admissions Tracker Components</h2>
+<p>To monitor your applications effectively, your tracking dashboard should compile several metrics and deadlines for each target institution.</p>
+<ul>
+    <li><strong>Institution Profile:</strong> The name of the college, its geographic location, its average acceptance rate, and your personal interest tier.</li>
+    <li><strong>Academic Profile:</strong> Your personal GPA, standardized testing benchmarks (SAT or ACT), and high school class rank compared to the school's historical averages.</li>
+    <li><strong>Application Strategy:</strong> Your chosen pathway, such as Early Decision (binding), Early Action (non-binding), Regular Decision, or Rolling Admissions.</li>
+    <li><strong>Requirement Milestones:</strong> Checklist fields tracking personal statements, secondary essays, letters of recommendation, portfolios, and high school transcripts.</li>
+    <li><strong>Application Status:</strong> Linear development stages ranging from Not Started and In Progress to Submitted, Deferred, Accepted, or Declined.</li>
+</ul>
+
+<h2>Categorizing Your College List</h2>
+<p>A strategic college list balances schools across three specific target brackets based on historical acceptance data and your academic profile.</p>
+<ul>
+    <li><strong>Reach Schools:</strong> Competitive institutions where your academic metrics fall in the bottom 25 percent of accepted applicants, or schools with overall acceptance rates under 10 percent.</li>
+    <li><strong>Target Schools:</strong> Core institutions where your GPA and test metrics align perfectly with the middle 50 percent of the previous year's freshman class.</li>
+    <li><strong>Safety Schools:</strong> Reliable institutions where your academic stats comfortably exceed the top 75 percent of accepted applicants, guaranteeing a high probability of entry.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the difference between Early Decision and Early Action?</h3>
+<p>Early Decision (ED) is a binding contract where you promise to enroll in that specific college if they accept your application. You can only apply to one school via ED. Early Action (EA) is completely non-binding, allowing you to submit materials early and receive an early answer without any commitment to attend.</p>
+
+<h3>How many colleges should I put on my tracker list?</h3>
+<p>Most guidance counselors recommend keeping a balanced list of 6 to 10 colleges on your tracker. A balanced mix typically features 2 to 3 safety schools, 3 to 4 target choices, and 2 to 3 reach options to maximize your options without overwhelming your schedule.</p>
+
+<h3>When should I start building my college admissions tracker?</h3>
+<p>You should build your tracker framework during the spring semester of your high school junior year. Starting early gives you ample time to research prospective colleges, plan summer campus tours, draft common application essays, and secure your academic letters of recommendation before senior year begins.</p>
+
+<h3>How do test-optional policies change my tracker strategy?</h3>
+<p>If a college is test-optional, look at their historical middle 50 percent test score data on your tracker. If your score sits in the top half of their average range, submitting it will strengthen your file. If your score falls below that threshold, choose test-optional to emphasize your GPA, coursework depth, and extracurricular history.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'college-admissions-tracker');
+
+
+(function(){
+  var meta = CalcHub.getCalcMeta('college-admissions-tracker');
+  var root = document.getElementById('calc-root');
+  var STATUSES = ['Applied','Accepted','Rejected','Waitlisted'];
+  var statusOptions = STATUSES.map(function(s){return '<option value="'+s+'">'+s+'</option>';}).join('');
+
+  var saved = CalcHub.getLastInputs('college-admissions-tracker');
+  var rows = saved && saved.length ? saved : [
+    {name:'State University', status:'Accepted'},
+    {name:'Tech Institute', status:'Applied'},
+    {name:'Liberal Arts College', status:'Waitlisted'}
+  ];
+
+  root.innerHTML =
+    '<div class="calc-form-col">' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Schools</div>' +
+        '<div class="row-table" id="adm-rows"></div>' +
+        '<button type="button" class="btn-secondary" id="adm-add">+ Add School</button>' +
+        '<button type="button" class="btn-primary" id="adm-calc" style="margin-top:10px">Update Summary</button>' +
+      '</div>' +
+      '<div class="calc-card result-panel" id="result-panel">' +
+        '<div class="result-headline-label">Acceptance Rate</div>' +
+        '<div class="result-headline" id="result-headline"></div>' +
+        '<div class="stat-grid" id="result-stats"></div>' +
+        '<div class="result-explain" id="result-explain" style="display:none"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="calc-side-col">' +
+      '<div class="calc-card" id="chart-card" style="display:none">' +
+        '<div class="calc-card-title">Status Breakdown</div>' +
+        '<div class="chart-wrap"><canvas id="result-chart"></canvas></div>' +
+        '<div class="chart-legend" id="chart-legend"></div>' +
+        '<button type="button" class="btn-secondary" id="btn-chart-pdf" style="margin-top:10px">Download chart as PDF</button>' +
+      '</div>' +
+      '</div>' +
+      '<div class="calc-card">' +
+        '<div class="calc-card-title">Your History &mdash; ' + meta.name + '</div>' +
+        '<div id="calc-history"></div>' +
+      '</div>' +
+    '</div>';
+
+  var rowsEl = document.getElementById('adm-rows');
+
+  function rowHTML(r, idx){
+    return '<div class="row-item" data-idx="'+idx+'" style="grid-template-columns:2fr 1fr auto">' +
+      '<input class="field-input row-name" type="text" value="'+CalcHub.escapeHTML(r.name)+'" placeholder="School name">' +
+      '<select class="field-select row-status">'+statusOptions.replace('value="'+r.status+'"','value="'+r.status+'" selected')+'</select>' +
+      '<button type="button" class="row-remove-btn" title="Remove">&times;</button>' +
+    '</div>';
+  }
+
+  function paintRows(){ rowsEl.innerHTML = rows.map(rowHTML).join(''); }
+  paintRows();
+
+  rowsEl.addEventListener('click', function(e){
+    var btn = e.target.closest('.row-remove-btn');
+    if (!btn) return;
+    var idx = parseInt(btn.closest('.row-item').getAttribute('data-idx'),10);
+    rows.splice(idx,1);
+    paintRows();
+  });
+
+  document.getElementById('adm-add').addEventListener('click', function(){
+    rows.push({name:'', status:'Applied'});
+    paintRows();
+  });
+
+  function readRows(){
+    var items = rowsEl.querySelectorAll('.row-item');
+    var out = [];
+    items.forEach(function(item){
+      out.push({ name: item.querySelector('.row-name').value || 'School', status: item.querySelector('.row-status').value });
+    });
+    return out;
+  }
+
+  function calc(){
+    rows = readRows();
+    CalcHub.saveLastInputs('college-admissions-tracker', rows);
+    var counts = {Applied:0, Accepted:0, Rejected:0, Waitlisted:0};
+    rows.forEach(function(r){ counts[r.status] = (counts[r.status]||0) + 1; });
+    var total = rows.length;
+    var rate = total ? (counts.Accepted/total*100) : 0;
+
+    document.getElementById('result-headline').textContent = CalcHub.fmtPct(rate,1);
+    document.getElementById('result-stats').innerHTML =
+      '<div class="stat-card"><div class="stat-card-label">Total Schools</div><div class="stat-card-value">'+total+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Accepted</div><div class="stat-card-value">'+counts.Accepted+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Pending</div><div class="stat-card-value">'+counts.Applied+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Waitlisted</div><div class="stat-card-value">'+counts.Waitlisted+'</div></div>';
+    document.getElementById('result-panel').classList.add('visible');
+
+    if (total) {
+      document.getElementById('chart-card').style.display = '';
+      var chartCfg = {type:'donut', labels:STATUSES, data:[counts.Applied,counts.Accepted,counts.Rejected,counts.Waitlisted], colors:['#b84f00','#1a6e3c','#a32020','#8a6a1a']};
+      requestAnimationFrame(function(){
+        CalcHub.drawChart(document.getElementById('result-chart'), chartCfg);
+        CalcHub.renderLegend(document.getElementById('chart-legend'), chartCfg);
+      });
+    }
+
+    CalcHub.addHistory({ calcId:'college-admissions-tracker', calcName: meta.name, category: meta.category, label: counts.Accepted+'/'+total+' schools accepted ('+CalcHub.fmtPct(rate,0)+')', resultValue: CalcHub.fmtPct(rate,1)+' acceptance rate' });
+    CalcHub.addRecent('college-admissions-tracker');
+
+    var explainEl = document.getElementById('result-explain');
+    if (explainEl) {
+      var msg = "";
+      if (total < 6) msg = "You've listed fewer than 6 schools. Most counselors recommend a balanced list of 6\u201310, mixing safety, target, and reach schools, so you're not overly dependent on one or two outcomes.";
+      else if (counts.Accepted === 0 && counts.Rejected > 0 && counts.Applied === 0 && counts.Waitlisted === 0) msg = "No acceptances yet among decided schools. If you still have applications pending elsewhere, focus energy there \u2014 and if your list turns out to be more reach-heavy than balanced, adding a safety school (even late) can help.";
+      else if (counts.Accepted > 0) msg = "You have at least one acceptance in hand, which is real progress \u2014 keep tracking deadlines for any remaining decisions, especially binding Early Decision terms if applicable.";
+      explainEl.textContent = msg;
+      explainEl.style.display = msg ? '' : 'none';
+    }
+  }
+
+  document.getElementById('adm-calc').addEventListener('click', calc);
+
+  var chartPdfBtn = document.getElementById('btn-chart-pdf');
+  if (chartPdfBtn) chartPdfBtn.addEventListener('click', function () {
+    CalcHub.downloadCanvasAsPDF(document.getElementById('result-chart'), 'college-admissions-chart.pdf');
+  });
+
+
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'college-admissions-tracker', title:'',
+    emptyText: "Update your list above and a summary will be saved here automatically."
+  });
+
+  calc();
+})();
+
+</script>
+</body>
+</html>

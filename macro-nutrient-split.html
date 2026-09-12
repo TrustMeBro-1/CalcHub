@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Macro Nutrient Split Ratio: Macro Calculator - Protein, Carb & Fat Grams by Goal</title>
+<meta name="description" content="Turn your daily calorie target into precise protein, carb, and fat gram targets using evidence-based macro ratios (AMDR) for cutting, maintenance, bulking, or endurance training.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/macro-nutrient-split">
+<meta property="og:title" content="Macro Nutrient Split Ratio: Macro Calculator - Protein, Carb & Fat Grams by Goal">
+<meta property="og:description" content="Turn your daily calorie target into precise protein, carb, and fat gram targets using evidence-based macro ratios for cutting, maintenance, bulking, or endurance training.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/macro-nutrient-split.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Macro Nutrient Split Ratio: Macro Calculator - Protein, Carb & Fat Grams by Goal">
+<meta name="twitter:description" content="Turn your daily calorie target into precise protein, carb, and fat gram targets using evidence-based macro ratios for cutting, maintenance, bulking, or endurance training.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Macro Nutrient Split Ratio: Macro Calculator - Protein, Carb & Fat Grams by Goal",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "description": "Turn your daily calorie target into precise protein, carb, and fat gram targets using evidence-based macro ratios (AMDR) for cutting, maintenance, bulking, or endurance training.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are macronutrients and how many calories does each one provide?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The three macronutrients are protein, carbohydrates, and fat. Protein provides 4 calories per gram, carbohydrates provide 4 calories per gram, and fat provides 9 calories per gram. Alcohol, sometimes called a fourth macro, provides 7 calories per gram but isn't part of a standard macro split."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What macro split percentages are considered healthy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Acceptable Macronutrient Distribution Ranges (AMDR) set by the U.S. National Academy of Medicine recommend 10-35% of calories from protein, 45-65% from carbohydrates, and 20-35% from fat for adults. Ratios outside these ranges for extended periods, such as very low-fat or very low-carb diets, need closer attention to nutrient adequacy and are usually only appropriate for specific medical or performance reasons."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much protein do I actually need per day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The RDA minimum is 0.8 grams of protein per kilogram of body weight, which prevents deficiency but is not optimized for training. Research on resistance-trained individuals generally supports 1.6 to 2.2 grams per kilogram of body weight per day for building or preserving muscle, with intakes above roughly 2.2 g/kg showing diminishing returns for most people."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should my macro split change based on my goal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. During a calorie deficit (fat loss), a higher protein percentage helps preserve lean muscle. During a calorie surplus (muscle gain), carbohydrates typically increase to fuel training volume. Endurance athletes generally need a higher carbohydrate percentage to replenish glycogen. There is no single correct split for everyone; it depends on training type, body composition goals, and personal tolerance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a low-carb or ketogenic macro split accurate for everyone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A ketogenic split (typically around 5-10% carbohydrate, 20-25% protein, 70-75% fat) is a legitimate approach for some people, but it is a significant departure from AMDR guidance and requires close attention to fiber and micronutrient intake. It is not inherently healthier than a moderate-carb split for most healthy adults, and people with certain medical conditions should consult a doctor before adopting it."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-health">Health & Wellness</a><span>/</span>
+    <span>Macro Nutrient Split Ratio</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Macro Nutrient Split Ratio: Macro Calculator - Protein, Carb & Fat Grams by Goal</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Convert a daily calorie target into precise protein, carbohydrate, and fat gram targets, checked against evidence-based ranges (AMDR) and protein-per-bodyweight guidance.</p>
+  <div id="calc-root" class="calc-layout"></div>
+
+  <section class="calc-explainer">
+<h2>How a calorie target becomes a macro breakdown</h2>
+<p>This takes your daily calorie target and splits it into protein, carbohydrate, and fat grams using your chosen percentages, then converts each macro's calorie share back to grams using its actual energy density: 4 calories per gram for protein and carbohydrate, and 9 calories per gram for fat. This calculator also checks your split and protein-per-bodyweight against established nutrition science, not just raw math.</p>
+
+<h2>Why there's no single "ideal" split</h2>
+<p>A macro ratio suited to strength training differs from one suited to endurance training, fat loss, or general maintenance. The National Academy of Medicine's Acceptable Macronutrient Distribution Ranges (AMDR) — 10-35% protein, 45-65% carbohydrate, 20-35% fat — describe a healthy range for the general population, not a single correct answer. Use the goal presets below as accurate, evidence-informed starting points, then adjust based on training response, hunger, and lab work over time.</p>
+
+<h1>Macro Nutrient Splits Explained</h1>
+<p>A macro (macronutrient) split describes what percentage of your daily calories comes from protein, carbohydrate, and fat. Unlike a simple calorie target, a macro split determines the composition of those calories — which affects muscle retention, satiety, training performance, and long-term adherence. Because protein and carbohydrate each supply 4 calories per gram while fat supplies more than double that at 9 calories per gram, the same percentage split translates to very different gram amounts depending on which macro you're looking at.</p>
+
+<h2>Macro Calculator Components</h2>
+<p>Building an accurate macro target requires combining your energy needs with a percentage split appropriate to your goal.</p>
+<ul>
+    <li><strong>Daily Calorie Target:</strong> Your total daily energy intake goal, typically derived from a TDEE calculation adjusted for a deficit (fat loss), surplus (muscle gain), or maintenance.</li>
+    <li><strong>Protein Percentage:</strong> The share of calories from protein — the macro most directly tied to muscle repair, growth, and satiety.</li>
+    <li><strong>Carbohydrate Percentage:</strong> The share of calories from carbohydrates — the body's primary fuel source for high-intensity training and brain function.</li>
+    <li><strong>Fat Percentage:</strong> The share of calories from dietary fat — essential for hormone production, vitamin absorption, and cell function.</li>
+    <li><strong>Body Weight (optional):</strong> Used to sanity-check your protein target against research-backed grams-per-kilogram guidance, since a percentage alone can under- or over-shoot protein needs depending on total calories.</li>
+</ul>
+
+<h2>Evidence-Based Reference Ranges Used by This Calculator</h2>
+<p>This tool doesn't just do arithmetic — it flags your split against the following established guidance:</p>
+<ul>
+    <li><strong>AMDR (Acceptable Macronutrient Distribution Range):</strong> Protein 10-35%, carbohydrate 45-65%, fat 20-35% of total calories, as set by the U.S. National Academy of Medicine's Dietary Reference Intakes.</li>
+    <li><strong>Protein for training adults:</strong> 1.6-2.2 g/kg of body weight per day is the range most consistently supported by resistance-training research for building or preserving muscle; the RDA floor of 0.8 g/kg only prevents deficiency and is not a performance target.</li>
+    <li><strong>Fat minimum:</strong> Chronically dropping fat intake below roughly 20% of calories (or under about 0.3 g/kg) risks impairing hormone production, including testosterone and estrogen synthesis.</li>
+    <li><strong>Fiber:</strong> Roughly 14 grams of fiber per 1,000 calories is the general target tied to carbohydrate intake, regardless of how "low-carb" the overall split is.</li>
+</ul>
+
+<h2>Common Macro Split Presets</h2>
+<ul>
+    <li><strong>Balanced / General Health (30/40/30):</strong> A moderate, sustainable split that sits comfortably inside the AMDR for most healthy adults.</li>
+    <li><strong>High-Protein / Fat Loss (40/30/30):</strong> Prioritizes protein to preserve lean mass during a calorie deficit and improve satiety.</li>
+    <li><strong>Endurance Training (20/55/25):</strong> Shifts toward carbohydrate to support glycogen replenishment for high training volume.</li>
+    <li><strong>Low-Carb (30/20/50):</strong> Reduces carbohydrate below the AMDR floor; appropriate for some individuals but requires attention to fiber and micronutrients.</li>
+    <li><strong>Ketogenic (20/5/75):</strong> A therapeutic-origin, very-low-carbohydrate approach. It falls well outside AMDR guidance and isn't automatically superior for fat loss compared to a moderate-carb diet at the same calorie level.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What are macronutrients and how many calories does each one provide?</h3>
+<p>The three macronutrients are protein, carbohydrates, and fat. Protein provides 4 calories per gram, carbohydrates provide 4 calories per gram, and fat provides 9 calories per gram. Alcohol, sometimes called a fourth macro, provides 7 calories per gram but isn't part of a standard macro split.</p>
+
+<h3>What macro split percentages are considered healthy?</h3>
+<p>The Acceptable Macronutrient Distribution Ranges (AMDR) set by the U.S. National Academy of Medicine recommend 10-35% of calories from protein, 45-65% from carbohydrates, and 20-35% from fat for adults. Ratios outside these ranges for extended periods — such as very low-fat or very low-carb diets — need closer attention to nutrient adequacy and are usually only appropriate for specific medical or performance reasons.</p>
+
+<h3>How much protein do I actually need per day?</h3>
+<p>The RDA minimum is 0.8 grams of protein per kilogram of body weight, which prevents deficiency but isn't optimized for training. Research on resistance-trained individuals generally supports 1.6 to 2.2 grams per kilogram of body weight per day for building or preserving muscle, with intakes above roughly 2.2 g/kg showing diminishing returns for most people.</p>
+
+<h3>Should my macro split change based on my goal?</h3>
+<p>Yes. During a calorie deficit (fat loss), a higher protein percentage helps preserve lean muscle. During a calorie surplus (muscle gain), carbohydrates typically increase to fuel training volume. Endurance athletes generally need a higher carbohydrate percentage to replenish glycogen. There is no single correct split for everyone — it depends on training type, body composition goals, and personal tolerance.</p>
+
+<h3>Is a low-carb or ketogenic macro split accurate for everyone?</h3>
+<p>A ketogenic split (typically around 5-10% carbohydrate, 20-25% protein, 70-75% fat) is a legitimate approach for some people, but it's a significant departure from AMDR guidance and requires close attention to fiber and micronutrient intake. It isn't inherently healthier than a moderate-carb split for most healthy adults, and people with certain medical conditions should consult a doctor before adopting it.</p>
+
+<h3>Why do my percentages need to add up to 100%?</h3>
+<p>Protein, carbohydrate, and fat percentages describe how your total calorie target is divided. If they sum to more or less than 100%, the gram targets calculated from them won't actually match your stated calorie goal — this calculator flags that mismatch so you can correct it.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'macro-nutrient-split');
+
+
+CalcHub.initCalculatorPage({
+  id: 'macro-nutrient-split',
+  fields: [
+    {id:'calories', label:'Daily Calories', unit:'cal', default:2000, step:50},
+    {id:'proteinPct', label:'Protein', unit:'%', default:30, step:1},
+    {id:'carbPct', label:'Carbs', unit:'%', default:40, step:1},
+    {id:'fatPct', label:'Fat', unit:'%', default:30, step:1},
+    {id:'bodyWeight', label:'Body Weight (optional)', unit:'lb', default:0, step:1}
+  ],
+  compute: function(v){
+    var sum = v.proteinPct + v.carbPct + v.fatPct;
+    var proteinG = v.calories*v.proteinPct/100/4;
+    var carbG = v.calories*v.carbPct/100/4;
+    var fatG = v.calories*v.fatPct/100/9;
+    var fiberG = v.calories/1000*14;
+    var stats = [
+      {label:'Protein', value: CalcHub.fmtNum(proteinG,0)+' g'},
+      {label:'Carbs', value: CalcHub.fmtNum(carbG,0)+' g'},
+      {label:'Fat', value: CalcHub.fmtNum(fatG,0)+' g'},
+      {label:'Suggested Fiber', value: CalcHub.fmtNum(fiberG,0)+' g'},
+      {label:'Split Total', value: sum.toFixed(0)+'%', highlight: sum!==100}
+    ];
+    if (v.bodyWeight > 0){
+      var kg = v.bodyWeight/2.20462;
+      var gPerKg = kg ? proteinG/kg : 0;
+      stats.push({label:'Protein per kg Body Weight', value: CalcHub.fmtNum(gPerKg,2)+' g/kg'});
+    }
+    return {
+      label: 'Daily Macro Targets',
+      headline: CalcHub.fmtNum(proteinG,0)+'g P / '+CalcHub.fmtNum(carbG,0)+'g C / '+CalcHub.fmtNum(fatG,0)+'g F',
+      stats: stats,
+      chart: {type:'donut', labels:['Protein','Carbs','Fat'], data:[proteinG,carbG,fatG], colors:['#a32020','#b84f00','#1a4f99']},
+      historyLabel: v.calories+' cal \u2192 P'+Math.round(proteinG)+'g/C'+Math.round(carbG)+'g/F'+Math.round(fatG)+'g',
+      copyValue: Math.round(proteinG)+'g protein, '+Math.round(carbG)+'g carbs, '+Math.round(fatG)+'g fat'
+    };
+  },
+  explain: function(v, r){
+    var msgs = [];
+    var sum = v.proteinPct + v.carbPct + v.fatPct;
+    if (Math.abs(sum-100) > 0.5) {
+      msgs.push("Your protein, carb, and fat percentages add up to " + sum.toFixed(0) + "%, not 100% \u2014 the gram targets above won't actually match your stated calorie goal until these three percentages sum to 100%.");
+    }
+    if (v.proteinPct < 10) {
+      msgs.push("Your protein percentage is below the AMDR floor of 10% \u2014 this is a level associated with deficiency risk for most adults, not just a lean split.");
+    }
+    if (v.fatPct < 20) {
+      msgs.push("Your fat percentage is below the commonly cited 20% minimum \u2014 chronically low fat intake can impair hormone production. Confirm this is intentional.");
+    }
+    if (v.carbPct < 45 && v.carbPct >= 10) {
+      msgs.push("Your carb percentage sits below the AMDR range (45\u201365%). This can be a valid choice (e.g. low-carb approaches), but pay closer attention to fiber intake, which naturally drops alongside carbs.");
+    }
+    if (v.bodyWeight > 0) {
+      var kg = v.bodyWeight/2.20462;
+      var proteinG = v.calories*v.proteinPct/100/4;
+      var gPerKg = kg ? proteinG/kg : 0;
+      if (gPerKg < 1.6) {
+        msgs.push("At " + gPerKg.toFixed(2) + " g/kg, your protein target is below the 1.6\u20132.2 g/kg range generally supported for building or preserving muscle in people who train \u2014 consider raising your protein percentage if that's a goal.");
+      } else if (gPerKg > 2.4) {
+        msgs.push("At " + gPerKg.toFixed(2) + " g/kg, your protein target is above the range where additional muscle-building benefit is typically observed \u2014 not harmful for most healthy people, but likely more than needed.");
+      } else {
+        msgs.push("At " + gPerKg.toFixed(2) + " g/kg body weight, your protein target sits within the range generally supported for building or preserving muscle in people who train.");
+      }
+    }
+    if (!msgs.length) {
+      msgs.push("This split falls within the AMDR ranges for protein, carbohydrate, and fat \u2014 a reasonable, evidence-aligned starting point for most healthy adults.");
+    }
+    return msgs.join(' ');
+  }
+});
+
+</script>
+</body>
+</html>

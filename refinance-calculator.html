@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refinance Calculator: Mortgage Refinance Calculator - Break-Even & Savings Estimator</title>
+<meta name="description" content="Calculate if refinancing your mortgage makes financial sense. See monthly savings, break-even point, PITI comparison, and lifetime interest — with smart personalized advice.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/refinance-calculator">
+<meta property="og:title" content="Refinance Calculator: Mortgage Refinance Calculator - Break-Even & Savings Estimator">
+<meta property="og:description" content="Calculate if refinancing your mortgage makes financial sense. See monthly savings, break-even point, PITI comparison, and lifetime interest.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/refinance-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Refinance Calculator: Mortgage Refinance Calculator - Break-Even & Savings Estimator">
+<meta name="twitter:description" content="Calculate if refinancing your mortgage makes financial sense. See monthly savings, break-even point, PITI comparison, and lifetime interest.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Refinance Calculator: Mortgage Refinance Calculator - Break-Even & Savings Estimator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "description": "Calculate if refinancing your mortgage makes financial sense. See monthly savings, break-even point, PITI comparison, and lifetime interest — with smart personalized advice.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the break-even point on a refinance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The break-even point is how many months it takes for your monthly savings to add up to more than what you paid in closing costs. If you sell or refinance again before that point, the refinance likely cost you money overall."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I pay closing costs in cash or roll them into the loan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Paying cash avoids financing interest on the closing costs and is usually cheaper over the life of the loan. Rolling them into the balance avoids an upfront cash outlay but means you pay interest on those costs for the full loan term."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does refinancing change my property tax and insurance payments?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Refinancing changes your principal and interest payment. Property tax and homeowners insurance are set independently and are simply added on top to form your full PITI payment, whether you refinance or not."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a lower interest rate always worth refinancing for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not automatically. A lower rate can still cost you more overall if it resets you into a longer term, since you restart amortization and pay interest on the full balance for more years. Compare total lifetime interest, not just the rate or the monthly payment."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<link rel="stylesheet" href="/assets/compare.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Refinance Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Refinance Calculator: Mortgage Refinance Calculator - Break-Even & Savings Estimator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Calculate if refinancing your mortgage makes financial sense. See monthly savings, break-even point, PITI comparison, and lifetime interest — with smart personalized advice.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <button id="compare-toggle-btn" class="btn-secondary" style="width:auto;display:inline-block;margin:var(--sp-md) 0" aria-expanded="false">Compare Scenarios</button>
+  <div id="calc-compare-root"></div>
+
+  <div class="calc-card" id="advice-card" style="margin-top:var(--sp-xl)">
+    <div class="calc-card-title">Smart Advice</div>
+    <ul id="advice-list" style="list-style:none;display:flex;flex-direction:column;gap:10px"></ul>
+    <p class="field-hint" style="margin-top:var(--sp-md)">For illustrative and educational purposes only. Not financial advice.</p>
+  </div>
+
+  <div class="calc-card" id="piti-card" style="margin-top:var(--sp-lg)">
+    <div class="calc-card-title">Monthly Payment Breakdown (PITI)</div>
+    <div class="grid-2col">
+      <div>
+        <div class="chart-wrap" style="height:180px"><canvas id="piti-chart"></canvas></div>
+        <div class="chart-legend" id="piti-legend"></div>
+      </div>
+      <div class="grid-2col">
+        <div>
+          <div class="result-headline-label">Current Loan</div>
+          <div class="stat-grid" id="piti-current-stats"></div>
+        </div>
+        <div>
+          <div class="result-headline-label">New Loan</div>
+          <div class="stat-grid" id="piti-new-stats"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-card" id="strategy-card" style="margin-top:var(--sp-lg)">
+    <div class="calc-card-title">Closing Costs Strategy Comparison</div>
+    <p class="field-hint" style="margin-bottom:var(--sp-md)">How the same refinance compares if you pay closing costs in cash versus finance them into the new loan balance.</p>
+    <div class="grid-2col">
+      <div class="chart-wrap" style="height:180px"><canvas id="strategy-chart"></canvas></div>
+      <div class="grid-2col">
+        <div>
+          <div class="result-headline-label">Pay Cash</div>
+          <div class="stat-grid" id="strategy-cash-stats"></div>
+        </div>
+        <div>
+          <div class="result-headline-label">Finance into Loan</div>
+          <div class="stat-grid" id="strategy-finance-stats"></div>
+        </div>
+      </div>
+    </div>
+    <div class="result-explain" id="strategy-explain"></div>
+  </div>
+
+  <section class="calc-explainer">
+<h2>How this refinance calculator works</h2>
+<p>This takes your current loan balance, rate, and years remaining, and compares your current monthly principal &amp; interest payment against a new loan at your proposed rate and term. If you choose to finance your closing costs, they're added to the new loan balance before the new payment is calculated; if you pay cash, they're treated as an upfront cost used only for the break-even calculation. The amortization chart projects both balances year by year so you can see how the payoff timelines actually compare.</p>
+
+<h2>Why break-even matters more than the rate</h2>
+<p>A lower rate only helps if you stay in the loan long enough to recoup what refinancing cost you. The break-even point divides your upfront closing costs by your monthly savings — if you plan to move or refinance again before that point, the new loan likely cost you more than it saved. Financing the closing costs removes the upfront hit but doesn't remove the cost; you simply pay interest on it for the life of the loan instead.</p>
+
+<h2>Why lifetime interest can matter more than the monthly number</h2>
+<p>Resetting to a new 30-year term after you've already paid down several years of a 30-year loan restarts amortization — more of each early payment goes to interest again. A lower rate can still increase total lifetime interest if it resets the clock by enough years, so it's worth comparing total interest paid, not just the monthly payment.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the break-even point on a refinance?</h3>
+<p>The break-even point is how many months it takes for your monthly savings to add up to more than what you paid in closing costs. If you sell or refinance again before that point, the refinance likely cost you money overall.</p>
+
+<h3>Should I pay closing costs in cash or roll them into the loan?</h3>
+<p>Paying cash avoids financing interest on the closing costs and is usually cheaper over the life of the loan. Rolling them into the balance avoids an upfront cash outlay but means you pay interest on those costs for the full loan term.</p>
+
+<h3>Does refinancing change my property tax and insurance payments?</h3>
+<p>No. Refinancing changes your principal and interest payment. Property tax and homeowners insurance are set independently and are simply added on top to form your full PITI payment, whether you refinance or not.</p>
+
+<h3>Is a lower interest rate always worth refinancing for?</h3>
+<p>Not automatically. A lower rate can still cost you more overall if it resets you into a longer term, since you restart amortization and pay interest on the full balance for more years. Compare total lifetime interest, not just the rate or the monthly payment.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script src="/assets/compare.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'refinance-calculator');
+
+/* ---------- shared amortization helpers ---------- */
+function monthlyPI(balance, annualRatePct, termYears) {
+  var n = Math.max(1, Math.round(termYears * 12));
+  var r = annualRatePct / 100 / 12;
+  if (balance <= 0) return 0;
+  if (r === 0) return balance / n;
+  return balance * r / (1 - Math.pow(1 + r, -n));
+}
+
+// Year-end balances for a loan, for up to maxYears years.
+function amortYearlyBalances(balance, annualRatePct, termYears, maxYears) {
+  var r = annualRatePct / 100 / 12;
+  var pmt = monthlyPI(balance, annualRatePct, termYears);
+  var bal = balance;
+  var out = [];
+  for (var y = 1; y <= maxYears; y++) {
+    for (var m = 0; m < 12; m++) {
+      if (bal <= 0) break;
+      var interest = r * bal;
+      var principal = pmt - interest;
+      bal = Math.max(0, bal - principal);
+    }
+    out.push(Math.round(bal));
+  }
+  return out;
+}
+
+function readVals(form) {
+  var v = {};
+  ['currentBalance','currentRate','yearsRemaining','newRate','newTerm','closingCosts','propertyTax','homeInsurance'].forEach(function (id) {
+    var el = form.querySelector('#f-' + id);
+    var n = el ? parseFloat(el.value) : 0;
+    v[id] = isNaN(n) ? 0 : n;
+  });
+  var fEl = form.querySelector('#f-financeClosingCosts');
+  v.financeClosingCosts = fEl ? fEl.value : 'no';
+  return v;
+}
+
+var calcConfig = {
+  id: 'refinance-calculator',
+  fields: [
+    {id:'currentBalance', label:'Current Balance', unit:'$', default:250000, step:1000},
+    {id:'currentRate', label:'Interest Rate (%)', default:6.5, step:0.05},
+    {id:'yearsRemaining', label:'Years Remaining', unit:'yrs', default:25, step:1},
+    {id:'newRate', label:'New Interest Rate (%)', default:5.75, step:0.05},
+    {id:'newTerm', label:'New Loan Term (Years)', default:30, step:1},
+    {id:'closingCosts', label:'Closing Costs', unit:'$', default:5000, step:100},
+    {id:'financeClosingCosts', label:'Finance closing costs', type:'select', default:'no', options:[{value:'no', label:'No'},{value:'yes', label:'Yes'}]},
+    {id:'propertyTax', label:'Property Tax (Annual)', unit:'$', default:0, step:100, hint:'Optional, but gives a full PITI view'},
+    {id:'homeInsurance', label:'Home Insurance (Annual)', unit:'$', default:0, step:100, hint:'Optional, but gives a full PITI view'}
+  ],
+  compute: function(v){
+    var financing = v.financeClosingCosts === 'yes';
+    var newBalance = v.currentBalance + (financing ? v.closingCosts : 0);
+
+    var currentPI = monthlyPI(v.currentBalance, v.currentRate, v.yearsRemaining);
+    var newPI = monthlyPI(newBalance, v.newRate, v.newTerm);
+    var monthlySavings = currentPI - newPI;
+
+    var upfront = financing ? 0 : v.closingCosts;
+    var breakEvenMonths = monthlySavings > 0 ? (upfront / monthlySavings) : Infinity;
+
+    var newPITI = newPI + (v.propertyTax / 12) + (v.homeInsurance / 12);
+
+    var maxYears = Math.max(1, Math.min(40, Math.ceil(Math.max(v.yearsRemaining, v.newTerm))));
+    var currentBalances = amortYearlyBalances(v.currentBalance, v.currentRate, v.yearsRemaining, maxYears);
+    var newBalances = amortYearlyBalances(newBalance, v.newRate, v.newTerm, maxYears);
+    var yearLabels = [];
+    for (var y = 1; y <= maxYears; y++) yearLabels.push('Year ' + y);
+
+    var currentTotalInterest = currentPI * v.yearsRemaining * 12 - v.currentBalance;
+    var newTotalInterest = newPI * v.newTerm * 12 - newBalance;
+    var lifetimeDiff = currentTotalInterest - newTotalInterest;
+
+    var stats = [
+      {label:'New Monthly P&I', value: CalcHub.fmtUSD0(newPI)},
+      {label:'Monthly Savings', value: (monthlySavings>=0?'':'-') + CalcHub.fmtUSD0(Math.abs(monthlySavings)), highlight: monthlySavings > 0},
+      {label:'Break-Even', value: isFinite(breakEvenMonths) ? Math.ceil(breakEvenMonths) + ' months' : (upfront===0 ? 'Immediate' : 'Never')},
+      {label:'New Loan Balance', value: CalcHub.fmtUSD0(newBalance)},
+      {label:'New Total PITI', value: CalcHub.fmtUSD0(newPITI)},
+      {label:'Lifetime Interest', value: (lifetimeDiff>=0?'Save ':'Pay extra ') + CalcHub.fmtUSD0(Math.abs(lifetimeDiff)), highlight: lifetimeDiff > 0}
+    ];
+
+    return {
+      label: 'Amortization Comparison',
+      headline: (monthlySavings>=0?'Save ':'Pay extra ') + CalcHub.fmtUSD0(Math.abs(monthlySavings)) + '/month',
+      stats: stats,
+      chart: {type:'line', labels:yearLabels, series:[
+        {name:'Current Bal.', data:currentBalances, color:'#a32020'},
+        {name:'New Bal.', data:newBalances, color:'#1a6e3c'}
+      ]},
+      historyLabel: CalcHub.fmtUSD0(v.currentBalance) + ' @ ' + v.currentRate + '% \u2192 ' + v.newRate + '% saves ' + CalcHub.fmtUSD0(monthlySavings) + '/mo',
+      copyValue: CalcHub.fmtUSD0(monthlySavings) + '/mo saved, break-even in ' + (isFinite(breakEvenMonths) ? Math.ceil(breakEvenMonths) + ' months' : 'N/A')
+    };
+  }
+};
+
+CalcHub.initCalculatorPage(calcConfig);
+CalcHub.initCompareMode(calcConfig);
+
+/* ---------- Smart Advice engine (mirrors the original tool's rules) ---------- */
+function renderAdvice() {
+  var form = document.getElementById('calc-form');
+  var listEl = document.getElementById('advice-list');
+  if (!form || !listEl) return;
+  var v = readVals(form);
+  var financing = v.financeClosingCosts === 'yes';
+  var newBalance = v.currentBalance + (financing ? v.closingCosts : 0);
+
+  var currentPI = monthlyPI(v.currentBalance, v.currentRate, v.yearsRemaining);
+  var newPIFinanced = monthlyPI(newBalance, v.newRate, v.newTerm);
+  var newPIUnfinanced = monthlyPI(v.currentBalance, v.newRate, v.newTerm);
+  var newPI = financing ? newPIFinanced : newPIUnfinanced;
+  var monthlySavings = currentPI - newPI;
+  var upfront = financing ? 0 : v.closingCosts;
+  var breakEvenMonths = monthlySavings > 0 ? (upfront / monthlySavings) : Infinity;
+  var rateImprovement = v.currentRate - v.newRate;
+
+  var msgs = [];
+
+  if (monthlySavings < 0) {
+    msgs.push("Refinancing would increase your monthly P&I payment by " + CalcHub.fmtUSD0(Math.abs(monthlySavings)) + ". This usually only makes sense if you're shortening your term significantly to save on interest.");
+  } else if (upfront === 0) {
+    msgs.push("With no upfront cash outlay, your savings start immediately.");
+  } else if (breakEvenMonths <= 24) {
+    msgs.push("Excellent! You'll recover your closing costs in just " + Math.ceil(breakEvenMonths) + " months.");
+  } else if (isFinite(breakEvenMonths)) {
+    msgs.push("You'll need to stay in this home at least " + (breakEvenMonths / 12).toFixed(1) + " years to benefit from refinancing.");
+  }
+
+  if (rateImprovement < 0.5) {
+    msgs.push("Rate improvement is under 0.5%. Closing costs may not be worth it unless they are very low.");
+  }
+
+  if (v.newTerm > v.yearsRemaining) {
+    msgs.push("Your new term (" + v.newTerm + " yrs) is longer than your current one (" + v.yearsRemaining + " yrs). Even with a lower rate, you may pay more lifetime interest.");
+  }
+
+  if (financing) {
+    var paymentIncrease = newPIFinanced - newPIUnfinanced;
+    msgs.push("Financing your closing costs increases your loan balance by " + CalcHub.fmtUSD0(v.closingCosts) + " and your monthly payment by " + CalcHub.fmtUSD0(paymentIncrease) + ".");
+  }
+
+  if (!msgs.length) {
+    msgs.push("This refinance looks financially reasonable at these numbers, with no major red flags.");
+  }
+
+  listEl.innerHTML = msgs.map(function (m) {
+    return '<li style="display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text-muted);line-height:1.6">' +
+      '<span style="flex-shrink:0;color:var(--link);font-weight:700">&rarr;</span><span>' + CalcHub.escapeHTML(m) + '</span></li>';
+  }).join('');
+}
+
+/* ---------- Monthly Payment Breakdown (PITI) ---------- */
+function renderPITI() {
+  var form = document.getElementById('calc-form');
+  if (!form) return;
+  var v = readVals(form);
+  var financing = v.financeClosingCosts === 'yes';
+  var newBalance = v.currentBalance + (financing ? v.closingCosts : 0);
+
+  var currentPI = monthlyPI(v.currentBalance, v.currentRate, v.yearsRemaining);
+  var newPI = monthlyPI(newBalance, v.newRate, v.newTerm);
+  var taxMonthly = v.propertyTax / 12;
+  var insMonthly = v.homeInsurance / 12;
+
+  var currentTotal = currentPI + taxMonthly + insMonthly;
+  var newTotal = newPI + taxMonthly + insMonthly;
+
+  var currentEl = document.getElementById('piti-current-stats');
+  var newEl = document.getElementById('piti-new-stats');
+  if (currentEl) {
+    currentEl.innerHTML =
+      '<div class="stat-card"><div class="stat-card-label">P&I</div><div class="stat-card-value">' + CalcHub.fmtUSD0(currentPI) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Property Tax</div><div class="stat-card-value">' + CalcHub.fmtUSD0(taxMonthly) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Insurance</div><div class="stat-card-value">' + CalcHub.fmtUSD0(insMonthly) + '</div></div>' +
+      '<div class="stat-card highlight"><div class="stat-card-label">Total PITI</div><div class="stat-card-value">' + CalcHub.fmtUSD0(currentTotal) + '</div></div>';
+  }
+  if (newEl) {
+    newEl.innerHTML =
+      '<div class="stat-card"><div class="stat-card-label">P&I</div><div class="stat-card-value">' + CalcHub.fmtUSD0(newPI) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Property Tax</div><div class="stat-card-value">' + CalcHub.fmtUSD0(taxMonthly) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Insurance</div><div class="stat-card-value">' + CalcHub.fmtUSD0(insMonthly) + '</div></div>' +
+      '<div class="stat-card highlight"><div class="stat-card-label">Total PITI</div><div class="stat-card-value">' + CalcHub.fmtUSD0(newTotal) + '</div></div>';
+  }
+
+  var chartCfg = {type:'bar', labels:['Current','New'], series:[
+    {name:'P&I', data:[currentPI, newPI], color:'#1a4f99'},
+    {name:'Property Tax', data:[taxMonthly, taxMonthly], color:'#b84f00'},
+    {name:'Insurance', data:[insMonthly, insMonthly], color:'#5a1a8a'}
+  ]};
+  var canvas = document.getElementById('piti-chart');
+  if (canvas) {
+    requestAnimationFrame(function () {
+      CalcHub.drawChart(canvas, chartCfg);
+      CalcHub.renderLegend(document.getElementById('piti-legend'), chartCfg);
+    });
+  }
+}
+
+/* ---------- Closing Costs Strategy Comparison (Pay Cash vs Finance into Loan) ---------- */
+function renderStrategyCompare() {
+  var form = document.getElementById('calc-form');
+  if (!form) return;
+  var v = readVals(form);
+
+  // Pay cash: balance stays the same, closing costs paid upfront
+  var cashPI = monthlyPI(v.currentBalance, v.newRate, v.newTerm);
+  var cashTotalInterest = cashPI * v.newTerm * 12 - v.currentBalance;
+  var cashTotalCost = cashTotalInterest + v.closingCosts;
+
+  // Finance into loan: balance grows, no upfront cost
+  var financedBalance = v.currentBalance + v.closingCosts;
+  var financePI = monthlyPI(financedBalance, v.newRate, v.newTerm);
+  var financeTotalInterest = financePI * v.newTerm * 12 - financedBalance;
+  var financeTotalCost = financeTotalInterest;
+
+  var cashEl = document.getElementById('strategy-cash-stats');
+  var financeEl = document.getElementById('strategy-finance-stats');
+  var explainEl = document.getElementById('strategy-explain');
+  if (!cashEl || !financeEl) return;
+
+  cashEl.innerHTML =
+    '<div class="stat-card"><div class="stat-card-label">Upfront Cost</div><div class="stat-card-value">' + CalcHub.fmtUSD0(v.closingCosts) + '</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Monthly P&I</div><div class="stat-card-value">' + CalcHub.fmtUSD0(cashPI) + '</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Total Interest</div><div class="stat-card-value">' + CalcHub.fmtUSD0(cashTotalInterest) + '</div></div>' +
+    '<div class="stat-card highlight"><div class="stat-card-label">Total Cost of Loan</div><div class="stat-card-value">' + CalcHub.fmtUSD0(cashTotalCost) + '</div></div>';
+
+  financeEl.innerHTML =
+    '<div class="stat-card"><div class="stat-card-label">Upfront Cost</div><div class="stat-card-value">$0</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Monthly P&I</div><div class="stat-card-value">' + CalcHub.fmtUSD0(financePI) + '</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Total Interest</div><div class="stat-card-value">' + CalcHub.fmtUSD0(financeTotalInterest) + '</div></div>' +
+    '<div class="stat-card highlight"><div class="stat-card-label">Total Cost of Loan</div><div class="stat-card-value">' + CalcHub.fmtUSD0(financeTotalCost) + '</div></div>';
+
+  if (explainEl) {
+    var diff = financeTotalCost - cashTotalCost;
+    if (Math.abs(diff) < 1) {
+      explainEl.textContent = "Both strategies cost about the same over the life of the loan at these numbers.";
+    } else if (diff > 0) {
+      explainEl.textContent = "Paying cash costs " + CalcHub.fmtUSD0(diff) + " less over the life of the loan, since financing the closing costs means paying interest on them for the full term \u2014 worth it only if you don't have the cash on hand.";
+    } else {
+      explainEl.textContent = "Financing the closing costs works out " + CalcHub.fmtUSD0(Math.abs(diff)) + " cheaper here, which can happen with a short remaining term or low new rate.";
+    }
+  }
+
+  var chartCfg = {type:'bar', labels:['Pay Cash','Finance into Loan'], series:[
+    {name:'Interest', data:[cashTotalInterest, financeTotalInterest], color:'#1a6e3c'},
+    {name:'Costs', data:[v.closingCosts, 0], color:'#b84f00'}
+  ]};
+  var canvas = document.getElementById('strategy-chart');
+  if (canvas) {
+    requestAnimationFrame(function () { CalcHub.drawChart(canvas, chartCfg); });
+  }
+}
+
+function renderAllExtras() {
+  renderAdvice();
+  renderPITI();
+  renderStrategyCompare();
+}
+
+var refinanceForm = document.getElementById('calc-form');
+if (refinanceForm) {
+  refinanceForm.addEventListener('submit', function () {
+    setTimeout(renderAllExtras, 0);
+  });
+}
+window.addEventListener('resize', function () {
+  clearTimeout(window.__refiResizeT);
+  window.__refiResizeT = setTimeout(renderAllExtras, 200);
+});
+renderAllExtras();
+
+</script>
+</body>
+</html>

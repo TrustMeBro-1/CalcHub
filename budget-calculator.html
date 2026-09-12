@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Budget Calculator: Monthly Budget Calculator - Free Personal Finance Planner</title>
+<meta name="description" content="Split your monthly income across needs, wants, and savings using a simple percentage-based budget.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/budget-calculator">
+<meta property="og:title" content="Budget Calculator: Monthly Budget Calculator - Free Personal Finance Planner">
+<meta property="og:description" content="Split your monthly income across needs, wants, and savings using a simple percentage-based budget.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/budget-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Budget Calculator: Monthly Budget Calculator - Free Personal Finance Planner">
+<meta name="twitter:description" content="Split your monthly income across needs, wants, and savings using a simple percentage-based budget.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Budget Calculator: Monthly Budget Calculator - Free Personal Finance Planner",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Split your monthly income across needs, wants, and savings using a simple percentage-based budget.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<link rel="stylesheet" href="/assets/compare.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Budget Calculator: Monthly Budget Calculator - Free Personal Finance Planner</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Budget Calculator: Monthly Budget Calculator - Free Personal Finance Planner</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Split your monthly income across needs, wants, and savings using a simple percentage-based budget.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <button id="compare-toggle-btn" class="btn-secondary" style="width:auto;display:inline-block;margin:var(--sp-md) 0" aria-expanded="false">Compare Scenarios</button>
+  <div id="calc-compare-root"></div>
+  <section class="calc-explainer">
+<h2>The needs / wants / savings split behind this tool</h2>
+<p>This follows the common 50/30/20 style framework — roughly half of income to needs, a third to wants, the rest to savings and debt paydown. The exact ratio that fits varies by regional cost of living, so treat it as a starting point, not a rule.</p>
+<h2>What a balanced budget on paper can still miss</h2>
+<p>Irregular annual expenses — insurance premiums, car maintenance, holiday spending — often get left out of a monthly view entirely and then blow up a "balanced" budget when they land. Irregular income (freelance, commission) makes a buffer month more important than the split itself.</p>
+<h1>Personal Budgeting</h1>
+<p>A budget is a financial plan that balances personal income against ongoing expenses over a specific period, usually monthly. Creating a budget helps individuals track where their money goes, eliminate unnecessary debt, and save for future financial goals. In essence, budgeting ensures that you spend less than you earn, which is the foundational rule of personal finance. Without a clear budget, it is easy to succumb to lifestyle creep, where spending naturally increases alongside income, leaving little to no money for long-term investments, emergency situations, or retirement cash reserves.</p>
+
+<h2>Budget Calculator Components</h2>
+<p>A basic budget calculator balances two primary financial fields: incoming revenue and outgoing expenses. Subtracting your expenses from your income reveals your net savings.</p>
+<ul>
+    <li><strong>Net Income:</strong> Your total take-home pay after taxes, insurance deductions, and retirement contributions have been deducted from your paycheck.</li>
+    <li><strong>Fixed Expenses:</strong> Recurring bills that cost the exact same amount every single month, such as rent, car payments, or insurance premiums.</li>
+    <li><strong>Variable Expenses:</strong> Flexible day-to-day spending categories that fluctuate based on your choices, such as groceries, dining out, and entertainment.</li>
+    <li><strong>Savings and Debt Goals:</strong> Financial allocations directed toward building an emergency fund, investing, or paying down credit card balances.</li>
+</ul>
+
+<h2>The 50-30-20 Budgeting Strategy</h2>
+<p>Many online budget calculators use the popular 50-30-20 rule to categorize spending and optimize financial health.</p>
+<ul>
+    <li><strong>50 Percent for Needs:</strong> Half of your net income should cover absolute survival necessities like housing, basic groceries, utilities, and transportation.</li>
+    <li><strong>30 Percent for Wants:</strong> Up to thirty percent can be allocated toward lifestyle choices like hobbies, vacations, streaming subscriptions, and restaurants.</li>
+    <li><strong>20 Percent for Savings:</strong> At least one-fifth of your income should go directly toward retirement accounts, savings balances, or paying off high-interest debt.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What should I do if my budget calculations show a negative number?</h3>
+<p>A negative balance means you are spending more money than you earn, which leads to growing debt. Look directly at your variable expenses, such as entertainment and shopping, and look for immediate areas to trim down. Alternatively, you can seek out ways to boost your primary income through freelance projects or a side hustle.</p>
+
+<h3>What is an emergency fund and how much do I need?</h3>
+<p>An emergency fund is a separate cash reserve designated strictly for unexpected events like sudden medical bills, urgent car repairs, or job loss. Financial advisors generally recommend saving three to six months worth of basic living expenses to protect your financial stability during a crisis.</p>
+
+<h3>How often should I review or update my budget?</h3>
+<p>You should review your budget at least once a month. This regular cadence allows you to compare your calculated budget against your actual bank statements, adjust for seasonal price spikes like winter heating bills, and pivot whenever your salary or recurring bills change.</p>
+
+<h3>What is the difference between gross income and net income?</h3>
+<p>Gross income is the total amount of money you earn before any deductions are made. Net income is your actual take-home pay, which is the final amount deposited into your bank account. You must always use your net income when building a budget calculator to avoid overestimating your spending power.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script src="/assets/compare.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'budget-calculator');
+
+
+var calcConfig = {
+  id: 'budget-calculator',
+  fields: [
+    {id:'income', label:'Monthly Income', unit:'$', default:4500, step:100},
+    {id:'needsPct', label:'Needs', unit:'%', default:50, step:1},
+    {id:'wantsPct', label:'Wants', unit:'%', default:30, step:1},
+    {id:'savingsPct', label:'Savings', unit:'%', default:20, step:1}
+  ],
+  compute: function(v){
+    var sum = v.needsPct + v.wantsPct + v.savingsPct;
+    var needs = v.income * v.needsPct/100;
+    var wants = v.income * v.wantsPct/100;
+    var savings = v.income * v.savingsPct/100;
+    return {
+      label: 'Monthly Breakdown',
+      headline: CalcHub.fmtUSD0(savings) + ' saved / month',
+      stats: [
+        {label:'Needs', value: CalcHub.fmtUSD0(needs)},
+        {label:'Wants', value: CalcHub.fmtUSD0(wants)},
+        {label:'Savings', value: CalcHub.fmtUSD0(savings), highlight:true},
+        {label:'Allocated', value: sum.toFixed(0)+'% of income'}
+      ],
+      chart: {type:'donut', labels:['Needs','Wants','Savings'], data:[needs,wants,savings], colors:['#1a4f99','#b84f00','#1a6e3c']},
+      historyLabel: CalcHub.fmtUSD0(v.income) + '/mo budget \u2192 ' + CalcHub.fmtUSD0(savings) + ' saved',
+      copyValue: CalcHub.fmtUSD0(savings) + '/mo to savings'
+    };
+  },
+  explain: function(v, r){
+    var sum = v.needsPct + v.wantsPct + v.savingsPct;
+    var msgs = [];
+    if (sum !== 100) msgs.push("Your three percentages add up to " + sum + "%, not 100% \u2014 the dollar amounts above reflect that, so double-check the split if you meant it to total exactly 100%.");
+    if (v.savingsPct < 10) msgs.push("A savings share under 10% will make it slow to build an emergency fund or retirement balance \u2014 even a small increase here compounds meaningfully over years.");
+    else if (v.savingsPct >= 20) msgs.push("A 20%+ savings rate is a strong, above-average pace for building long-term wealth.");
+    if (v.needsPct > 60) msgs.push("Needs above 60% of income is a tight budget \u2014 common in high-cost-of-living areas, but it leaves little room for wants or savings without adjustment.");
+    return msgs.join(' ');
+  }
+};
+
+CalcHub.initCalculatorPage(calcConfig);
+CalcHub.initCompareMode(calcConfig);
+
+</script>
+</body>
+</html>

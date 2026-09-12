@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Sales Tax Calculator: Sales Tax Calculator - Calculate State & Local Sales Tax</title>
+<meta name="description" content="Add local sales tax to a price to find the final total you'll pay at checkout.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/sales-tax-calculator">
+<meta property="og:title" content="Sales Tax Calculator: Sales Tax Calculator - Calculate State & Local Sales Tax">
+<meta property="og:description" content="Add local sales tax to a price to find the final total you'll pay at checkout.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/sales-tax-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sales Tax Calculator: Sales Tax Calculator - Calculate State & Local Sales Tax">
+<meta name="twitter:description" content="Add local sales tax to a price to find the final total you'll pay at checkout.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Sales Tax Calculator: Sales Tax Calculator - Calculate State & Local Sales Tax",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Add local sales tax to a price to find the final total you'll pay at checkout.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Sales Tax Calculator: Sales Tax Calculator - Calculate State & Local Sales Tax</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Sales Tax Calculator: Sales Tax Calculator - Calculate State & Local Sales Tax</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Add local sales tax to a price to find the final total you'll pay at checkout.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>Why the right rate usually isn't just the state rate</h2>
+<p>Combined sales tax is typically state + county + city (and sometimes a special district) layered together, which is why two cities in the same state can have noticeably different totals. Use your actual combined local rate for an accurate result, not just the state's base rate.</p>
+<h2>What's often exempt, depending on where you are</h2>
+<p>Many jurisdictions exempt groceries, prescription drugs, or clothing under a certain price entirely. This tool applies your entered rate uniformly, so check local exemptions if you're pricing an item in one of those categories.</p>
+ <h1>Sales Tax</h1>
+<p>Sales tax is a consumption tax imposed by government governments on the sale of goods and services at the point of purchase. Retail businesses collect this tax directly from consumers on behalf of municipal, state, or national tax authorities. Unlike income taxes which track annual earnings, sales tax represents a flat or localized percentage added directly to the retail price of individual transactions. Utilizing an automated sales tax calculator helps shoppers find their true out-of-pocket costs at checkout and allows business owners to accurately invoice customers and maintain local tax compliance standards.</p>
+
+<h2>Sales Tax Calculator Components</h2>
+<p>Calculating the final checkout price of a consumer purchase requires combining retail product costs with localized tax rates.</p>
+<ul>
+    <li><strong>Net Price:</strong> The baseline retail cost of the goods or services before any transaction taxes are applied.</li>
+    <li><strong>Tax Rate Percentage:</strong> The combined percentage rate levied by local municipal, county, and state government authorities.</li>
+    <li><strong>Gross Price Output:</strong> The final, comprehensive total cost a consumer must pay to complete the retail purchase transaction.</li>
+</ul>
+
+<h2>Understanding Gross vs. Net Pricing</h2>
+<p>Depending on your regional consumer market laws, retail prices display tax structures in one of two distinct formatting systems.</p>
+<ul>
+    <li><strong>Tax-Exclusive Pricing:</strong> Common in North America, where the advertised sticker price omits sales tax, adding the percentage at checkout.</li>
+    <li><strong>Tax-Inclusive Pricing:</strong> Common in Europe and Australia, where the advertised retail price fully incorporates the consumption tax upfront.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Why does sales tax vary so drastically between different towns and cities?</h3>
+<p>Sales tax percentages vary because multiple independent government layers can pile their individual tax requirements onto a single transaction. A retail purchase might carry a base state tax, a secondary county tax, and a localized city tax simultaneously, creating distinct rate totals across neighboring zip codes.</p>
+
+<h3>What is the difference between sales tax and use tax?</h3>
+<p>Sales tax is collected directly by local merchants during transactions inside their home state boundaries. Use tax applies to items bought from out-of-state retailers who do not collect local sales tax, requiring the consumer to self-report and pay the tax directly to their state authority.</p>
+
+<h3>Are any consumer goods completely exempt from local sales tax?</h3>
+<p>Many state jurisdictions exempt essential survival commodities from standard sales tax obligations to protect lower-income households. Common tax-exempt categories frequently encompass raw groceries, prescription medications, school textbooks, and specialized medical equipment, though exact rules depend heavily on local state legislation.</p>
+
+<h3>How do you calculate sales tax manually?</h3>
+<p>To find the tax amount manually, convert your local tax percentage into a decimal value by dividing it by 100, then multiply that decimal by the net item price. For example, a 100 dollar product carrying an 8 percent tax rate yields an 8 dollar tax fee, resulting in a 108 dollar gross checkout total.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'sales-tax-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'sales-tax-calculator',
+  fields: [
+    {id:'price', label:'Item Price', unit:'$', default:89.99, step:0.01},
+    {id:'rate', label:'Sales Tax Rate', unit:'%', default:7.25, step:0.01}
+  ],
+  compute: function(v){
+    var tax = v.price * v.rate/100;
+    var total = v.price + tax;
+    return {
+      label: 'Total Price With Tax',
+      headline: CalcHub.fmtUSD(total),
+      stats: [{label:'Item Price', value: CalcHub.fmtUSD(v.price)}, {label:'Sales Tax', value: CalcHub.fmtUSD(tax)}, {label:'Tax Rate', value: CalcHub.fmtPct(v.rate)}],
+      chart: {type:'bar', labels:['Price','Tax','Total'], series:[{name:'Amount', data:[v.price, tax, total], color:'#1a6e3c'}]},
+      historyLabel: CalcHub.fmtUSD(v.price) + ' + ' + CalcHub.fmtPct(v.rate) + ' tax = ' + CalcHub.fmtUSD(total),
+      copyValue: CalcHub.fmtUSD(total)
+    };
+  }
+});
+
+</script>
+</body>
+</html>

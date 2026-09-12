@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Half-Life Decay Simulator: Half-Life Calculator - Radioactive Decay Formula Solver</title>
+<meta name="description" content="Model radioactive or exponential decay: see how much of a substance remains after a given time.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/half-life-decay">
+<meta property="og:title" content="Half-Life Decay Simulator: Half-Life Calculator - Radioactive Decay Formula Solver">
+<meta property="og:description" content="Model radioactive or exponential decay: see how much of a substance remains after a given time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/half-life-decay.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Half-Life Decay Simulator: Half-Life Calculator - Radioactive Decay Formula Solver">
+<meta name="twitter:description" content="Model radioactive or exponential decay: see how much of a substance remains after a given time.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Half-Life Decay Simulator: Half-Life Calculator - Radioactive Decay Formula Solver",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Model radioactive or exponential decay: see how much of a substance remains after a given time.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-science">Science & Physics</a><span>/</span>
+    <span>Half-Life Decay Simulator: Half-Life Calculator - Radioactive Decay Formula Solver</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Half-Life Decay Simulator: Half-Life Calculator - Radioactive Decay Formula Solver</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Model radioactive or exponential decay: see how much of a substance remains after a given time.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>The exponential decay behind the formula</h2>
+<p>Radioactive and other exponential decay follows N(t) = N₀ × (1/2)<sup>t / half-life</sup> — each half-life period reduces the remaining quantity by exactly half, regardless of how much was there to begin with.</p>
+<h2>A common misreading of "half-life"</h2>
+<p>A substance with a 10-year half-life isn't "gone" after 20 years — it's down to a quarter of the original amount, and mathematically it never reaches exactly zero, just an increasingly small remaining fraction.</p>
+      <h1>Half-Life Decay</h1>
+<p>Half-life decay is a mathematical concept that describes the time required for a quantity to decrease to exactly half of its initial value. This principle is most famous in nuclear physics to track radioactive decay, but it applies universally to any system experiencing exponential decline. As time moves forward in fixed intervals, the remaining material continuously splits in half, creating a downward curve that approaches zero but technically never reaches it. Understanding decay curves allows scientists to date ancient artifacts, track environmental pollutants, and calculate how chemical compounds break down over time.</p>
+
+<h2>Half-Life Calculator Components</h2>
+<p>Projecting exponential decay requires balancing the original mass of a substance against time and its specific decay rate.</p>
+<ul>
+    <li><strong>Initial Quantity:</strong> The starting mass, volume, or percentage of the substance before any decay begins.</li>
+    <li><strong>Remaining Quantity:</strong> The final amount of material left over after a specific duration of time has passed.</li>
+    <li><strong>Half-Life Period:</strong> The fixed unit of time it takes for that specific substance to naturally diminish by 50 percent.</li>
+    <li><strong>Elapsed Time:</strong> The total duration of time the substance is left to undergo the decay process.</li>
+</ul>
+
+<h2>Real-World Applications of Decay</h2>
+<p>Exponential decay calculations are utilized across various scientific industries to make historical and predictive models.</p>
+<ul>
+    <li><strong>Carbon Dating:</strong> Archeologists measure the remaining ratio of Carbon-14 in organic artifacts to calculate their historical age.</li>
+    <li><strong>Nuclear Waste Management:</strong> Environmental engineers track the half-lives of radioactive isotopes to determine when storage facilities will become safe for human contact.</li>
+    <li><strong>Medical Radiotherapy:</strong> Medical physicists calculate the decay of short-lived isotopes to deliver precise, safe diagnostic imaging doses to patients.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Does a longer half-life mean a substance decays faster or slower?</h3>
+<p>A longer half-life means a substance decays much slower. If an isotope has a half-life of ten thousand years, it takes ten thousand years just to lose half its mass, whereas a substance with a half-life of two minutes breaks down almost instantly.</p>
+
+<h3>If a substance goes through two half-lives, is it completely gone?</h3>
+<p>No. After the first half-life, 50 percent of the original substance remains. After the second half-life, the remaining amount splits in half again, leaving 25 percent of the original mass. The material continuously decreases by half during each cycle but never hits absolute zero.</p>
+
+<h3>Can environmental factors change the half-life of a material?</h3>
+<p>No, radioactive half-life is a fundamental physical constant tied directly to the atomic structure of an isotope. Changes in surrounding temperature, atmospheric pressure, or chemical bonding environments will not alter or speed up the core decay rate of a radioactive nucleus.</p>
+
+<h3>What is the difference between decay and biological half-life?</h3>
+<p>Physical decay tracks how a substance breaks down due to atomic instability. Biological half-life measures the time it takes for a living organism to clear half of a substance or medication from its system through natural metabolic filtration and elimination processes.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'half-life-decay');
+
+
+CalcHub.initCalculatorPage({
+  id: 'half-life-decay',
+  fields: [
+    {id:'initial', label:'Initial Amount', default:100, step:1},
+    {id:'halfLife', label:'Half-Life', unit:'years', default:5730, step:1},
+    {id:'elapsed', label:'Elapsed Time', unit:'years', default:5730, step:1}
+  ],
+  compute: function(v){
+    var remaining = v.initial * Math.pow(0.5, v.elapsed/v.halfLife);
+    var pctRemaining = v.initial ? remaining/v.initial*100 : 0;
+    var numHalfLives = v.elapsed/v.halfLife;
+    var track=[], labels=[];
+    var span = Math.max(v.elapsed*1.5, v.halfLife*2);
+    for (var i=0;i<=20;i++){
+      var t = span*i/20;
+      track.push(v.initial*Math.pow(0.5, t/v.halfLife));
+      labels.push(Math.round(t));
+    }
+    return {
+      label: 'Remaining Amount',
+      headline: CalcHub.fmtNum(remaining,3),
+      stats: [
+        {label:'Percent Remaining', value: CalcHub.fmtPct(pctRemaining,2)},
+        {label:'Half-Lives Elapsed', value: CalcHub.fmtNum(numHalfLives,2)},
+        {label:'Initial Amount', value: CalcHub.fmtNum(v.initial,2)}
+      ],
+      chart: {type:'line', labels: labels, series:[{name:'Amount Remaining', data: track, color:'#5a1a8a'}]},
+      historyLabel: v.initial+' \u2192 '+CalcHub.fmtNum(remaining,2)+' after '+v.elapsed+'y',
+      copyValue: CalcHub.fmtNum(remaining,3)+' remaining ('+CalcHub.fmtPct(pctRemaining,1)+')'
+    };
+  }
+});
+
+</script>
+</body>
+</html>

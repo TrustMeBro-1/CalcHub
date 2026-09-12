@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Net Worth Calculator: Net Worth Calculator - Track Your Total Assets & Liabilities</title>
+<meta name="description" content="Add up your assets and liabilities to see where your net worth stands today.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/net-worth-calculator">
+<meta property="og:title" content="Net Worth Calculator: Net Worth Calculator - Track Your Total Assets & Liabilities">
+<meta property="og:description" content="Add up your assets and liabilities to see where your net worth stands today.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/net-worth-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Net Worth Calculator: Net Worth Calculator - Track Your Total Assets & Liabilities">
+<meta name="twitter:description" content="Add up your assets and liabilities to see where your net worth stands today.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Net Worth Calculator: Net Worth Calculator - Track Your Total Assets & Liabilities",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Add up your assets and liabilities to see where your net worth stands today.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Net Worth Calculator: Net Worth Calculator - Track Your Total Assets & Liabilities</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Net Worth Calculator: Net Worth Calculator - Track Your Total Assets & Liabilities</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Add up your assets and liabilities to see where your net worth stands today.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>Assets minus liabilities — and why the number needs context</h2>
+<p>Net worth is a snapshot, not income. Illiquid assets like home equity or retirement accounts inflate the total but aren't spendable without cost — selling fees, taxes, or early-withdrawal penalties all reduce what you'd actually walk away with.</p>
+<h2>A number that moves for reasons that aren't about you</h2>
+<p>Market swings in home value or investment balances can shift net worth from month to month with zero change in your saving behavior. Track the trend across quarters rather than reacting to any single update.</p>
+<h1>Net Worth</h1>
+<p>Net worth is a holistic financial metric that measures the total economic value of an individual, household, or business at a specific point in time. It is calculated by subtracting your total liabilities from your total outstanding assets. In personal finance, net worth serves as the ultimate scorecard for tracking long-term financial health and tracking progress toward retirement. Unlike focusing solely on salary or income, net worth displays what you actually keep. Monitoring this metric prevents lifestyle inflation by illustrating whether your real wealth is genuinely scaling upwards or hidden behind matching consumer debts.</p>
+
+<h2>Net Worth Calculator Components</h2>
+<p>Compiling your personal balance sheet requires separating your financial life into things you own versus money you owe.</p>
+<ul>
+    <li><strong>Liquid Assets:</strong> Readily accessible cash resources, including physical currency, checking accounts, and high-yield savings accounts.</li>
+    <li><strong>Investment Assets:</strong> Long-term wealth engines, covering brokerage portfolios, retirement accounts (401ks, IRAs), real estate equity, and business ownership stakes.</li>
+    <li><strong>Short-Term Liabilities:</strong> Immediate financial debts that demand clearing, such as outstanding credit card balances, medical bills, and short-term personal loans.</li>
+    <li><strong>Long-Term Liabilities:</strong> Extended financial obligations, primarily encompassing auto financing loans, student loan balances, and real estate mortgages.</li>
+</ul>
+
+<h2>The Accounting Balance Sheet Formula</h2>
+<p>The tracking utility organizes your financial data points into a classic accounting balance sheet arrangement to isolate your equity.</p>
+<p>Net Worth = Total Assets - Total Liabilities</p>
+<p>If your total assets exceed your outstanding obligations, you carry a positive net worth. If your consumer debts dwarf your assets, your net worth drops into negative territory.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is a good net worth for my age bracket?</h3>
+<p>Net worth benchmarks vary based on life stages, career timelines, and local costs of living. Rather than chasing generalized averages, target a positive net worth by your late twenties and aim to scale the balance consistently by saving twenty percent of your take-home pay each year.</p>
+
+<h3>Should I include my primary residence and vehicle inside the asset field?</h3>
+<p>Yes, you should include the current conservative market value of your home and vehicle within your asset columns. However, you must also list their corresponding outstanding mortgage and auto loan balances inside the liability columns to ensure an accurate calculation.</p>
+
+<h3>Why is my net worth increasing even though my salary stayed the same?</h3>
+<p>Net worth climbs independently of income when your investment portfolios gain value, or as your monthly debt payments lower the principal balances on your loans. Lowering what you owe expands your net worth just as effectively as acquiring fresh assets.</p>
+
+<h3>How often should I audit and update my net worth sheet?</h3>
+<p>Auditing your net worth once or twice a year is perfectly sufficient for tracking long-term financial growth. Tracking these balances daily or weekly can cause unnecessary stress due to standard, short-term stock market fluctuations and standard monthly bill payment timing cycles.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+  <p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'net-worth-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'net-worth-calculator',
+  fields: [
+    {id:'cash', label:'Cash & Savings', unit:'$', default:15000, step:500},
+    {id:'investments', label:'Investments', unit:'$', default:40000, step:500},
+    {id:'realEstate', label:'Real Estate Value', unit:'$', default:0, step:1000},
+    {id:'otherAssets', label:'Other Assets', unit:'$', default:5000, step:500},
+    {id:'mortgage', label:'Mortgage Debt', unit:'$', default:0, step:1000},
+    {id:'studentLoans', label:'Student Loans', unit:'$', default:12000, step:500},
+    {id:'ccDebt', label:'Credit Card Debt', unit:'$', default:2000, step:100},
+    {id:'otherDebt', label:'Other Debt', unit:'$', default:0, step:500}
+  ],
+  compute: function(v){
+    var assets = v.cash + v.investments + v.realEstate + v.otherAssets;
+    var liabilities = v.mortgage + v.studentLoans + v.ccDebt + v.otherDebt;
+    var netWorth = assets - liabilities;
+    return {
+      label: 'Your Net Worth',
+      headline: CalcHub.fmtUSD0(netWorth),
+      stats: [
+        {label:'Total Assets', value: CalcHub.fmtUSD0(assets)},
+        {label:'Total Liabilities', value: CalcHub.fmtUSD0(liabilities)},
+        {label:'Net Worth', value: CalcHub.fmtUSD0(netWorth), highlight:true}
+      ],
+      chart: {type:'bar', labels:['Assets','Liabilities','Net Worth'], series:[{name:'Amount', data:[assets, liabilities, netWorth], color:'#1a6e3c'}]},
+      historyLabel: 'Net worth: ' + CalcHub.fmtUSD0(netWorth),
+      copyValue: CalcHub.fmtUSD0(netWorth)
+    };
+  },
+  explain: function(v, r){
+    var assets = v.cash+v.investments+v.realEstate+v.otherAssets;
+    var liabilities = v.mortgage+v.studentLoans+v.ccDebt+v.otherDebt;
+    var netWorth = assets-liabilities;
+    if (netWorth < 0) return "Your liabilities currently exceed your assets. This is common earlier in life (student loans, a new mortgage) and isn't unusual \u2014 the trend over time matters more than this single snapshot. Paying down the highest-interest debt first (often credit cards) typically improves this number fastest.";
+    if (v.ccDebt > 0 && v.ccDebt > v.cash) return "Your credit card balance exceeds your liquid cash \u2014 credit card APRs are usually far higher than what cash earns in savings, so prioritizing that balance down first is usually the highest-return move available to you.";
+    if (liabilities === 0) return "You're carrying no listed liabilities, which is a strong position \u2014 the focus from here is typically growing investment assets rather than debt paydown.";
+    return "A positive net worth with manageable debt. Track this roughly twice a year rather than obsessively \u2014 month-to-month swings mostly reflect market movement, not your actual saving behavior.";
+  }
+});
+
+</script>
+</body>
+</html>

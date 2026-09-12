@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Ideal Gas Law Workspace: Ideal Gas Law Calculator - Solve for P, V, n, R, T</title>
+<meta name="description" content="Solve the ideal gas law (PV = nRT) for pressure, volume, moles, or temperature.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/ideal-gas-law">
+<meta property="og:title" content="Ideal Gas Law Workspace: Ideal Gas Law Calculator - Solve for P, V, n, R, T">
+<meta property="og:description" content="Solve the ideal gas law (PV = nRT) for pressure, volume, moles, or temperature.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/ideal-gas-law.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ideal Gas Law Workspace: Ideal Gas Law Calculator - Solve for P, V, n, R, T">
+<meta name="twitter:description" content="Solve the ideal gas law (PV = nRT) for pressure, volume, moles, or temperature.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Ideal Gas Law Workspace: Ideal Gas Law Calculator - Solve for P, V, n, R, T",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Solve the ideal gas law (PV = nRT) for pressure, volume, moles, or temperature.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-science">Science & Physics</a><span>/</span>
+    <span>Ideal Gas Law Workspace: Ideal Gas Law Calculator - Solve for P, V, n, R, T</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Ideal Gas Law Workspace: Ideal Gas Law Calculator - Solve for P, V, n, R, T</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Solve the ideal gas law (PV = nRT) for pressure, volume, moles, or temperature.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>What PV = nRT is actually saying</h2>
+<p>Pressure, volume, and temperature of a gas are linked. Change one while holding the others constant, and the ideal gas law tells you exactly how the rest respond, assuming the gas behaves "ideally" — particles with negligible volume and no intermolecular forces.</p>
+<h2>When the "ideal" assumption breaks down</h2>
+<p>Real gases deviate from this law at very high pressure or very low temperature, where molecules are packed close enough that their size and mutual attraction actually matter. For everyday, classroom-level problems, the ideal approximation holds up well.</p>
+<h1>The Ideal Gas Law</h1>
+<p>The Ideal Gas Law is a fundamental equation in chemistry and physics that states the relationship between pressure, volume, temperature, and the amount of gas present. The law treats gases as a collection of perfectly elastic particles moving randomly without attracting or repelling one another. While real-world gases do not behave perfectly under extreme conditions, this model provides an exceptionally accurate estimation for most common gases under standard room temperatures and pressures. Engineers and scientists utilize this equation to predict how a gas will react when compressed inside a piston, heated inside a container, or expanded into a vacuum environment.</p>
+
+<h2>Ideal Gas Law Components</h2>
+<p>The equation connects four physical variables using a universal mathematical constant to solve for any single unknown trait.</p>
+<ul>
+    <li><strong>Pressure (P):</strong> The force exerted by gas particles colliding against the interior walls of their container.</li>
+    <li><strong>Volume (V):</strong> The total three-dimensional space occupied by the gas substance.</li>
+    <li><strong>Amount of Substance (n):</strong> The total quantity of gas measured using the chemical unit of moles.</li>
+    <li><strong>Ideal Gas Constant (R):</strong> A fixed mathematical scaling value that changes depending on the specific units of measurement you select.</li>
+    <li><strong>Temperature (T):</strong> The thermal energy level of the gas, which must always be calculated using the absolute Kelvin scale.</li>
+</ul>
+
+<h2>The Ideal Gas Equation</h2>
+<p>The calculator utilizes the classic gas formula to isolate and solve for your missing variable.</p>
+<p>P * V = n * R * T</p>
+<p>This formula demonstrates that pressure and volume are inversely related, while temperature share a direct relationship with both pressure and volume. If you heat a sealed container, the internal pressure must rise.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Why must temperature always be calculated in Kelvin?</h3>
+<p>Kelvin is an absolute temperature scale that starts at absolute zero, where all molecular motion stops. Standard scales like Celsius or Fahrenheit include negative values. If you input a negative temperature into the gas equation, it would output impossible negative volumes or pressures, breaking the calculation logic.</p>
+
+<h3>When does the Ideal Gas Law model fail to work?</h3>
+<p>The ideal model becomes inaccurate under extreme high pressures or extreme low temperatures. In those environments, gas particles are forced so close together that their physical volume matters, and intermolecular attractions begin pulling them together, causing the gas to behave differently than predicted.</p>
+
+<h3>What is a mole in gas calculations?</h3>
+<p>A mole is a standard scientific unit used to measure large quantities of microscopic items like atoms or molecules. One mole represents a fixed count of particles, allowing chemists to count out gas quantities by weight rather than trying to measure individual atomic items.</p>
+
+<h3>How does changing container volume affect gas pressure?</h3>
+<p>If you compress a gas into a container half its original size while keeping the temperature steady, the pressure will double. Reducing the volume forces the gas particles into a tighter space, causing them to collide against the walls twice as frequently.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'ideal-gas-law');
+
+
+CalcHub.initCalculatorPage({
+  id: 'ideal-gas-law',
+  fields: [
+    {id:'solveFor', label:'Solve For', type:'select', default:'P', options:[{value:'P',label:'Pressure (P)'},{value:'V',label:'Volume (V)'},{value:'n',label:'Moles (n)'},{value:'T',label:'Temperature (T)'}]},
+    {id:'p', label:'Pressure', unit:'atm', default:1, step:0.01},
+    {id:'vol', label:'Volume', unit:'L', default:22.4, step:0.1},
+    {id:'n', label:'Moles', unit:'mol', default:1, step:0.1},
+    {id:'t', label:'Temperature', unit:'K', default:273.15, step:1}
+  ],
+  compute: function(v){
+    var R = 0.0821;
+    var p=v.p, vol=v.vol, n=v.n, t=v.t;
+    if (v.solveFor==='P') p = n*R*t/vol;
+    else if (v.solveFor==='V') vol = n*R*t/p;
+    else if (v.solveFor==='n') n = p*vol/(R*t);
+    else t = p*vol/(n*R);
+    var solvedVal = {P:p,V:vol,n:n,T:t}[v.solveFor];
+    var solvedUnit = {P:'atm',V:'L',n:'mol',T:'K'}[v.solveFor];
+    return {
+      label: 'Solved for ' + v.solveFor,
+      headline: CalcHub.fmtNum(solvedVal,3) + ' ' + solvedUnit,
+      stats: [
+        {label:'Pressure (atm)', value: CalcHub.fmtNum(p,3), highlight: v.solveFor==='P'},
+        {label:'Volume (L)', value: CalcHub.fmtNum(vol,3), highlight: v.solveFor==='V'},
+        {label:'Moles (mol)', value: CalcHub.fmtNum(n,3), highlight: v.solveFor==='n'},
+        {label:'Temperature (K)', value: CalcHub.fmtNum(t,2), highlight: v.solveFor==='T'}
+      ],
+      chart: {type:'bar', labels:['P (atm)','V (L)','n (mol)','T (K/100)'], series:[{name:'Value', data:[p,vol,n,t/100], color:'#5a1a8a'}]},
+      historyLabel: 'Solved for '+v.solveFor+': '+CalcHub.fmtNum(solvedVal,3)+' '+solvedUnit,
+      copyValue: CalcHub.fmtNum(solvedVal,3)+' '+solvedUnit
+    };
+  }
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>College Cost Calculator: College Cost Estimator - Plan Tuition, Housing, Debt & Salary Payoff</title>
+<meta name="description" content="Estimate the true total cost of a college degree — tuition, housing, food, books, and transportation — compare on-campus vs off-campus, and see if your projected career's entry salary can cover the monthly loan payment.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/college-cost-calculator">
+<meta property="og:title" content="College Cost Calculator: College Cost Estimator - Plan Tuition, Housing, Debt & Salary Payoff">
+<meta property="og:description" content="Estimate the true total cost of a college degree, compare on-campus vs off-campus, and check loan affordability against your projected career's entry salary.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/college-cost-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="College Cost Calculator: College Cost Estimator - Plan Tuition, Housing, Debt & Salary Payoff">
+<meta name="twitter:description" content="Estimate the true total cost of a college degree, compare on-campus vs off-campus, and check loan affordability against your projected career's entry salary.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "College Cost Calculator: College Cost Estimator - Plan Tuition, Housing, Debt & Salary Payoff",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Estimate the total cost of a college degree including housing, food, books and transportation, compare on-campus vs off-campus, and check loan affordability against a projected career's entry salary.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  /* ---- page-specific additions, layered on top of core.css ---- */
+  .ccc-tabs { display: flex; gap: 8px; margin-bottom: var(--sp-lg); flex-wrap: wrap; }
+  .ccc-tab {
+    padding: 9px 16px; border-radius: var(--radius-full); border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-muted); font-family: inherit; font-size: 13.5px;
+    font-weight: 600; cursor: pointer; transition: background-color .15s, color .15s, border-color .15s;
+  }
+  .ccc-tab.active { background: var(--finance); border-color: var(--finance); color: #fff; }
+  .ccc-tab:hover:not(.active) { background: var(--surface-alt); }
+
+  .ccc-section-title {
+    font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    color: var(--text-light); margin: 20px 0 10px;
+  }
+  .ccc-section-title:first-child { margin-top: 0; }
+
+  .ccc-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); }
+  @media (max-width: 700px) { .ccc-compare-grid { grid-template-columns: 1fr; } }
+  .ccc-compare-col { border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--sp-md); background: var(--surface-alt); }
+  .ccc-compare-col h4 { font-size: 13.5px; margin-bottom: 10px; color: var(--text); }
+  .ccc-compare-col .stat-grid { grid-template-columns: 1fr 1fr; }
+
+  .ccc-verdict {
+    display: inline-block; padding: 5px 12px; border-radius: var(--radius-full);
+    font-size: 12.5px; font-weight: 700; margin-top: 8px;
+  }
+  .ccc-verdict.good    { background: #d9f0e1; color: #0f5a2c; }
+  .ccc-verdict.ok      { background: #fff2d6; color: #7a4f00; }
+  .ccc-verdict.risky   { background: #fde2e2; color: #7c1818; }
+  [data-theme="dark"] .ccc-verdict.good  { background: #123a24; color: #7fd8a3; }
+  [data-theme="dark"] .ccc-verdict.ok    { background: #3a2e0d; color: #f2c14e; }
+  [data-theme="dark"] .ccc-verdict.risky { background: #3a1a1a; color: #f2a3a3; }
+
+  .ccc-tips-list { display: flex; flex-direction: column; gap: 10px; }
+  .ccc-tip { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--text-muted); line-height: 1.55; }
+  .ccc-tip-icon {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--finance);
+    color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  }
+  .ccc-tip strong { color: var(--text); }
+
+  .ccc-note {
+    font-size: 12px; color: var(--text-light); margin-top: 8px; line-height: 1.5;
+    border-left: 2px solid var(--border); padding-left: 10px;
+  }
+
+  .ccc-inline-row { display: flex; gap: 10px; align-items: flex-end; }
+  .ccc-inline-row .field-group { flex: 1; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance &amp; Investment</a><span>/</span>
+    <span>College Cost Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">College Cost Calculator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Estimate the full cost of a degree — tuition, housing, food, books, and transportation — compare on-campus vs. off-campus living, and check whether your projected career's entry salary can realistically cover the monthly loan payment.</p>
+
+  <div class="ccc-tabs" id="ccc-tabs">
+    <button class="ccc-tab active" data-tab="oncampus">On-Campus</button>
+    <button class="ccc-tab" data-tab="offcampus">Off-Campus</button>
+    <button class="ccc-tab" data-tab="compare">Compare Both</button>
+  </div>
+
+  <div id="calc-root" class="calc-layout"></div>
+
+  <div class="page-section" style="margin-top:40px;">
+    <div class="section-label" style="border:none;padding:0;margin-bottom:16px;">Ways to Cut the Real Cost of College</div>
+    <div class="calc-card">
+      <div class="ccc-tips-list" id="ccc-tips"></div>
+    </div>
+  </div>
+
+  <br><br>
+  <section class="calc-explainer">
+    <h2>Why the sticker price and your real cost rarely match</h2>
+    <p>Tuition is usually the number schools advertise, but room and board, meal plans, books, transportation, and personal expenses routinely add 40–70% on top of it. This tool totals all of it, compounds it by your entered cost-increase rate across every year you're enrolled, and nets out aid — rather than just multiplying one year's tuition sticker price.</p>
+    <h2>On-campus vs. off-campus isn't a simple "cheaper/pricier" call</h2>
+    <p>On-campus housing bundles a meal plan and utilities into one predictable number. Off-campus rent is often lower in absolute terms in many college towns, but groceries, utilities, and transportation get added back in separately — and the "off-campus" default assumptions here are general estimates, not your specific city's market.</p>
+    <h2>What the salary-vs-loan check actually tells you</h2>
+    <p>This compares your standard 10-year loan payment against a <strong>projected entry-level salary for a chosen field</strong> — those salary figures are general estimates, not live labor-market data, and any individual's actual starting offer can be well above or below them. Use the affordability read as a sanity check, not a guarantee.</p>
+    <h2>A conservative assumption worth knowing</h2>
+    <p>Scholarships and aid are assumed to stay flat in dollar terms while costs rise every year — aid rarely grows at the same rate as tuition, so treat the "net cost" figures here as realistic-to-slightly-optimistic, not a guarantee.</p>
+
+    <h3>Higher Education in the U.S.</h3>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;The landscape of American higher education has transformed dramatically over the last few decades. Fifty years ago, roughly 10% of the population attended college, as a high school diploma was usually enough to secure a comfortable career. Today, the proportion of adults with a college education has risen significantly. Over this same period, tuition rates have dramatically outpaced inflation, contributing to a nationwide student loan debt pool that stands at over $1.8 trillion.</p>
+    <br>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Despite rising costs, earning a degree remains a highly powerful financial and personal investment. On average, college graduates experience:</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&bull; Higher lifetime earnings and lower unemployment rates compared to high school graduates.</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&bull; Greater access to jobs offering health insurance and retirement benefits.</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&bull; Better long-term quality-of-life indicators, including lower rates of depression and more active lifestyles.</p>
+    <br>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;While student debt requires careful planning, its long-term burdens should be systematically weighed against the substantial career and personal benefits of a degree.</p>
+
+    <h3>Breakdown of College Costs</h3>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;When planning your budget, higher education expenses are generally grouped into several categories:</p>
+
+    <h4>Tuition and Fees</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;The core cost of academic instruction. This figure varies dramatically depending on the specific program, credit hours, and your residency status. Public universities frequently charge out-of-state students double the rate of local residents. Institutional fees also cover student access to facilities like libraries, campus technology, and gyms.</p>
+
+    <h4>Housing (Room & Board vs. Rent)</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Many universities mandate on-campus living for first-year students, bundled as a flat "room and board" rate that includes a meal plan. Off-campus students pay rent, utilities, and groceries separately — which can be cheaper, but only if all three are budgeted for individually rather than compared against the bundled on-campus number.</p>
+
+    <h4>Food</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;On-campus meal plans are typically priced per semester regardless of how much a student actually eats. Off-campus students who cook for themselves often spend less on groceries than a meal plan costs — but frequently underestimate this line item when budgeting.</p>
+
+    <h4>Textbooks and Supplies</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;The required materials for your courses. Book prices have escalated over the years, though you can mitigate this expense by utilizing rental services, buying used copies, or checking if specific scholarships cover supplies.</p>
+
+    <h4>Transportation</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Commuting costs, trips home, and — for off-campus students especially — a car payment, insurance, gas, or parking permit. On-campus students often get by with a bike or campus shuttle; off-campus students rarely do.</p>
+
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Beyond these fundamentals, ensure your budget factors in everyday costs such as personal entertainment, electronics, phone bills, and incidental expenses.</p>
+
+    <h3>Navigating Financial Aid</h3>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Financial aid significantly lowers the actual net price of college, meaning most students do not pay the full "sticker price" advertised by universities. Most schools require you to submit financial aid applications alongside or shortly after your admissions application.</p>
+    <br>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Aid generally comes in four distinct forms, which can be combined to cover your costs:</p>
+
+    <h4>Grants</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Need-based funding that does not require repayment. The federal government distributes Pell Grants to eligible undergraduate students, while options like the Federal Supplemental Educational Opportunity Grant (FSEOG) assist students with exceptional financial needs.</p>
+
+    <h4>Scholarships</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Free educational funding that does not need to be repaid. These can be entirely need-based or merit-based, rewarding excellence in academics, sports, music, or community leadership.</p>
+
+    <h4>Loans</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Borrowed funds that must be paid back with interest. Federal student loans generally offer lower, more flexible interest rates than private bank loans. Direct Subsidized Loans are awarded based on financial need, and the government covers the interest while you are in school. Unsubsidized loans are available to all students regardless of financial need, but interest accrues immediately.</p>
+
+    <h4>Work-Study</h4>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Federally subsidized on-campus employment. These programs offer part-time jobs, often handling administrative or community service tasks, allowing students to earn a steady paycheck to cover day-to-day expenses without adding to loan debt.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <h3>How is the monthly loan payment calculated?</h3>
+    <p>It uses the standard loan amortization formula on a 10-year standard repayment plan by default (adjustable), at the interest rate you enter — the same math behind a mortgage or auto loan payment, applied to your total borrowed amount after aid and any family/savings contribution.</p>
+    <h3>Why does the affordability check use gross salary, not take-home pay?</h3>
+    <p>It's a common shorthand in lending and financial-planning guidance — a monthly payment under roughly 8–10% of gross monthly income is generally considered manageable. Your real after-tax budget will be tighter than gross income suggests, so treat "manageable" here as a floor, not a comfortable cushion.</p>
+    <h3>Where do the career salary estimates come from?</h3>
+    <p>They're general, rounded entry-level estimates meant to illustrate the calculation, not sourced from live labor-market data. Actual starting salaries vary by employer, region, and economic conditions — always check current data (e.g., BLS Occupational Outlook Handbook) for a real decision.</p>
+  </section>
+</main>
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'college-cost-calculator');
+
+(function () {
+  var CALC_ID = 'college-cost-calculator';
+  var meta = CalcHub.getCalcMeta(CALC_ID) || { name: 'College Cost Calculator', category: 'finance' };
+
+  /* ---------------- career / entry salary reference table ----------------
+     Illustrative, rounded, general estimates only — NOT live labor data.
+     Shown to the user with an explicit disclaimer in the UI and in the FAQ. */
+  var CAREERS = [
+    { id: 'custom', label: 'Custom (enter my own)', salary: 55000 },
+    { id: 'cs', label: 'Computer Science / Software', salary: 75000 },
+    { id: 'data', label: 'Data Science / Analytics', salary: 78000 },
+    { id: 'eng_me', label: 'Mechanical Engineering', salary: 72000 },
+    { id: 'eng_ee', label: 'Electrical Engineering', salary: 75000 },
+    { id: 'eng_civil', label: 'Civil Engineering', salary: 68000 },
+    { id: 'nursing', label: 'Nursing (BSN)', salary: 65000 },
+    { id: 'accounting', label: 'Accounting', salary: 58000 },
+    { id: 'finance', label: 'Finance / Business', salary: 60000 },
+    { id: 'marketing', label: 'Marketing', salary: 50000 },
+    { id: 'comms', label: 'Communications', salary: 45000 },
+    { id: 'education', label: 'Education / Teaching', salary: 45000 },
+    { id: 'psychology', label: 'Psychology', salary: 42000 },
+    { id: 'biology', label: 'Biology / Life Sciences', salary: 45000 },
+    { id: 'criminal_justice', label: 'Criminal Justice', salary: 45000 },
+    { id: 'social_work', label: 'Social Work', salary: 40000 },
+    { id: 'art_design', label: 'Art / Design', salary: 42000 },
+    { id: 'liberal_arts', label: 'English / Liberal Arts', salary: 42000 }
+  ];
+
+  var TIPS = [
+    { t: 'Start at community college', d: 'Completing gen-ed requirements at a community college before transferring can cut two years of tuition to a fraction of a four-year school\u2019s rate.' },
+    { t: 'File the FAFSA every single year', d: 'It\u2019s free, and skipping it — even if you assume you won\u2019t qualify for aid — is the single most common way students leave money on the table.' },
+    { t: 'Rent or buy used textbooks', d: 'Campus bookstores are usually the most expensive option. Rental services and used marketplaces routinely cut this line item by 50% or more.' },
+    { t: 'Bring AP, IB, or dual-enrollment credit', d: 'Every credit hour you arrive with is a class you don\u2019t pay tuition for — this can shave a full semester off your total cost.' },
+    { t: 'Compare the full off-campus budget, not just rent', d: 'A cheaper rent number can be erased by utilities, groceries, and a car payment — always compare the total, not one line item.' },
+    { t: 'Apply for work-study, not just loans', d: 'Work-study earnings reduce how much you need to borrow without adding interest, unlike a loan of the same size.' },
+    { t: 'Check in-state residency requirements', d: 'Out-of-state public tuition is frequently double the in-state rate — some schools let you establish residency after year one to unlock it.' },
+    { t: 'Borrow federal before private', d: 'Federal student loans carry fixed rates and flexible repayment/forgiveness options that private lenders generally don\u2019t match.' },
+    { t: 'Re-shop your meal plan every semester', d: 'Many schools offer multiple meal plan tiers — students who cook even a few meals a week are often overpaying on the largest plan by default.' }
+  ];
+
+  /* ---------------- default cost profiles ---------------- */
+  function defaults(kind) {
+    if (kind === 'on') {
+      return { tuition: 28000, housing: 13000, food: 0, books: 1200, transport: 800, personal: 2000, aid: 5000, workstudy: 2500 };
+    }
+    return { tuition: 28000, housing: 9000, food: 4200, books: 1200, transport: 2200, personal: 2400, aid: 5000, workstudy: 2500 };
+  }
+
+  var state = {
+    tab: 'oncampus',
+    years: 4,
+    increase: 4,
+    on: defaults('on'),
+    off: defaults('off'),
+    familyContribution: 0,
+    rate: 6.5,
+    loanTerm: 10,
+    careerId: 'cs',
+    customSalary: 55000
+  };
+
+  var root = document.getElementById('calc-root');
+
+  function costFieldsHTML(prefix, v) {
+    var housingLabel = prefix === 'on' ? 'Room &amp; Board (incl. meal plan)' : 'Rent (annual)';
+    var foodRow = prefix === 'off'
+      ? '<div class="field-group"><label class="field-label">Groceries / Food <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="50" id="' + prefix + '-food" value="' + v.food + '"></div>'
+      : '';
+    var extraUtil = prefix === 'off'
+      ? '' : '';
+    return (
+      '<div class="field-grid">' +
+        '<div class="field-group"><label class="field-label">Tuition &amp; Fees <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="100" id="' + prefix + '-tuition" value="' + v.tuition + '"></div>' +
+        '<div class="field-group"><label class="field-label">' + housingLabel + ' <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="100" id="' + prefix + '-housing" value="' + v.housing + '"></div>' +
+        foodRow +
+        '<div class="field-group"><label class="field-label">Books &amp; Supplies <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="50" id="' + prefix + '-books" value="' + v.books + '"></div>' +
+        '<div class="field-group"><label class="field-label">Transportation <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="50" id="' + prefix + '-transport" value="' + v.transport + '"></div>' +
+        '<div class="field-group"><label class="field-label">Personal / Misc <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="50" id="' + prefix + '-personal" value="' + v.personal + '"></div>' +
+        '<div class="field-group"><label class="field-label">Scholarships / Grants <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="100" id="' + prefix + '-aid" value="' + v.aid + '"></div>' +
+        '<div class="field-group"><label class="field-label">Work-Study Earnings <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="100" id="' + prefix + '-workstudy" value="' + v.workstudy + '"></div>' +
+      '</div>'
+    );
+  }
+
+  function careerOptionsHTML() {
+    return CAREERS.map(function (c) {
+      return '<option value="' + c.id + '"' + (c.id === state.careerId ? ' selected' : '') + '>' + c.label + '</option>';
+    }).join('');
+  }
+
+  function render() {
+    root.innerHTML =
+      '<div class="calc-form-col">' +
+        '<div class="calc-card">' +
+          '<div class="calc-card-title">Program Length &amp; Inflation</div>' +
+          '<div class="field-grid">' +
+            '<div class="field-group"><label class="field-label">Years to Complete</label><input class="field-input" type="number" step="1" id="ccc-years" value="' + state.years + '"></div>' +
+            '<div class="field-group"><label class="field-label">Annual Cost Increase <span style="color:var(--text-light);font-weight:400">(%)</span></label><input class="field-input" type="number" step="0.1" id="ccc-increase" value="' + state.increase + '"></div>' +
+          '</div>' +
+          '<div id="ccc-cost-forms"></div>' +
+          '<div class="ccc-section-title">Financing</div>' +
+          '<div class="field-grid">' +
+            '<div class="field-group"><label class="field-label">Savings / Family Contribution <span style="color:var(--text-light);font-weight:400">(total, $)</span></label><input class="field-input" type="number" step="500" id="ccc-family" value="' + state.familyContribution + '"></div>' +
+            '<div class="field-group"><label class="field-label">Student Loan Interest Rate <span style="color:var(--text-light);font-weight:400">(%)</span></label><input class="field-input" type="number" step="0.1" id="ccc-rate" value="' + state.rate + '"></div>' +
+            '<div class="field-group"><label class="field-label">Loan Repayment Term <span style="color:var(--text-light);font-weight:400">(years)</span></label><input class="field-input" type="number" step="1" id="ccc-term" value="' + state.loanTerm + '"></div>' +
+          '</div>' +
+          '<div class="ccc-section-title">Projected Career &amp; Entry Salary</div>' +
+          '<div class="field-grid">' +
+            '<div class="field-group span-2"><label class="field-label">Major / Career Path</label><select class="field-select" id="ccc-career">' + careerOptionsHTML() + '</select></div>' +
+            '<div class="field-group span-2" id="ccc-custom-salary-wrap" style="display:none"><label class="field-label">Entry-Level Salary <span style="color:var(--text-light);font-weight:400">($/yr)</span></label><input class="field-input" type="number" step="1000" id="ccc-custom-salary" value="' + state.customSalary + '"></div>' +
+          '</div>' +
+          '<div class="ccc-note">Salary figures are general, rounded estimates for illustration only — not live labor-market data. See the FAQ below.</div>' +
+          '<button type="button" class="btn-primary" id="ccc-calc" style="margin-top:14px;">Calculate</button>' +
+        '</div>' +
+        '<div class="calc-card result-panel" id="result-panel">' +
+          '<div class="result-headline-label" id="result-label"></div>' +
+          '<div class="result-headline" id="result-headline"></div>' +
+          '<div class="stat-grid" id="result-stats"></div>' +
+          '<div id="ccc-affordability"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="calc-side-col">' +
+        '<div class="calc-card" id="chart-card" style="display:none">' +
+          '<div class="calc-card-title" id="chart-title">Visual Breakdown</div>' +
+          '<div class="chart-wrap"><canvas id="result-chart"></canvas></div>' +
+          '<div class="chart-legend" id="chart-legend"></div>' +
+          '<button type="button" class="btn-secondary" id="btn-chart-pdf" style="margin-top:10px">Download chart as PDF</button>' +
+        '</div>' +
+        '<div class="calc-card">' +
+          '<div class="calc-card-title">Your History &mdash; ' + CalcHub.escapeHTML(meta.name) + '</div>' +
+          '<div id="calc-history"></div>' +
+        '</div>' +
+      '</div>';
+
+    renderCostForms();
+    bindEvents();
+    CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+      calcId: CALC_ID, title: '',
+      emptyText: "Run a calculation above and it'll be saved here automatically."
+    });
+  }
+
+  function renderCostForms() {
+    var wrap = document.getElementById('ccc-cost-forms');
+    if (state.tab === 'oncampus') {
+      wrap.innerHTML = '<div class="ccc-section-title">On-Campus Annual Costs</div>' + costFieldsHTML('on', state.on);
+    } else if (state.tab === 'offcampus') {
+      wrap.innerHTML = '<div class="ccc-section-title">Off-Campus Annual Costs</div>' + costFieldsHTML('off', state.off);
+    } else {
+      wrap.innerHTML =
+        '<div class="ccc-section-title">Annual Costs &mdash; Compare Both</div>' +
+        '<div class="ccc-compare-grid">' +
+          '<div><div class="ccc-section-title" style="margin-top:0">On-Campus</div>' + costFieldsHTML('on', state.on) + '</div>' +
+          '<div><div class="ccc-section-title" style="margin-top:0">Off-Campus</div>' + costFieldsHTML('off', state.off) + '</div>' +
+        '</div>';
+    }
+    bindCostInputs();
+  }
+
+  function bindCostInputs() {
+    ['on', 'off'].forEach(function (p) {
+      Object.keys(state[p]).forEach(function (key) {
+        var el = document.getElementById(p + '-' + key);
+        if (el) el.addEventListener('input', function () { state[p][key] = parseFloat(el.value) || 0; });
+      });
+    });
+  }
+
+  function bindEvents() {
+    document.getElementById('ccc-years').addEventListener('input', function (e) { state.years = parseFloat(e.target.value) || 1; });
+    document.getElementById('ccc-increase').addEventListener('input', function (e) { state.increase = parseFloat(e.target.value) || 0; });
+    document.getElementById('ccc-family').addEventListener('input', function (e) { state.familyContribution = parseFloat(e.target.value) || 0; });
+    document.getElementById('ccc-rate').addEventListener('input', function (e) { state.rate = parseFloat(e.target.value) || 0; });
+    document.getElementById('ccc-term').addEventListener('input', function (e) { state.loanTerm = parseFloat(e.target.value) || 1; });
+
+    var careerSel = document.getElementById('ccc-career');
+    var customWrap = document.getElementById('ccc-custom-salary-wrap');
+    careerSel.addEventListener('change', function () {
+      state.careerId = careerSel.value;
+      customWrap.style.display = state.careerId === 'custom' ? '' : 'none';
+    });
+    customWrap.style.display = state.careerId === 'custom' ? '' : 'none';
+    var customInput = document.getElementById('ccc-custom-salary');
+    customInput.addEventListener('input', function () { state.customSalary = parseFloat(customInput.value) || 0; });
+
+    document.getElementById('ccc-calc').addEventListener('click', runCalc);
+
+    var pdfBtn = document.getElementById('btn-chart-pdf');
+    if (pdfBtn) pdfBtn.addEventListener('click', function () {
+      CalcHub.downloadCanvasAsPDF(document.getElementById('result-chart'), 'college-cost-chart.pdf');
+    });
+  }
+
+  document.getElementById('ccc-tabs').addEventListener('click', function (e) {
+    var btn = e.target.closest('.ccc-tab');
+    if (!btn) return;
+    state.tab = btn.getAttribute('data-tab');
+    document.querySelectorAll('.ccc-tab').forEach(function (b) { b.classList.toggle('active', b === btn); });
+    renderCostForms();
+  });
+
+  /* ---------------- calculation engine ---------------- */
+  function projectProfile(v, years, increasePct) {
+    var t = v.tuition, h = v.housing, f = v.food || 0, b = v.books, tr = v.transport, p = v.personal;
+    var totalGross = 0, totalAid = 0, totalWork = 0, perYearNet = [];
+    for (var i = 0; i < years; i++) {
+      var yearGross = t + h + f + b + tr + p;
+      var yearNet = Math.max(0, yearGross - v.aid - v.workstudy);
+      totalGross += yearGross;
+      totalAid += v.aid;
+      totalWork += v.workstudy;
+      perYearNet.push(Math.round(yearNet));
+      var g = 1 + increasePct / 100;
+      t *= g; h *= g; f *= g; b *= g; tr *= g; p *= g;
+    }
+    var totalNet = perYearNet.reduce(function (a, b2) { return a + b2; }, 0);
+    return { totalGross: totalGross, totalAid: totalAid, totalWork: totalWork, totalNet: totalNet, perYearNet: perYearNet };
+  }
+
+  function amortizedMonthly(principal, annualRatePct, termYears) {
+    if (principal <= 0) return { monthly: 0, totalPaid: 0, totalInterest: 0 };
+    var r = (annualRatePct / 100) / 12;
+    var n = termYears * 12;
+    var monthly = r === 0 ? principal / n : principal * r / (1 - Math.pow(1 + r, -n));
+    var totalPaid = monthly * n;
+    return { monthly: monthly, totalPaid: totalPaid, totalInterest: totalPaid - principal };
+  }
+
+  function getSalary() {
+    if (state.careerId === 'custom') return state.customSalary;
+    var c = CAREERS.filter(function (c2) { return c2.id === state.careerId; })[0];
+    return c ? c.salary : 50000;
+  }
+
+  function affordabilityVerdict(ratioPct) {
+    if (ratioPct <= 8) return { cls: 'good', text: 'Manageable — under 8% of gross monthly income' };
+    if (ratioPct <= 15) return { cls: 'ok', text: 'Tight but workable — 8-15% of gross monthly income' };
+    return { cls: 'risky', text: 'High burden — over 15% of gross monthly income' };
+  }
+
+  function renderAffordability(loanPrincipal) {
+    var loan = amortizedMonthly(loanPrincipal, state.rate, state.loanTerm);
+    var salary = getSalary();
+    var monthlyGross = salary / 12;
+    var ratio = monthlyGross > 0 ? (loan.monthly / monthlyGross) * 100 : 0;
+    var verdict = affordabilityVerdict(ratio);
+    var careerLabel = state.careerId === 'custom' ? 'your entered salary' : CAREERS.filter(function (c) { return c.id === state.careerId; })[0].label;
+
+    document.getElementById('ccc-affordability').innerHTML =
+      '<div class="ccc-section-title">Loan Payoff vs. ' + CalcHub.escapeHTML(careerLabel) + '</div>' +
+      '<div class="stat-grid">' +
+        '<div class="stat-card"><div class="stat-card-label">Total Borrowed</div><div class="stat-card-value">' + CalcHub.fmtUSD0(loanPrincipal) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Monthly Payment (' + state.loanTerm + '-yr)</div><div class="stat-card-value">' + CalcHub.fmtUSD(loan.monthly) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Total Interest Paid</div><div class="stat-card-value">' + CalcHub.fmtUSD0(loan.totalInterest) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Entry Salary</div><div class="stat-card-value">' + CalcHub.fmtUSD0(salary) + '/yr</div></div>' +
+        '<div class="stat-card highlight"><div class="stat-card-label">Payment as % of Gross Income</div><div class="stat-card-value">' + ratio.toFixed(1) + '%</div></div>' +
+      '</div>' +
+      '<span class="ccc-verdict ' + verdict.cls + '">' + verdict.text + '</span>' +
+      '<div class="ccc-note">Rule of thumb only: a student-loan payment under roughly 8-10% of gross monthly income is generally considered manageable. This compares against gross (pre-tax) income, so your real after-tax budget will feel tighter.</div>';
+
+    return loan;
+  }
+
+  function runCalc() {
+    var years = state.years, inc = state.increase;
+    var resultPanel = document.getElementById('result-panel');
+    var chartCard = document.getElementById('chart-card');
+    resultPanel.classList.add('visible');
+
+    if (state.tab === 'compare') {
+      var on = projectProfile(state.on, years, inc);
+      var off = projectProfile(state.off, years, inc);
+      var onLoan = Math.max(0, on.totalNet - state.familyContribution);
+      var offLoan = Math.max(0, off.totalNet - state.familyContribution);
+      var cheaper = on.totalNet <= off.totalNet ? 'On-campus' : 'Off-campus';
+
+      document.getElementById('result-label').textContent = 'On-Campus vs. Off-Campus — Total Net Cost';
+      document.getElementById('result-headline').textContent = cheaper + ' is cheaper over ' + years + ' years';
+      document.getElementById('result-stats').innerHTML =
+        '<div class="stat-card"><div class="stat-card-label">On-Campus Net Cost</div><div class="stat-card-value">' + CalcHub.fmtUSD0(on.totalNet) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Off-Campus Net Cost</div><div class="stat-card-value">' + CalcHub.fmtUSD0(off.totalNet) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Difference</div><div class="stat-card-value">' + CalcHub.fmtUSD0(Math.abs(on.totalNet - off.totalNet)) + '</div></div>';
+
+      var loanPrincipal = on.totalNet <= off.totalNet ? onLoan : offLoan;
+      var loanResult = renderAffordability(loanPrincipal);
+
+      chartCard.style.display = '';
+      document.getElementById('chart-title').textContent = 'On-Campus vs. Off-Campus (per year, net)';
+      var labels = on.perYearNet.map(function (_, i) { return 'Year ' + (i + 1); });
+      var chartCfg = { type: 'bar', labels: labels, series: [
+        { name: 'On-Campus', data: on.perYearNet, color: '#1a6e3c' },
+        { name: 'Off-Campus', data: off.perYearNet, color: '#b84f00' }
+      ] };
+      requestAnimationFrame(function () {
+        CalcHub.drawChart(document.getElementById('result-chart'), chartCfg);
+        CalcHub.renderLegend(document.getElementById('chart-legend'), chartCfg);
+      });
+
+      CalcHub.addHistory({
+        calcId: CALC_ID, calcName: meta.name, category: meta.category,
+        label: 'Compare: On-campus ' + CalcHub.fmtUSD0(on.totalNet) + ' vs Off-campus ' + CalcHub.fmtUSD0(off.totalNet) + ' (' + years + 'yr)',
+        resultValue: cheaper + ' cheaper by ' + CalcHub.fmtUSD0(Math.abs(on.totalNet - off.totalNet))
+      });
+      CalcHub.addRecent(CALC_ID);
+    } else {
+      var v = state.tab === 'oncampus' ? state.on : state.off;
+      var label = state.tab === 'oncampus' ? 'On-Campus' : 'Off-Campus';
+      var proj = projectProfile(v, years, inc);
+      var loanPrincipal2 = Math.max(0, proj.totalNet - state.familyContribution);
+
+      document.getElementById('result-label').textContent = 'Estimated Total Net Cost (' + label + ')';
+      document.getElementById('result-headline').textContent = CalcHub.fmtUSD0(proj.totalNet);
+      document.getElementById('result-stats').innerHTML =
+        '<div class="stat-card"><div class="stat-card-label">Total Gross Cost</div><div class="stat-card-value">' + CalcHub.fmtUSD0(proj.totalGross) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Total Aid + Work-Study</div><div class="stat-card-value">' + CalcHub.fmtUSD0(proj.totalAid + proj.totalWork) + '</div></div>' +
+        '<div class="stat-card"><div class="stat-card-label">Family/Savings Contribution</div><div class="stat-card-value">' + CalcHub.fmtUSD0(state.familyContribution) + '</div></div>' +
+        '<div class="stat-card highlight"><div class="stat-card-label">Amount to Finance (Loans)</div><div class="stat-card-value">' + CalcHub.fmtUSD0(loanPrincipal2) + '</div></div>';
+
+      renderAffordability(loanPrincipal2);
+
+      chartCard.style.display = '';
+      document.getElementById('chart-title').textContent = 'Net Cost by Year';
+      var labels2 = proj.perYearNet.map(function (_, i) { return 'Year ' + (i + 1); });
+      var chartCfg2 = { type: 'bar', labels: labels2, series: [{ name: 'Net Cost', data: proj.perYearNet, color: '#1a6e3c' }] };
+      requestAnimationFrame(function () {
+        CalcHub.drawChart(document.getElementById('result-chart'), chartCfg2);
+        CalcHub.renderLegend(document.getElementById('chart-legend'), chartCfg2);
+      });
+
+      CalcHub.addHistory({
+        calcId: CALC_ID, calcName: meta.name, category: meta.category,
+        label: label + ' ' + years + '-yr net cost: ' + CalcHub.fmtUSD0(proj.totalNet),
+        resultValue: CalcHub.fmtUSD0(proj.totalNet)
+      });
+      CalcHub.addRecent(CALC_ID);
+    }
+  }
+
+  function renderTips() {
+    document.getElementById('ccc-tips').innerHTML = TIPS.map(function (tip, i) {
+      return '<div class="ccc-tip"><span class="ccc-tip-icon">' + (i + 1) + '</span><span><strong>' + CalcHub.escapeHTML(tip.t) + '.</strong> ' + CalcHub.escapeHTML(tip.d) + '</span></div>';
+    }).join('');
+  }
+
+  render();
+  renderTips();
+  runCalc();
+})();
+</script>
+</body>
+</html>

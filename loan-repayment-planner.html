@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Loan Repayment Planner: Loan Repayment Planner & Amortization Calculator</title>
+<meta name="description" content="See how extra monthly payments shorten a loan's payoff time and cut down total interest paid.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/loan-repayment-planner">
+<meta property="og:title" content="Loan Repayment Planner: Loan Repayment Planner & Amortization Calculator">
+<meta property="og:description" content="See how extra monthly payments shorten a loan's payoff time and cut down total interest paid.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/loan-repayment-planner.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Loan Repayment Planner: Loan Repayment Planner & Amortization Calculator">
+<meta name="twitter:description" content="See how extra monthly payments shorten a loan's payoff time and cut down total interest paid.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan Repayment Planner: Loan Repayment Planner & Amortization Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "See how extra monthly payments shorten a loan's payoff time and cut down total interest paid.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Loan Repayment Planner: Loan Repayment Planner & Amortization Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Loan Repayment Planner: Loan Repayment Planner & Amortization Calculator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">See how extra monthly payments shorten a loan's payoff time and cut down total interest paid.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>How extra payments actually save money</h2>
+<p>Extra payments reduce the balance that future interest gets calculated on. Because loan payments are front-loaded with interest, an extra principal payment made early in the term saves more total interest than the same extra amount paid later.</p>
+<h2>A common mix-up</h2>
+<p>Paying biweekly instead of monthly isn't a separate trick — 26 half-payments a year works out to one extra full payment annually, which is just a specific, automatic version of the extra-payment strategy this tool models directly.</p>
+      <h1>Loan Repayment Planning</h1>
+<p>A loan repayment planner is a structural tool designed to optimize how borrowers eliminate outstanding debts like student loans, auto financing, or personal balances. Managing multiple credit streams simultaneously can result in high interest fees and extended repayment timelines if handled without a unified strategy. A repayment planner organizes your debts into a cohesive workflow, allowing you to run calculations on how extra monthly payments accelerate your debt-free date. By taking control of your payment structures, you can systematically reduce the total interest paid over the life of your loans and free up cash for long-term financial goals.</p>
+
+<h2>Repayment Planner Components</h2>
+<p>Building a successful debt elimination strategy requires gathering exact data points across all active liability statements.</p>
+<ul>
+    <li><strong>Total Balance Owed:</strong> The current remaining payoff balance required to wipe out the loan obligation completely.</li>
+    <li><strong>Interest Rate (APR):</strong> The fixed or variable percentage rate charged by the financial institution for managing the loan account.</li>
+    <li><strong>Minimum Monthly Payment:</strong> The mandatory dollar amount required by the lender each month to avoid late penalties and account default.</li>
+    <li><strong>Extra Budget Allocation:</strong> The discretionary cash cushion you can comfortably add to your minimum payments each month to speed up your payoff.</li>
+</ul>
+
+<h2>Structured Debt Payoff Acceleration</h2>
+<p>A loan planner helps you route extra debt reduction cash using proven mathematical or psychological frameworks.</p>
+<ul>
+    <li><strong>The Debt Avalanche:</strong> All extra repayment funds target the loan carrying the highest interest rate first, minimizing your overall lifetime interest expenses.</li>
+    <li><strong>The Debt Snowball:</strong> Extra funds target the smallest absolute balance first, wiping out individual lines of credit quickly to generate fast motivational momentum.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>Will making extra payments automatically lower my loan interest costs?</h3>
+<p>Yes, provided the extra cash is specifically applied to your principal balance rather than being advanced toward next month's regular payment. Lowering your underlying principal ensures the bank has a smaller base to calculate interest against during the next billing cycle.</p>
+
+<h3>What is a prepayment penalty and how do I avoid it?</h3>
+<p>A prepayment penalty is a clause in certain loan contracts that charges a fee if you pay off the debt ahead of schedule, as early repayment cuts into the lender's expected interest profits. Most modern consumer loans do not include this penalty, but you must double-check your loan agreement before accelerating payments.</p>
+
+<h3>Should I consolidate my loans into a single payment stream?</h3>
+<p>Loan consolidation combines multiple individual balances into one single loan with one fixed monthly payment. This simplifies your monthly budgeting tracking and can lower your payment, but you should only proceed if the new consolidation loan offers an interest rate lower than your current weighted average.</p>
+
+<h3>What happens if I can no longer afford my minimum loan payments?</h3>
+<p>If you face a sudden financial crisis, contact your loan servicer immediately before missing a payment deadline. Many lenders offer temporary hardship forbearance, income-driven repayment adjustments, or modified payment structures to keep your account out of default and protect your credit score.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'loan-repayment-planner');
+
+
+CalcHub.initCalculatorPage({
+  id: 'loan-repayment-planner',
+  fields: [
+    {id:'loan', label:'Loan Amount', unit:'$', default:20000, step:500},
+    {id:'rate', label:'Interest Rate', unit:'%', default:7, step:0.01},
+    {id:'years', label:'Loan Term', unit:'years', default:5, step:1},
+    {id:'extra', label:'Extra Monthly Payment', unit:'$', default:100, step:10}
+  ],
+  compute: function(v){
+    function amortize(loan, rate, n, extra){
+      var r = rate/100/12;
+      var basePayment = r === 0 ? loan/n : loan * r / (1 - Math.pow(1+r, -n));
+      var payment = basePayment + extra;
+      var balance = loan, months = 0, interestPaid = 0;
+      var track = [];
+      while (balance > 0.5 && months < 1200) {
+        var interest = balance * r;
+        var principal = Math.min(balance, payment - interest);
+        if (principal <= 0) { months = 1200; break; }
+        balance -= principal;
+        interestPaid += interest;
+        months++;
+        if (months % 12 === 0 || balance <= 0.5) track.push(Math.max(0,balance));
+      }
+      return {months: months, interestPaid: interestPaid, track: track, basePayment: basePayment};
+    }
+    var n = v.years*12;
+    var withExtra = amortize(v.loan, v.rate, n, v.extra);
+    var without = amortize(v.loan, v.rate, n, 0);
+    var monthsSaved = without.months - withExtra.months;
+    var interestSaved = without.interestPaid - withExtra.interestPaid;
+    var labels = withExtra.track.map(function(_,i){return 'Yr ' + (i+1);});
+    return {
+      label: 'Payoff Timeline With Extra Payments',
+      headline: Math.floor(withExtra.months/12) + 'y ' + (withExtra.months%12) + 'm to pay off',
+      stats: [
+        {label:'Monthly Payment', value: CalcHub.fmtUSD(without.basePayment + v.extra)},
+        {label:'Months Saved', value: monthsSaved + ' mo', highlight: monthsSaved>0},
+        {label:'Interest Saved', value: CalcHub.fmtUSD0(interestSaved)},
+        {label:'Total Interest Paid', value: CalcHub.fmtUSD0(withExtra.interestPaid)}
+      ],
+      chart: {type:'line', labels: labels, series:[
+        {name:'Balance (with extra)', data: withExtra.track, color:'#1a6e3c'},
+        {name:'Balance (no extra)', data: without.track.slice(0, withExtra.track.length), color:'#a32020'}
+      ]},
+      historyLabel: CalcHub.fmtUSD0(v.loan) + ' @ ' + v.rate + '% \u2192 payoff in ' + Math.floor(withExtra.months/12) + 'y ' + (withExtra.months%12) + 'm',
+      copyValue: 'Payoff in ' + Math.floor(withExtra.months/12) + 'y ' + (withExtra.months%12) + 'm, saving ' + CalcHub.fmtUSD0(interestSaved) + ' interest'
+    };
+  },
+  explain: function(v, r){
+    if (v.extra === 0) return "You haven't added any extra payment above the base amount \u2014 try entering even a modest extra amount to see how much time and interest it can save, since extra payments go straight to principal.";
+    var monthsSaved = parseFloat(r.stats[1].value);
+    var interestSaved = parseFloat(String(r.stats[2].value).replace(/[^0-9.-]/g,''));
+    if (monthsSaved > 24) return "This extra payment saves over 2 years and " + CalcHub.fmtUSD0(interestSaved) + " in interest \u2014 a meaningful acceleration. Confirm with your lender that extra payments are applied directly to principal, not held toward next month's payment.";
+    if (monthsSaved > 0) return "This extra payment shortens your payoff timeline and cuts interest costs \u2014 worth confirming your lender applies the extra amount to principal, not future payments.";
+    return "";
+  }
+});
+
+</script>
+</body>
+</html>

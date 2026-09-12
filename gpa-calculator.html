@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>GPA Calculator: Semester, Cumulative, What-If & Target Grade Planner</title>
+<meta name="description" content="Calculate semester GPA, cumulative GPA, plan target grades, and test what-if scenarios with full transparency and custom grading policies.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/gpa-calculator"> 
+<meta property="og:title" content="GPA Calculator: Semester, Cumulative, What-If & Target Grade Planner">
+<meta property="og:description" content="Calculate semester GPA, cumulative GPA, plan target grades, and test what-if scenarios with full transparency and custom grading policies.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GPA Calculator: Semester, Cumulative, What-If & Target Grade Planner">
+<meta name="twitter:description" content="Calculate semester GPA, cumulative GPA, plan target grades, and test what-if scenarios.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+.tab-nav { 
+  display: flex; 
+  gap: 0; 
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp-lg);
+  flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 12px var(--sp-md);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: color 0.2s, border-color 0.2s;
+}
+.tab-btn:hover {
+  color: var(--text);
+}
+.tab-btn.active {
+  color: var(--link);
+  border-bottom-color: var(--link);
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+.calc-form-col, .calc-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+.calc-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-lg);
+}
+.calc-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--sp-md);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.field-input, .field-select {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: var(--sp-sm);
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.field-input:focus, .field-select:focus {
+  outline: none;
+  border-color: var(--link);
+  background-color: var(--surface);
+}
+.field-group {
+  margin-bottom: var(--sp-md);
+}
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--sp-xs);
+}
+.btn-primary {
+  padding: 11px 16px;
+  background-color: var(--education);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.result-panel {
+  background: linear-gradient(135deg, var(--surface-alt) 0%, var(--surface) 100%);
+  border: 2px solid var(--education);
+  display: none;
+}
+.result-panel.visible {
+  display: block;
+}
+.result-headline-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  margin-bottom: var(--sp-sm);
+}
+.result-headline {
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--education);
+  font-family: 'DM Serif Display', Georgia, serif;
+  margin-bottom: var(--sp-lg);
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-md);
+  margin-bottom: var(--sp-md);
+}
+.stat-card {
+  background: var(--surface);
+  padding: var(--sp-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.stat-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  margin-bottom: var(--sp-xs);
+}
+.stat-card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--link);
+  font-family: 'Inter', sans-serif;
+}
+.result-explain {
+  background: var(--surface-alt);
+  border-left: 4px solid var(--education);
+  padding: var(--sp-md);
+  border-radius: var(--radius-md);
+  margin-top: var(--sp-md);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.result-explain.success {
+  border-left-color: var(--finance);
+}
+.result-explain.warning {
+  border-left-color: #d97706;
+}
+.result-explain.danger {
+  border-left-color: var(--health);
+}
+@media (max-width: 860px) {
+  .calc-layout {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-education">Education & Grades</a><span>/</span>
+    <span>GPA Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">GPA Calculator: Semester, Cumulative, What-If & Target Grade Planner</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Calculate your GPA across multiple scenarios: term GPA, cumulative standing, what-if grade testing, and target GPA planning with full transparency and custom grading policies.</p>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="semester">Semester GPA</button>
+    <button class="tab-btn" data-tab="cumulative">Cumulative GPA</button>
+    <button class="tab-btn" data-tab="whatif">What-If Planner</button>
+    <button class="tab-btn" data-tab="target">Target Goal Planner</button>
+  </div>
+
+  <!-- SEMESTER TAB -->
+  <div id="semester" class="tab-content active">
+    <div class="calc-layout">
+      <div class="calc-form-col">
+        <div class="calc-card">
+          <div class="calc-card-title">Your Courses</div>
+          
+          <div class="field-group">
+            <label class="field-label">Grade Scale</label>
+            <select class="field-select" id="sem-grade-scale">
+              <option value="4.0">Standard 4.0 Scale</option>
+              <option value="4.3">Extended 4.3 (Honors/AP)</option>
+              <option value="5.0">5.0 Scale (IB)</option>
+              <option value="custom">Custom Scale</option>
+            </select>
+          </div>
+
+          <div id="sem-custom-scale-group" style="display:none;" class="field-group">
+            <label class="field-label">Custom Grade Mapping (A=?, B=?, etc.)</label>
+            <input type="text" class="field-input" id="sem-custom-scale" placeholder="e.g., A=4.0,B=3.0,C=2.0,D=1.0,F=0.0" value="A=4.0,B=3.0,C=2.0,D=1.0,F=0.0">
+          </div>
+
+          <div class="row-table" id="sem-rows"></div>
+          <button class="btn-secondary" id="sem-add">+ Add Course</button>
+          <button class="btn-primary" id="sem-calc" style="margin-top:10px">Calculate Semester GPA</button>
+        </div>
+      </div>
+
+      <div class="calc-side-col">
+        <div class="calc-card result-panel" id="sem-result">
+          <div class="result-headline-label">Your Semester GPA</div>
+          <div class="result-headline" id="sem-headline">0.00</div>
+          <div class="stat-grid" id="sem-stats"></div>
+          <div class="result-explain" id="sem-advice"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUMULATIVE TAB -->
+  <div id="cumulative" class="tab-content">
+    <div class="calc-layout">
+      <div class="calc-form-col">
+        <div class="calc-card">
+          <div class="calc-card-title">Cumulative GPA Tracker</div>
+          
+          <div class="field-group">
+            <label class="field-label">Previous Cumulative GPA</label>
+            <input type="number" class="field-input" id="cum-prev-gpa" placeholder="e.g., 3.45" min="0" max="5" step="0.01" value="3.5">
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Credits Completed So Far</label>
+            <input type="number" class="field-input" id="cum-prev-credits" placeholder="e.g., 60" min="0" step="0.5" value="60">
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Grade Scale (This Term)</label>
+            <select class="field-select" id="cum-grade-scale">
+              <option value="4.0">Standard 4.0 Scale</option>
+              <option value="4.3">Extended 4.3 (Honors/AP)</option>
+              <option value="5.0">5.0 Scale (IB)</option>
+              <option value="custom">Custom Scale</option>
+            </select>
+          </div>
+
+          <div id="cum-custom-scale-group" style="display:none;" class="field-group">
+            <label class="field-label">Custom Grade Mapping</label>
+            <input type="text" class="field-input" id="cum-custom-scale" placeholder="e.g., A=4.0,B=3.0" value="A=4.0,B=3.0,C=2.0,D=1.0,F=0.0">
+          </div>
+
+          <div style="padding: var(--sp-md); background: var(--surface-alt); border-radius: var(--radius-md); margin-bottom: var(--sp-md); font-size: 12px; color: var(--text-light);">
+            <strong>This term's new courses:</strong>
+          </div>
+
+          <div class="row-table" id="cum-rows"></div>
+          <button class="btn-secondary" id="cum-add">+ Add Course</button>
+          <button class="btn-primary" id="cum-calc" style="margin-top:10px">Calculate New Cumulative GPA</button>
+        </div>
+      </div>
+
+      <div class="calc-side-col">
+        <div class="calc-card result-panel" id="cum-result">
+          <div class="result-headline-label">New Cumulative GPA</div>
+          <div class="result-headline" id="cum-headline">0.00</div>
+          <div class="stat-grid" id="cum-stats"></div>
+          <div class="result-explain" id="cum-advice"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT-IF TAB -->
+  <div id="whatif" class="tab-content">
+    <div class="calc-layout">
+      <div class="calc-form-col">
+        <div class="calc-card">
+          <div class="calc-card-title">What-If Grade Scenario</div>
+          
+          <div class="field-group">
+            <label class="field-label">Grade Scale</label>
+            <select class="field-select" id="wif-grade-scale">
+              <option value="4.0">Standard 4.0 Scale</option>
+              <option value="4.3">Extended 4.3 (Honors/AP)</option>
+              <option value="5.0">5.0 Scale (IB)</option>
+              <option value="custom">Custom Scale</option>
+            </select>
+          </div>
+
+          <div id="wif-custom-scale-group" style="display:none;" class="field-group">
+            <label class="field-label">Custom Grade Mapping</label>
+            <input type="text" class="field-input" id="wif-custom-scale" placeholder="e.g., A=4.0,B=3.0" value="A=4.0,B=3.0,C=2.0,D=1.0,F=0.0">
+          </div>
+
+          <div style="padding: var(--sp-md); background: var(--surface-alt); border-radius: var(--radius-md); margin-bottom: var(--sp-md); font-size: 12px; color: var(--text-light);">
+            <strong>Set up your courses, then test a hypothetical grade:</strong>
+          </div>
+
+          <div class="row-table" id="wif-rows"></div>
+          <button class="btn-secondary" id="wif-add">+ Add Course</button>
+
+          <div style="border-top: 1px solid var(--border); padding-top: var(--sp-md); margin-top: var(--sp-md);">
+            <div class="field-group">
+              <label class="field-label">Test Grade in Course</label>
+              <select class="field-select" id="wif-test-course">
+                <option value="">Select a course...</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Hypothetical Grade</label>
+              <select class="field-select" id="wif-test-grade">
+                <option value="">Select grade...</option>
+                <option value="A">A</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="B-">B-</option>
+                <option value="C+">C+</option>
+                <option value="C">C</option>
+                <option value="C-">C-</option>
+                <option value="D+">D+</option>
+                <option value="D">D</option>
+                <option value="F">F</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="wif-calc" style="margin-top:10px">Run Scenario</button>
+        </div>
+      </div>
+
+      <div class="calc-side-col">
+        <div class="calc-card result-panel" id="wif-result">
+          <div class="result-headline-label">Scenario Impact</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); margin-bottom: var(--sp-md);">
+            <div>
+              <div class="stat-card-label">Original GPA</div>
+              <div class="stat-card-value" id="wif-original">0.00</div>
+            </div>
+            <div>
+              <div class="stat-card-label">With New Grade</div>
+              <div class="stat-card-value" id="wif-new">0.00</div>
+            </div>
+          </div>
+          <div class="result-explain" id="wif-advice"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARGET TAB -->
+  <div id="target" class="tab-content">
+    <div class="calc-layout">
+      <div class="calc-form-col">
+        <div class="calc-card">
+          <div class="calc-card-title">Target GPA Planner</div>
+          
+          <div class="field-group">
+            <label class="field-label">Target GPA You Want</label>
+            <input type="number" class="field-input" id="tgt-target-gpa" placeholder="e.g., 3.75" min="0" max="5" step="0.01" value="3.75">
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Grade Scale</label>
+            <select class="field-select" id="tgt-grade-scale">
+              <option value="4.0">Standard 4.0 Scale</option>
+              <option value="4.3">Extended 4.3 (Honors/AP)</option>
+              <option value="5.0">5.0 Scale (IB)</option>
+              <option value="custom">Custom Scale</option>
+            </select>
+          </div>
+
+          <div id="tgt-custom-scale-group" style="display:none;" class="field-group">
+            <label class="field-label">Custom Grade Mapping</label>
+            <input type="text" class="field-input" id="tgt-custom-scale" placeholder="e.g., A=4.0,B=3.0" value="A=4.0,B=3.0,C=2.0,D=1.0,F=0.0">
+          </div>
+
+          <div style="padding: var(--sp-md); background: var(--surface-alt); border-radius: var(--radius-md); margin-bottom: var(--sp-md); font-size: 12px; color: var(--text-light);">
+            <strong>Enter your current + remaining courses:</strong>
+          </div>
+
+          <div class="row-table" id="tgt-rows"></div>
+          <button class="btn-secondary" id="tgt-add">+ Add Course</button>
+          <button class="btn-primary" id="tgt-calc" style="margin-top:10px">Calculate Required Grade</button>
+        </div>
+      </div>
+
+      <div class="calc-side-col">
+        <div class="calc-card result-panel" id="tgt-result">
+          <div class="result-headline-label">Grade You Need</div>
+          <div class="result-headline" id="tgt-headline">B+</div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-bottom: var(--sp-md); font-style: italic;" id="tgt-subtitle">...on average in remaining courses</div>
+          <div class="stat-grid" id="tgt-stats"></div>
+          <div class="result-explain" id="tgt-advice"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPLAINER SECTION -->
+  <section class="calc-explainer">
+<h2>How Credit-Weighted GPA Calculation Works</h2>
+<p>Unlike a simple average, GPA weights each course's grade points by its credit hours. A 4-credit course with a B (3.0 points) contributes 12 quality points, while a 1-credit course contributes only 3. Divide total quality points by total credits to find your GPA.</p>
+
+<h2>Why Grading Scales Vary by School</h2>
+<p>The "standard" 4.0 scale treats A=4.0 and B=3.0, but schools implement variations: some add extra points for AP/honors courses (4.3 or 5.0 scales), others use weighted multipliers, and some account for plus/minus grades differently. Always check your institution's official registrar policy for exact calculation rules.</p>
+
+<h1>GPA Calculation</h1>
+<p>A GPA calculator translates your course grades and credit hours into a single numerical score — a standardized measure of academic performance. Students use GPA to assess standing, plan for target goals, test scenarios, and understand what grades they need going forward. Educators use transparent calculators to help students understand grading mechanics and avoid confusion between hypothetical results and official records.</p>
+
+<h2>What This Calculator Covers</h2>
+<ul>
+  <li><strong>Semester GPA:</strong> Calculate your grade-point average for a single term with instant feedback.</li>
+  <li><strong>Cumulative GPA:</strong> Track how a new term's grades affect your overall standing, accounting for all prior credits.</li>
+  <li><strong>What-If Scenarios:</strong> Test a hypothetical grade in any course and see the impact on your GPA—clearly labeled as not official.</li>
+  <li><strong>Target GPA Planner:</strong> Set a goal GPA and see what average grade you need in remaining courses to reach it.</li>
+</ul>
+
+<h2>Key Features for Transparency</h2>
+<p><strong>Customizable Grading Scales:</strong> Choose from standard 4.0, extended 4.3 (for honors/AP), 5.0 (for IB), or define your school's exact letter-to-point mapping.</p>
+<p><strong>Course-by-Course Breakdown:</strong> Every result shows which courses contributed what quality points, so you can verify the math.</p>
+<p><strong>Separate Results for Estimates vs. Official Grades:</strong> What-if scenarios are visibly isolated from your actual GPA, preventing accidental confusion.</p>
+<p><strong>Clear Assumptions:</strong> Every result includes a disclaimer noting grading scale, weighting rules, and that your institution's official transcript policy controls the final number.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What's the difference between term GPA and cumulative GPA?</h3>
+<p>Term GPA covers a single semester or quarter — typically the most recent term you're calculating. Cumulative GPA is your average across all terms and credits at your institution. When you finish a strong semester, your cumulative GPA often lags behind your term GPA because it's a weighted average of all prior terms as well.</p>
+
+<h3>Why does my calculated GPA not match my transcript?</h3>
+<p>Common reasons: (1) Your school uses a different grading scale than the one you selected; (2) your school excludes certain courses (pass/fail, transfer credits, repeated courses); (3) your school weights courses differently (honors/AP multipliers vary widely); (4) plus/minus grades are handled differently. Always check your institution's official policy with your registrar.</p>
+
+<h3>What is "quality points" and why does it matter?</h3>
+<p>Quality points = grade points × course credits. For example, a B (3.0 points) in a 4-credit course = 12 quality points. Total GPA = total quality points ÷ total credits. Understanding this makes it obvious why a low grade in a high-credit course hurts more than the same grade in a low-credit course.</p>
+
+<h3>Can I retake a course to improve my GPA?</h3>
+<p>Yes, but your school's repeat policy matters. Some schools average both attempts, some replace the old grade with the new one, and some count both toward your total credits (making it harder to improve). Verify your institution's specific policy before assuming a retake will raise your GPA.</p>
+
+<h3>How do AP, honors, and IB courses affect my GPA?</h3>
+<p>It depends on your school's weighting policy. Some schools add 0.5–1.0 extra points for advanced courses (4.3 or 5.0 scale). Others give no boost on the transcript but use weighted GPA for admission purposes. Check your school's catalog to see how they handle course difficulty in GPA calculations.</p>
+
+<h3>What's a "good" GPA?</h3>
+<p>That depends on your goals. Most scholarships require a 3.0 minimum. Competitive programs often expect 3.5+. Graduate school, honor societies, and top internships typically target 3.7–3.9. For many purposes, 3.0+ is considered "good" and puts you above average. That said, GPA is one factor among many — don't let it be your only measure of success.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'gpa-calculator');
+
+(function() {
+  var meta = CalcHub.getCalcMeta('gpa-calculator');
+  var GRADES = [['A',4.0],['A-',3.7],['B+',3.3],['B',3.0],['B-',2.7],['C+',2.3],['C',2.0],['C-',1.7],['D+',1.3],['D',1.0],['D-',0.7],['F',0.0]];
+  var SCALE_4_0 = {};
+  var SCALE_4_3 = {};
+  var SCALE_5_0 = {};
+  GRADES.forEach(function(g) { SCALE_4_0[g[0]] = g[1]; });
+  [['A',4.3],['A-',4.0],['B+',3.7],['B',3.3],['B-',3.0],['C+',2.7],['C',2.3],['C-',2.0],['D+',1.7],['D',1.3],['D-',1.0],['F',0.0]].forEach(function(g) { SCALE_4_3[g[0]] = g[1]; });
+  [['A',5.0],['A-',4.7],['B+',4.3],['B',4.0],['B-',3.7],['C+',3.3],['C',3.0],['C-',2.7],['D+',2.3],['D',2.0],['D-',1.7],['F',0.0]].forEach(function(g) { SCALE_5_0[g[0]] = g[1]; });
+  
+  var gradeOptions = GRADES.map(function(g){ return '<option value="'+g[0]+'">'+g[0]+'</option>'; }).join('');
+  
+  function getScale(type, customStr) {
+    if (type === '4.0') return SCALE_4_0;
+    if (type === '4.3') return SCALE_4_3;
+    if (type === '5.0') return SCALE_5_0;
+    if (type === 'custom' && customStr) {
+      var scale = {};
+      customStr.split(',').forEach(function(pair) {
+        var p = pair.trim().split('=');
+        if (p[0] && p[1]) scale[p[0].trim()] = parseFloat(p[1]);
+      });
+      return Object.keys(scale).length ? scale : SCALE_4_0;
+    }
+    return SCALE_4_0;
+  }
+
+  function gradeToLetter(points, scale) {
+    var sorted = Object.keys(scale).map(function(g) { return [g, scale[g]]; }).sort(function(a,b) { return b[1]-a[1]; });
+    for (var i=0; i<sorted.length; i++) if (points >= sorted[i][1]-0.01) return sorted[i][0];
+    return 'F';
+  }
+
+  // ==== TAB SWITCHING ====
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var tabName = this.getAttribute('data-tab');
+      document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+      document.getElementById(tabName).classList.add('active');
+      this.classList.add('active');
+    });
+  });
+
+  // ==== SEMESTER TAB ====
+  var semData = [{ name: 'Course 1', grade: 'A', credits: 3 }];
+  var saved = CalcHub.getLastInputs('gpa-calculator-semester');
+  if (saved) semData = saved;
+
+  document.getElementById('sem-grade-scale').addEventListener('change', function() {
+    document.getElementById('sem-custom-scale-group').style.display = this.value === 'custom' ? 'block' : 'none';
+  });
+
+  function semRowHTML(r, idx) {
+    return '<div class="row-item" data-idx="'+idx+'">' +
+      '<input class="field-input sem-name" type="text" placeholder="Course name" value="'+CalcHub.escapeHTML(r.name)+'">' +
+      '<select class="field-select sem-grade">'+gradeOptions.replace('value="'+r.grade+'"','value="'+r.grade+'" selected')+'</select>' +
+      '<input class="field-input sem-credits" type="number" min="0" step="0.5" value="'+r.credits+'">' +
+      '<button type="button" class="row-remove-btn" title="Remove">&times;</button>' +
+    '</div>';
+  }
+
+  function renderSem() {
+    var html = semData.map(semRowHTML).join('');
+    document.getElementById('sem-rows').innerHTML = html;
+    document.querySelectorAll('#sem-rows .sem-name').forEach(function(el) {
+      el.addEventListener('input', function() { semData[this.closest('.row-item').getAttribute('data-idx')].name = this.value; });
+    });
+    document.querySelectorAll('#sem-rows .sem-grade').forEach(function(el) {
+      el.addEventListener('change', function() { semData[this.closest('.row-item').getAttribute('data-idx')].grade = this.value; });
+    });
+    document.querySelectorAll('#sem-rows .sem-credits').forEach(function(el) {
+      el.addEventListener('change', function() { semData[this.closest('.row-item').getAttribute('data-idx')].credits = parseFloat(this.value) || 0; });
+    });
+    document.querySelectorAll('#sem-rows .row-remove-btn').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(this.closest('.row-item').getAttribute('data-idx'));
+        semData.splice(idx, 1);
+        renderSem();
+      });
+    });
+  }
+  renderSem();
+
+  document.getElementById('sem-add').addEventListener('click', function() {
+    semData.push({ name: '', grade: 'A', credits: 3 });
+    renderSem();
+  });
+
+  document.getElementById('sem-calc').addEventListener('click', function() {
+    var scaleType = document.getElementById('sem-grade-scale').value;
+    var customStr = document.getElementById('sem-custom-scale').value;
+    var scale = getScale(scaleType, customStr);
+
+    var totalPoints = 0, totalCredits = 0;
+    semData.forEach(function(r) {
+      if (!scale[r.grade]) return;
+      var pts = scale[r.grade] * r.credits;
+      totalPoints += pts;
+      totalCredits += r.credits;
+    });
+
+    var gpa = totalCredits ? totalPoints / totalCredits : 0;
+    CalcHub.saveLastInputs('gpa-calculator-semester', semData);
+
+    document.getElementById('sem-headline').textContent = CalcHub.fmtNum(gpa, 2);
+    var statsHTML = '<div class="stat-card"><div class="stat-card-label">Total Credits</div><div class="stat-card-value">'+CalcHub.fmtNum(totalCredits)+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Courses</div><div class="stat-card-value">'+semData.length+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Quality Points</div><div class="stat-card-value">'+CalcHub.fmtNum(totalPoints)+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Scale</div><div class="stat-card-value">'+scaleType+'</div></div>';
+    document.getElementById('sem-stats').innerHTML = statsHTML;
+
+    var advice = '';
+    if (gpa >= 3.9) advice = 'Outstanding! You\'re in the top tier. Competitive for honors programs, scholarships, and selective admissions.';
+    else if (gpa >= 3.7) advice = 'Excellent work. Strong GPA for scholarships, honors societies, and competitive programs.';
+    else if (gpa >= 3.5) advice = 'Strong performance. Above typical scholarship thresholds. On track for graduate programs.';
+    else if (gpa >= 3.0) advice = 'Solid, above-average GPA. Good standing for most institutions and opportunities.';
+    else if (gpa >= 2.5) advice = 'Below average. Many scholarships require 3.0+. Consider support if aiming higher.';
+    else if (gpa >= 2.0) advice = 'Below 2.0 threshold. This often triggers academic probation. Speak with an advisor about a recovery plan.';
+    else advice = 'Critical. Below 2.0 is serious. Contact your advisor immediately.';
+
+    var adviceEl = document.getElementById('sem-advice');
+    adviceEl.textContent = advice;
+    adviceEl.className = 'result-explain' + (gpa >= 3.5 ? ' success' : gpa >= 2.0 ? '' : ' danger');
+
+    document.getElementById('sem-result').classList.add('visible');
+    CalcHub.addHistory({ calcId:'gpa-calculator', calcName: meta.name, category: meta.category, label: CalcHub.fmtNum(gpa,2)+' GPA ('+CalcHub.fmtNum(totalCredits)+' credits)', resultValue: CalcHub.fmtNum(gpa,3)+' GPA' });
+    CalcHub.addRecent('gpa-calculator');
+  });
+
+  // ==== CUMULATIVE TAB ====
+  var cumData = [{ name: 'Course 1', grade: 'A', credits: 3 }];
+  var saved = CalcHub.getLastInputs('gpa-calculator-cumulative');
+  if (saved) cumData = saved;
+
+  document.getElementById('cum-grade-scale').addEventListener('change', function() {
+    document.getElementById('cum-custom-scale-group').style.display = this.value === 'custom' ? 'block' : 'none';
+  });
+
+  function cumRowHTML(r, idx) {
+    return '<div class="row-item" data-idx="'+idx+'">' +
+      '<input class="field-input cum-name" type="text" placeholder="Course name" value="'+CalcHub.escapeHTML(r.name)+'">' +
+      '<select class="field-select cum-grade">'+gradeOptions.replace('value="'+r.grade+'"','value="'+r.grade+'" selected')+'</select>' +
+      '<input class="field-input cum-credits" type="number" min="0" step="0.5" value="'+r.credits+'">' +
+      '<button type="button" class="row-remove-btn" title="Remove">&times;</button>' +
+    '</div>';
+  }
+
+  function renderCum() {
+    var html = cumData.map(cumRowHTML).join('');
+    document.getElementById('cum-rows').innerHTML = html;
+    document.querySelectorAll('#cum-rows .cum-name').forEach(function(el) {
+      el.addEventListener('input', function() { cumData[this.closest('.row-item').getAttribute('data-idx')].name = this.value; });
+    });
+    document.querySelectorAll('#cum-rows .cum-grade').forEach(function(el) {
+      el.addEventListener('change', function() { cumData[this.closest('.row-item').getAttribute('data-idx')].grade = this.value; });
+    });
+    document.querySelectorAll('#cum-rows .cum-credits').forEach(function(el) {
+      el.addEventListener('change', function() { cumData[this.closest('.row-item').getAttribute('data-idx')].credits = parseFloat(this.value) || 0; });
+    });
+    document.querySelectorAll('#cum-rows .row-remove-btn').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(this.closest('.row-item').getAttribute('data-idx'));
+        cumData.splice(idx, 1);
+        renderCum();
+      });
+    });
+  }
+  renderCum();
+
+  document.getElementById('cum-add').addEventListener('click', function() {
+    cumData.push({ name: '', grade: 'A', credits: 3 });
+    renderCum();
+  });
+
+  document.getElementById('cum-calc').addEventListener('click', function() {
+    var prevGPA = parseFloat(document.getElementById('cum-prev-gpa').value) || 0;
+    var prevCredits = parseFloat(document.getElementById('cum-prev-credits').value) || 0;
+    var scaleType = document.getElementById('cum-grade-scale').value;
+    var customStr = document.getElementById('cum-custom-scale').value;
+    var scale = getScale(scaleType, customStr);
+
+    var termPoints = 0, termCredits = 0;
+    cumData.forEach(function(r) {
+      if (!scale[r.grade]) return;
+      var pts = scale[r.grade] * r.credits;
+      termPoints += pts;
+      termCredits += r.credits;
+    });
+
+    var termGPA = termCredits ? termPoints / termCredits : 0;
+    var prevPoints = prevGPA * prevCredits;
+    var newTotalPoints = prevPoints + termPoints;
+    var newTotalCredits = prevCredits + termCredits;
+    var newCumGPA = newTotalCredits ? newTotalPoints / newTotalCredits : 0;
+    var change = newCumGPA - prevGPA;
+    CalcHub.saveLastInputs('gpa-calculator-cumulative', cumData);
+
+    document.getElementById('cum-headline').textContent = CalcHub.fmtNum(newCumGPA, 2);
+    var statsHTML = '<div class="stat-card"><div class="stat-card-label">Previous GPA</div><div class="stat-card-value">'+CalcHub.fmtNum(prevGPA, 2)+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">This Term</div><div class="stat-card-value">'+CalcHub.fmtNum(termGPA, 2)+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Total Credits</div><div class="stat-card-value">'+CalcHub.fmtNum(newTotalCredits)+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Change</div><div class="stat-card-value">' + (change >= 0 ? '+' : '') + CalcHub.fmtNum(change, 2) + '</div></div>';
+    document.getElementById('cum-stats').innerHTML = statsHTML;
+
+    var advice = '';
+    if (change > 0.2) advice = 'Strong semester! Your cumulative GPA improved by '+CalcHub.fmtNum(Math.abs(change),2)+'. Keep this momentum going.';
+    else if (change > 0) advice = 'Positive progress. Your cumulative GPA is moving in the right direction.';
+    else if (change === 0) advice = 'Maintained stability. This term matched your previous average.';
+    else if (change > -0.2) advice = 'Slight decline. This term was weaker, but modest. Recover with a strong next semester.';
+    else advice = 'Significant drop. This semester was notably weaker. Consider what changed and seek support.';
+
+    if (newCumGPA < 2.0) advice += ' Critical: Your cumulative GPA is below 2.0—contact your advisor today.';
+
+    var adviceEl = document.getElementById('cum-advice');
+    adviceEl.textContent = advice;
+    adviceEl.className = 'result-explain' + (newCumGPA >= 3.5 ? ' success' : newCumGPA < 2.0 ? ' danger' : '');
+
+    document.getElementById('cum-result').classList.add('visible');
+  });
+
+  // ==== WHAT-IF TAB ====
+  var wifData = [{ name: 'Course 1', grade: 'A', credits: 3 }];
+  var saved = CalcHub.getLastInputs('gpa-calculator-whatif');
+  if (saved) wifData = saved;
+
+  document.getElementById('wif-grade-scale').addEventListener('change', function() {
+    document.getElementById('wif-custom-scale-group').style.display = this.value === 'custom' ? 'block' : 'none';
+  });
+
+  function wifRowHTML(r, idx) {
+    return '<div class="row-item" data-idx="'+idx+'">' +
+      '<input class="field-input wif-name" type="text" placeholder="Course name" value="'+CalcHub.escapeHTML(r.name)+'">' +
+      '<select class="field-select wif-grade">'+gradeOptions.replace('value="'+r.grade+'"','value="'+r.grade+'" selected')+'</select>' +
+      '<input class="field-input wif-credits" type="number" min="0" step="0.5" value="'+r.credits+'">' +
+      '<button type="button" class="row-remove-btn" title="Remove">&times;</button>' +
+    '</div>';
+  }
+
+  function renderWif() {
+    var html = wifData.map(wifRowHTML).join('');
+    document.getElementById('wif-rows').innerHTML = html;
+    
+    var testSelect = document.getElementById('wif-test-course');
+    testSelect.innerHTML = '<option value="">Select a course...</option>' + wifData.map(function(r, i) {
+      return '<option value="'+i+'">'+(r.name || 'Course '+(i+1))+'</option>';
+    }).join('');
+
+    document.querySelectorAll('#wif-rows .wif-name').forEach(function(el) {
+      el.addEventListener('input', function() { 
+        wifData[this.closest('.row-item').getAttribute('data-idx')].name = this.value;
+        renderWif();
+      });
+    });
+    document.querySelectorAll('#wif-rows .wif-grade').forEach(function(el) {
+      el.addEventListener('change', function() { wifData[this.closest('.row-item').getAttribute('data-idx')].grade = this.value; });
+    });
+    document.querySelectorAll('#wif-rows .wif-credits').forEach(function(el) {
+      el.addEventListener('change', function() { wifData[this.closest('.row-item').getAttribute('data-idx')].credits = parseFloat(this.value) || 0; });
+    });
+    document.querySelectorAll('#wif-rows .row-remove-btn').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(this.closest('.row-item').getAttribute('data-idx'));
+        wifData.splice(idx, 1);
+        renderWif();
+      });
+    });
+  }
+  renderWif();
+
+  document.getElementById('wif-add').addEventListener('click', function() {
+    wifData.push({ name: '', grade: 'A', credits: 3 });
+    renderWif();
+  });
+
+  document.getElementById('wif-calc').addEventListener('click', function() {
+    var testIdx = parseInt(document.getElementById('wif-test-course').value);
+    var testGrade = document.getElementById('wif-test-grade').value;
+    if (testIdx === '' || !testGrade) {
+      alert('Please select a course and hypothetical grade.');
+      return;
+    }
+
+    var scaleType = document.getElementById('wif-grade-scale').value;
+    var customStr = document.getElementById('wif-custom-scale').value;
+    var scale = getScale(scaleType, customStr);
+
+    var origPoints = 0, origCredits = 0;
+    wifData.forEach(function(r) {
+      if (scale[r.grade]) {
+        origPoints += scale[r.grade] * r.credits;
+        origCredits += r.credits;
+      }
+    });
+    var origGPA = origCredits ? origPoints / origCredits : 0;
+
+    var newPoints = 0;
+    wifData.forEach(function(r, i) {
+      var g = i === testIdx ? testGrade : r.grade;
+      if (scale[g]) newPoints += scale[g] * r.credits;
+    });
+    var newGPA = origCredits ? newPoints / origCredits : 0;
+    var impact = newGPA - origGPA;
+
+    document.getElementById('wif-original').textContent = CalcHub.fmtNum(origGPA, 2);
+    document.getElementById('wif-new').textContent = CalcHub.fmtNum(newGPA, 2);
+
+    var advice = '';
+    if (impact > 0.5) advice = 'Huge impact! Changing to '+testGrade+' would boost your GPA by '+CalcHub.fmtNum(impact,2)+'. This course has substantial weight.';
+    else if (impact > 0.2) advice = 'Significant improvement. A '+testGrade+' here would increase your GPA noticeably.';
+    else if (impact > 0.05) advice = 'Modest improvement. Every point counts, and this would move you in the right direction.';
+    else if (impact === 0) advice = 'No change. This might happen if the course has very few credits relative to your load.';
+    else if (impact > -0.2) advice = 'Minor decline. A '+testGrade+' would lower your GPA slightly.';
+    else advice = 'Significant hit. A '+testGrade+' would drop your GPA noticeably. This course is important.';
+
+    if (newGPA >= 3.9 && impact > 0) advice += ' With this grade, you\'d reach excellent standing.';
+    if (newGPA < 2.0) advice += ' Even with '+testGrade+', you\'d be below 2.0—strong performance across multiple courses matters.';
+
+    var adviceEl = document.getElementById('wif-advice');
+    adviceEl.textContent = advice;
+    adviceEl.className = 'result-explain' + (impact > 0 ? ' success' : impact < -0.3 ? ' warning' : '');
+
+    document.getElementById('wif-result').classList.add('visible');
+  });
+
+  // ==== TARGET TAB ====
+  var tgtData = [{ name: 'Course 1', grade: 'A', credits: 3 }];
+  var saved = CalcHub.getLastInputs('gpa-calculator-target');
+  if (saved) tgtData = saved;
+
+  document.getElementById('tgt-grade-scale').addEventListener('change', function() {
+    document.getElementById('tgt-custom-scale-group').style.display = this.value === 'custom' ? 'block' : 'none';
+  });
+
+  function tgtRowHTML(r, idx) {
+    return '<div class="row-item" data-idx="'+idx+'">' +
+      '<input class="field-input tgt-name" type="text" placeholder="Course name" value="'+CalcHub.escapeHTML(r.name)+'">' +
+      '<select class="field-select tgt-grade">'+gradeOptions.replace('value="'+r.grade+'"','value="'+r.grade+'" selected')+'</select>' +
+      '<input class="field-input tgt-credits" type="number" min="0" step="0.5" value="'+r.credits+'">' +
+      '<button type="button" class="row-remove-btn" title="Remove">&times;</button>' +
+    '</div>';
+  }
+
+  function renderTgt() {
+    var html = tgtData.map(tgtRowHTML).join('');
+    document.getElementById('tgt-rows').innerHTML = html;
+    document.querySelectorAll('#tgt-rows .tgt-name').forEach(function(el) {
+      el.addEventListener('input', function() { tgtData[this.closest('.row-item').getAttribute('data-idx')].name = this.value; });
+    });
+    document.querySelectorAll('#tgt-rows .tgt-grade').forEach(function(el) {
+      el.addEventListener('change', function() { tgtData[this.closest('.row-item').getAttribute('data-idx')].grade = this.value; });
+    });
+    document.querySelectorAll('#tgt-rows .tgt-credits').forEach(function(el) {
+      el.addEventListener('change', function() { tgtData[this.closest('.row-item').getAttribute('data-idx')].credits = parseFloat(this.value) || 0; });
+    });
+    document.querySelectorAll('#tgt-rows .row-remove-btn').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(this.closest('.row-item').getAttribute('data-idx'));
+        tgtData.splice(idx, 1);
+        renderTgt();
+      });
+    });
+  }
+  renderTgt();
+
+  document.getElementById('tgt-add').addEventListener('click', function() {
+    tgtData.push({ name: '', grade: 'A', credits: 3 });
+    renderTgt();
+  });
+
+  document.getElementById('tgt-calc').addEventListener('click', function() {
+    var targetGPA = parseFloat(document.getElementById('tgt-target-gpa').value) || 3.5;
+    var scaleType = document.getElementById('tgt-grade-scale').value;
+    var customStr = document.getElementById('tgt-custom-scale').value;
+    var scale = getScale(scaleType, customStr);
+
+    var currentPoints = 0, currentCredits = 0, remainingCredits = 0;
+    tgtData.forEach(function(r, idx) {
+      if (scale[r.grade]) {
+        var pts = scale[r.grade] * r.credits;
+        if (idx === 0) {
+          currentPoints += pts;
+          currentCredits += r.credits;
+        } else {
+          remainingCredits += r.credits;
+        }
+      }
+    });
+
+    var neededTotalPoints = targetGPA * (currentCredits + remainingCredits);
+    var neededRemainingPoints = neededTotalPoints - currentPoints;
+    var neededAverage = remainingCredits ? neededRemainingPoints / remainingCredits : 4.0;
+    var neededLetter = gradeToLetter(neededAverage, scale);
+
+    document.getElementById('tgt-headline').textContent = neededLetter;
+    document.getElementById('tgt-subtitle').textContent = '...on average in '+(tgtData.length-1)+' remaining course(s)';
+
+    var advice = '';
+    if (neededAverage >= 4.0 && scaleType === '4.0') advice = 'Impossible goal. You\'d need above 4.0, which exceeds the scale. Revise your target or retake earlier courses.';
+    else if (neededAverage > 3.8) advice = 'Extremely challenging. You\'d need near-perfect grades. Possible but leaves no room for error.';
+    else if (neededAverage > 3.5) advice = 'Ambitious but possible. You\'ll need strong, consistent performance. Achievable with commitment.';
+    else if (neededAverage > 3.3) advice = 'Realistic goal. Averaging '+neededLetter+' in remaining courses will reach your target. This is a solid, achievable target.';
+    else if (neededAverage > 3.0) advice = 'Very achievable. A '+neededLetter+' average is well within reach with focused effort.';
+    else if (neededAverage >= 2.0) advice = 'Easily achievable. Even a '+neededLetter+' average will get you there. You\'re on solid ground.';
+    else advice = 'Already on track. Your current standing is at or above your target GPA.';
+
+    if (targetGPA >= 3.8) advice += ' At '+CalcHub.fmtNum(targetGPA,2)+', you\'d be competitive for graduate programs and honors societies.';
+    else if (targetGPA >= 3.5) advice += ' At '+CalcHub.fmtNum(targetGPA,2)+', you\'d have solid standing for scholarships and competitive programs.';
+
+    var adviceEl = document.getElementById('tgt-advice');
+    adviceEl.textContent = advice;
+    adviceEl.className = 'result-explain' + (neededAverage <= 3.3 ? ' success' : neededAverage >= 4.0 ? ' danger' : '');
+
+    var statsHTML = '<div class="stat-card"><div class="stat-card-label">Target GPA</div><div class="stat-card-value">'+CalcHub.fmtNum(targetGPA,2)+'</div></div>' +
+      '<div class="stat-card"><div class="stat-card-label">Remaining Credits</div><div class="stat-card-value">'+CalcHub.fmtNum(remainingCredits)+'</div></div>';
+    document.getElementById('tgt-stats').innerHTML = statsHTML;
+
+    document.getElementById('tgt-result').classList.add('visible');
+  });
+
+})();
+</script>
+</body>
+</html>

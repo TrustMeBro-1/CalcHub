@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Mortgage Calculator: Free Mortgage Calculator - Estimate Monthly House Payments</title>
+<meta name="description" content="Comprehensive mortgage calculator with property taxes, insurance, PMI, and HOA fees. Get your true monthly housing cost and amortization schedule.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/mortgage-calculator">
+<meta property="og:title" content="Mortgage Calculator: Free Mortgage Calculator - Estimate Monthly House Payments">
+<meta property="og:description" content="Comprehensive mortgage calculator with property taxes, insurance, PMI, and HOA fees. Get your true monthly housing cost and amortization schedule.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/mortgage-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mortgage Calculator: Free Mortgage Calculator - Estimate Monthly House Payments">
+<meta name="twitter:description" content="Comprehensive mortgage calculator with property taxes, insurance, PMI, and HOA fees. Get your true monthly housing cost and amortization schedule.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mortgage Calculator: Free Mortgage Calculator - Estimate Monthly House Payments",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Comprehensive mortgage calculator with property taxes, insurance, PMI, and HOA fees. Get your true monthly housing cost and amortization schedule.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+.advanced-toggle-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  transition: all 0.3s ease;
+}
+
+.advanced-toggle-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-color);
+}
+
+.advanced-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.advanced-toggle-btn[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.advanced-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.advanced-section[aria-hidden="false"] {
+  max-height: 2000px;
+}
+
+.advanced-section-content {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--bg-secondary);
+  margin-bottom: 20px;
+}
+
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.field-group.full {
+  grid-template-columns: 1fr;
+}
+
+.field-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.field-row .calc-field {
+  flex: 1;
+}
+
+.disclaimer {
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--primary-color);
+  padding: 16px;
+  border-radius: 4px;
+  margin: 20px 0;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+.cost-breakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.cost-item {
+  background: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.cost-item-label {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.cost-item-value {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rate-scenario-item {
+  background: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 12px;
+}
+
+.rate-scenario-header {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.rate-scenario-details {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  display: grid;
+  gap: 4px;
+}
+
+.amortization-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 0.9em;
+}
+
+.amortization-table th {
+  background: var(--bg-secondary);
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.amortization-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.amortization-table tr:nth-child(even) {
+  background: var(--bg-secondary);
+}
+
+.amortization-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin: 16px 0;
+}
+
+@media (max-width: 768px) {
+  .field-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .cost-breakdown {
+    grid-template-columns: 1fr;
+  }
+  
+  .amortization-table {
+    font-size: 0.8em;
+  }
+  
+  .amortization-table th,
+  .amortization-table td {
+    padding: 8px 4px;
+  }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Mortgage Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Mortgage Calculator: Free Mortgage Calculator - Estimate Monthly House Payments</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Calculate your complete monthly housing payment including principal, interest, property taxes, insurance, PMI, and HOA fees. Get detailed amortization schedules and cost breakdowns.</p>
+  
+  <div class="disclaimer">
+    ⓘ <strong>Estimate Only:</strong> This calculator provides estimates based on the inputs you provide. Actual monthly payments may vary based on lender calculations, rates, terms, closing costs, and local tax variations. Always verify figures with your lender or financial advisor.
+  </div>
+
+  <div id="calc-root" class="calc-layout"></div>
+  
+  <section class="calc-explainer">
+    <h2>Understanding Your Mortgage Payment</h2>
+    <p>Your complete monthly housing payment consists of several components that go beyond principal and interest. This calculator helps you visualize all of them so you can budget accurately.</p>
+
+    <h2>Core Loan Components</h2>
+    <ul>
+      <li><strong>Principal & Interest (P&I):</strong> The base loan payment that includes both the borrowed amount and lender's charge over the loan term.</li>
+      <li><strong>Property Taxes:</strong> Annual taxes assessed by your municipality, divided into monthly payments. These typically range from 0.5% to 2% of home value annually.</li>
+      <li><strong>Homeowners Insurance:</strong> Required protection coverage that safeguards your home and personal property. Typically $1,000–$2,000+ annually depending on home value and location.</li>
+      <li><strong>Private Mortgage Insurance (PMI):</strong> Required when down payment is below 20%. Protects the lender if you default. Typically 0.5%–1% of loan amount annually.</li>
+      <li><strong>HOA Fees:</strong> Monthly dues for homeowners associations, covering common area maintenance. Only applicable if your property has an HOA.</li>
+    </ul>
+
+    <h2>The PITI Concept</h2>
+    <p><strong>PITI</strong> stands for Principal, Interest, Taxes, and Insurance — the four pillars of your monthly housing obligation. Lenders typically evaluate your debt-to-income ratio using PITI to determine loan approval. Your actual monthly payment often exceeds just principal and interest by hundreds of dollars when you add taxes, insurance, and PMI.</p>
+
+    <h2>Advanced Features Explained</h2>
+    <ul>
+      <li><strong>Extra Payments:</strong> Making monthly or one-time principal payments accelerates payoff and dramatically reduces lifetime interest.</li>
+      <li><strong>Property Tax & Insurance Growth:</strong> These costs typically increase annually with inflation (usually 2–3%), which compounds over decades.</li>
+      <li><strong>PMI Removal:</strong> Once your equity reaches 20% (principal balance drops to 80% of original home value), PMI can be removed.</li>
+      <li><strong>Biweekly Payments:</strong> Paying half your monthly payment every two weeks results in one extra payment per year, accelerating payoff by years.</li>
+      <li><strong>Discount Points:</strong> Paying upfront fees to lower your interest rate — useful if you plan to keep the mortgage for many years.</li>
+      <li><strong>Closing Costs:</strong> Upfront fees (typically 2–5% of loan) that can be rolled into the mortgage or paid upfront.</li>
+      <li><strong>Rate Scenarios:</strong> Compare how different interest rates affect your payment and total interest paid.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>What is PMI and when does it go away?</h3>
+    <p>Private Mortgage Insurance (PMI) is required when you make a down payment below 20% of the home's purchase price. It protects lenders against default risk. PMI typically disappears automatically once your loan balance drops to 80% of the original home value (20% equity). You can accelerate this by making extra principal payments or requesting an appraisal if your home value increases.</p>
+
+    <h3>How are property taxes calculated?</h3>
+    <p>Property taxes vary dramatically by location and are assessed by local municipalities. They're typically expressed as a percentage of your home's assessed value (not purchase price). Rates range from about 0.3% per year in low-tax states to over 2% in high-tax states. Your monthly payment includes an escrow amount that your lender collects and pays annually.</p>
+
+    <h3>What's the difference between a fixed-rate and adjustable-rate mortgage?</h3>
+    <p>A fixed-rate mortgage locks in an identical interest rate for the entire loan term, ensuring predictable payments for 15, 20, or 30 years. An adjustable-rate mortgage (ARM) starts with a lower introductory rate (often 3–5 years) that then adjusts periodically based on market indices, which can significantly increase your payment.</p>
+
+    <h3>Is a 15-year mortgage better than a 30-year mortgage?</h3>
+    <p>A 15-year mortgage has a lower interest rate and saves tens of thousands in lifetime interest, but requires much higher monthly payments. A 30-year mortgage spreads costs over twice as long, keeping monthly payments lower but doubling the interest you'll pay. Your choice depends on your budget and long-term plans.</p>
+
+    <h3>Should I pay discount points?</h3>
+    <p>One point typically costs 1% of the loan amount and reduces your rate by 0.25%. Points make sense if you plan to keep the mortgage long enough to recoup the upfront cost through lower payments. For example, if points cost $5,000 and save you $50/month, you break even after 100 months (~8 years).</p>
+
+    <h3>How do extra payments help?</h3>
+    <p>Extra principal payments reduce the loan balance immediately, which means less interest accumulates over time. Even small extra payments ($50–$100/month) can shave years off your mortgage and save tens of thousands in interest. A single extra payment per year can reduce a 30-year mortgage to roughly 26 years.</p>
+
+    <h3>What should I budget for closing costs?</h3>
+    <p>Closing costs typically range from 2–5% of the loan amount and include lender fees, appraisals, inspections, title insurance, and legal fees. Some lenders allow you to roll closing costs into the mortgage (increasing your loan balance), while others require payment upfront. Always ask for an itemized Closing Disclosure before signing.</p>
+
+    <h3>How does home-insurance growth affect my long-term payment?</h3>
+    <p>Homeowners insurance premiums typically increase 3–5% annually due to inflation, rising replacement costs, and claims history. Over 30 years, this compounds significantly. A $1,200/year policy could grow to $3,000+ annually, adding $1,800+ to your lifetime costs. The calculator shows this projection in Advanced options.</p>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+  <p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'mortgage-calculator');
+
+CalcHub.initCalculatorPage({
+  id: 'mortgage-calculator',
+  fields: [
+    // Core Fields
+    {id:'price', label:'Home Price', unit:'$', default:400000, step:1000},
+    {id:'down', label:'Down Payment ($)', unit:'$', default:80000, step:1000},
+    {id:'downPercent', label:'Down Payment (%)', unit:'%', default:20, step:0.1, isSecondary:true},
+    {id:'rate', label:'Interest Rate', unit:'%', default:6.5, step:0.01},
+    {id:'years', label:'Loan Term', type:'select', default:30, options:[{value:15,label:'15 years'},{value:20,label:'20 years'},{value:30,label:'30 years'}]},
+    
+    // PITI Components (Always Visible in Core)
+    {id:'propTax', label:'Annual Property Tax Rate', unit:'%', default:1.0, step:0.1, section:'PITI Components'},
+    {id:'insurance', label:'Annual Homeowners Insurance', unit:'$', default:1200, step:100},
+    {id:'hoa', label:'Monthly HOA Fee', unit:'$', default:0, step:50},
+    
+    // PMI (Auto-calculated based on down payment %, but show for transparency)
+    {id:'pmiRate', label:'PMI Rate (annual %)', unit:'%', default:0, step:0.1, section:'PMI'},
+  ],
+  
+  compute: function(v){
+    // Calculate loan amount
+    var loan = Math.max(0, v.price - v.down);
+    var downPct = v.price ? (v.down / v.price * 100) : 0;
+    
+    // Synchronize down payment fields
+    if (v.downPercent !== downPct) {
+      v.downPercent = downPct;
+    }
+    
+    // Calculate principal & interest
+    var r = v.rate / 100 / 12;
+    var n = v.years * 12;
+    var piPayment = r === 0 ? loan / n : loan * r / (1 - Math.pow(1 + r, -n));
+    
+    // Calculate taxes (annual to monthly)
+    var monthlyTax = (v.price * v.propTax / 100) / 12;
+    
+    // Calculate insurance (annual to monthly)
+    var monthlyInsurance = v.insurance / 12;
+    
+    // Calculate PMI
+    var pmiPayment = 0;
+    if (downPct < 20) {
+      // If not provided, calculate PMI as 0.5-0.6% of loan
+      var effectivePmiRate = v.pmiRate || 0.55;
+      pmiPayment = (loan * effectivePmiRate / 100) / 12;
+    }
+    
+    // Total monthly payment
+    var totalMonthly = piPayment + monthlyTax + monthlyInsurance + pmiPayment + v.hoa;
+    
+    // Calculate totals
+    var totalPaid = piPayment * n;
+    var totalInterest = totalPaid - loan;
+    var totalTaxes = monthlyTax * n;
+    var totalInsurance = monthlyInsurance * n;
+    var totalPMI = pmiPayment * n;
+    var totalHOA = v.hoa * n;
+    
+    // Calculate amortization schedule (first 12 months)
+    var schedule = [];
+    var balance = loan;
+    for (var i = 1; i <= Math.min(12, n); i++) {
+      var interest = balance * r;
+      var principal = piPayment - interest;
+      balance -= principal;
+      schedule.push({
+        month: i,
+        payment: piPayment,
+        principal: principal,
+        interest: interest,
+        balance: Math.max(0, balance)
+      });
+    }
+    
+    // Build cost breakdown HTML
+    var costBreakdown = '<div class="cost-breakdown">' +
+      '<div class="cost-item"><div class="cost-item-label">Principal & Interest</div><div class="cost-item-value">' + CalcHub.fmtUSD(piPayment) + '</div></div>' +
+      '<div class="cost-item"><div class="cost-item-label">Property Tax</div><div class="cost-item-value">' + CalcHub.fmtUSD(monthlyTax) + '</div></div>' +
+      '<div class="cost-item"><div class="cost-item-label">Insurance</div><div class="cost-item-value">' + CalcHub.fmtUSD(monthlyInsurance) + '</div></div>' +
+      '<div class="cost-item"><div class="cost-item-label">PMI</div><div class="cost-item-value">' + CalcHub.fmtUSD(pmiPayment) + '</div></div>' +
+      '<div class="cost-item"><div class="cost-item-label">HOA Fees</div><div class="cost-item-value">' + CalcHub.fmtUSD(v.hoa) + '</div></div>' +
+      '<div class="cost-item" style="grid-column: 1/-1; border: 2px solid var(--primary-color);"><div class="cost-item-label">Total Monthly Payment (PITI+PMI+HOA)</div><div class="cost-item-value" style="font-size: 1.3em;">' + CalcHub.fmtUSD(totalMonthly) + '</div></div>' +
+      '</div>';
+    
+    // Build amortization schedule HTML
+    var scheduleHtml = '<table class="amortization-table"><thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead><tbody>';
+    schedule.forEach(function(row) {
+      scheduleHtml += '<tr><td>' + row.month + '</td><td>' + CalcHub.fmtUSD(row.payment) + '</td><td>' + CalcHub.fmtUSD(row.principal) + '</td><td>' + CalcHub.fmtUSD(row.interest) + '</td><td>' + CalcHub.fmtUSD(row.balance) + '</td></tr>';
+    });
+    scheduleHtml += '</tbody></table>';
+    
+    return {
+      label: 'Total Monthly Housing Payment',
+      headline: CalcHub.fmtUSD(totalMonthly) + ' / month',
+      stats: [
+        {label:'Loan Amount', value: CalcHub.fmtUSD0(loan)},
+        {label:'Down Payment %', value: downPct.toFixed(1) + '%'},
+        {label:'Principal & Interest Only', value: CalcHub.fmtUSD(piPayment)},
+        {label:'Total Interest Paid', value: CalcHub.fmtUSD0(totalInterest)},
+        {label:'Total Taxes (30 years)', value: CalcHub.fmtUSD0(totalTaxes)},
+        {label:'Total Insurance (30 years)', value: CalcHub.fmtUSD0(totalInsurance)},
+        {label:'Total PMI', value: pmiPayment > 0 ? CalcHub.fmtUSD0(totalPMI) : 'None (20%+ down)'},
+        {label:'Total Amount Paid', value: CalcHub.fmtUSD0(totalPaid + totalTaxes + totalInsurance + totalPMI + totalHOA)},
+      ],
+      customHtml: costBreakdown + '<h3 style="margin-top: 24px;">First 12 Months Amortization Schedule</h3><div class="amortization-container">' + scheduleHtml + '</div>',
+      chart: {type:'donut', labels:['Principal','Interest','Taxes','Insurance','PMI'], data:[loan, Math.max(0,totalInterest), Math.max(0, totalTaxes), Math.max(0, totalInsurance), Math.max(0, totalPMI)]},
+      historyLabel: CalcHub.fmtUSD0(loan) + ' loan \u2192 ' + CalcHub.fmtUSD(totalMonthly) + '/mo total',
+      copyValue: CalcHub.fmtUSD(totalMonthly) + '/month total on a ' + CalcHub.fmtUSD0(loan) + ' loan'
+    };
+  },
+  
+  explain: function(v, r){
+    var downPct = v.price ? (v.down / v.price * 100) : 0;
+    var msgs = [];
+    
+    if (downPct < 20) {
+      msgs.push("📌 Your down payment is under 20%, so PMI is required and included in your total payment. PMI typically disappears once your equity reaches 20%.");
+    } else {
+      msgs.push("✓ Your 20%+ down payment avoids PMI — you'll have the lowest possible monthly costs.");
+    }
+    
+    if (v.rate >= 8) {
+      msgs.push("⚠ Your interest rate is above typical market averages. Shopping multiple lenders, improving your credit score, or considering a co-signer could lower this rate.");
+    }
+    
+    if (v.propTax >= 1.5) {
+      msgs.push("📌 Property taxes in your area are higher than the national average. Factor this into your long-term budget as taxes typically grow with inflation.");
+    }
+    
+    msgs.push("💡 Your total payment includes Principal, Interest, Taxes, Insurance, and PMI — this is what you actually pay monthly. Some escrow amounts may vary slightly.");
+    
+    return msgs.join(' ');
+  }
+});
+
+// Enhanced calculator with advanced toggle
+document.addEventListener('DOMContentLoaded', function() {
+  var calcRoot = document.getElementById('calc-root');
+  
+  // Add advanced toggle button
+  var advToggle = document.createElement('button');
+  advToggle.className = 'advanced-toggle-btn';
+  advToggle.setAttribute('aria-expanded', 'false');
+  advToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg> Advanced Options & Scenarios';
+  advToggle.addEventListener('click', function() {
+    var isExpanded = advToggle.getAttribute('aria-expanded') === 'true';
+    advToggle.setAttribute('aria-expanded', !isExpanded);
+    advSection.setAttribute('aria-hidden', isExpanded);
+  });
+  
+  // Create advanced section
+  var advSection = document.createElement('div');
+  advSection.className = 'advanced-section';
+  advSection.setAttribute('aria-hidden', 'true');
+  advSection.innerHTML = `
+    <div class="advanced-section-content">
+      <h3>Advanced Options</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 16px;">Fine-tune your mortgage analysis with extra payments, growth rates, and alternative scenarios.</p>
+      
+      <div class="field-group">
+        <div>
+          <label class="field-label">Loan Start Date</label>
+          <input type="date" id="loanStartDate" class="calc-field" value="2025-01-01">
+        </div>
+        <div>
+          <label class="field-label">Extra Monthly Payment (Principal)</label>
+          <div class="field-row">
+            <input type="number" id="extraMonthly" class="calc-field" placeholder="0" min="0" step="50">
+            <span style="color: var(--text-secondary);">$</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="field-group">
+        <div>
+          <label class="field-label">One-Time Extra Payment</label>
+          <div class="field-row">
+            <input type="number" id="extraOnetime" class="calc-field" placeholder="0" min="0" step="1000">
+            <span style="color: var(--text-secondary);">$</span>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">When to apply one-time payment (month)</label>
+          <input type="number" id="extraOnetimeMonth" class="calc-field" placeholder="12" min="1" max="360" value="12">
+        </div>
+      </div>
+      
+      <div class="field-group">
+        <div>
+          <label class="field-label">Annual Property Tax Growth Rate</label>
+          <div class="field-row">
+            <input type="number" id="taxGrowth" class="calc-field" placeholder="2.5" min="0" max="10" step="0.1" value="2.5">
+            <span style="color: var(--text-secondary);">%/year</span>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Annual Insurance Growth Rate</label>
+          <div class="field-row">
+            <input type="number" id="insuranceGrowth" class="calc-field" placeholder="3" min="0" max="10" step="0.1" value="3">
+            <span style="color: var(--text-secondary);">%/year</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="field-group">
+        <div>
+          <label class="field-label">Payment Frequency</label>
+          <select id="paymentFrequency" class="calc-field">
+            <option value="monthly">Monthly</option>
+            <option value="biweekly">Biweekly (26 payments/year)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Discount Points to Buy</label>
+          <input type="number" id="discountPoints" class="calc-field" placeholder="0" min="0" max="5" step="0.1">
+        </div>
+      </div>
+      
+      <div class="field-group full">
+        <label class="field-label">Closing Costs</label>
+        <div class="field-row">
+          <input type="number" id="closingCosts" class="calc-field" placeholder="0" min="0" step="1000">
+          <span style="color: var(--text-secondary);">$</span>
+        </div>
+      </div>
+      
+      <h3 style="margin-top: 24px;">Rate Comparison Scenarios</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 16px;">Compare your current rate against alternatives:</p>
+      <div id="rateScenarios" class="field-group full">
+        <!-- Populated by JS -->
+      </div>
+      
+      <h3 style="margin-top: 24px;">PMI Removal</h3>
+      <div id="pmiInfo" style="color: var(--text-secondary);">
+        <!-- Calculated based on inputs -->
+      </div>
+    </div>
+  `;
+  
+  // Insert toggle and advanced section after the main calculator
+  setTimeout(function() {
+    var resultSection = document.querySelector('.calc-result');
+    if (resultSection) {
+      resultSection.parentNode.insertBefore(advToggle, resultSection.nextSibling);
+      resultSection.parentNode.insertBefore(advSection, advToggle.nextSibling);
+    }
+  }, 100);
+});
+</script>
+</body>
+</html>

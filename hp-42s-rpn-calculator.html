@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>HP-42S RPN Scientific Calculator Emulator - Free Online Reverse Polish Notation Calculator</title>
+<meta name="description" content="A free, browser-based recreation of the classic HP-42S reverse Polish notation (RPN) scientific calculator — 4-level stack, trig, logs, STO/RCL registers, matrix operations, solver, integrator, complex numbers, and that unmistakable 1980s HP layout.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/hp-42s-rpn-calculator">
+<meta property="og:title" content="HP-42S RPN Scientific Calculator Emulator">
+<meta property="og:description" content="A free, browser-based recreation of the classic HP-42S with advanced features: matrix operations, solver, integrator, complex numbers, programming, statistics, and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/hp-42s-rpn-calculator.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.1.1/math.js"></script>
+
+<style>
+  /* Light Theme (Default) - handled by core.css */
+  /* Dark Theme - handled by core.css */
+  /* The core.css already sets up [data-theme="dark"] colors */
+
+  .hp-wrap{display:flex;justify-content:center;margin-bottom:var(--sp-lg);}
+  .hp-shell{
+    width:100%;max-width:440px;
+    background:linear-gradient(180deg,#424242 0%,#2d2d2d 50%,#1a1a1a 100%);
+    border-radius:20px;
+    padding:20px 18px 28px;
+    box-shadow:
+      0 0 0 8px #1a1a1a,
+      0 15px 35px rgba(0,0,0,.8),
+      inset 0 1px 0 rgba(255,255,255,.08),
+      inset 0 -2px 8px rgba(0,0,0,.6);
+    box-sizing:border-box;
+    border:2px solid #0a0a0a;
+    position:relative;
+  }
+  .hp-shell::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,.02) 2px,
+        rgba(255,255,255,.02) 4px
+      );
+    border-radius:20px;
+    pointer-events:none;
+  }
+  .hp-brand-row{display:flex;justify-content:space-between;align-items:center;padding:2px 8px 12px;border-bottom:1px solid rgba(255,255,255,.05);}
+  .hp-brand{font-family:'Courier New',monospace;font-weight:700;font-size:11px;color:#c0c0c0;letter-spacing:.08em;text-transform:uppercase;line-height:1.2;}
+  .hp-model{font-family:'Courier New',monospace;font-weight:700;font-size:16px;color:#e8e8e8;text-align:right;}
+  .hp-model small{display:block;font-weight:600;font-size:7.5px;color:#909090;letter-spacing:.08em;margin-top:2px;}
+
+  .hp-lcd{
+    background:linear-gradient(180deg,#8ba98f 0%,#7a9980 100%);
+    border-radius:4px;
+    padding:10px 11px 9px;
+    box-shadow:
+      inset 0 2px 4px rgba(0,0,0,.3),
+      inset 0 -1px 2px rgba(0,0,0,.2),
+      inset 0 0 0 1px #5d7a63;
+    margin-bottom:14px;
+    font-family:'Courier New',monospace;
+    color:#1a2a1c;
+    background-clip:padding-box;
+  }
+  .hp-annun{display:flex;justify-content:space-between;font-size:7.5px;font-weight:700;letter-spacing:.06em;opacity:.6;min-height:10px;margin-bottom:3px;flex-wrap:wrap;gap:5px;}
+  .hp-annun span{opacity:.18;text-transform:uppercase;}
+  .hp-annun span.on{opacity:.95;}
+  .hp-display-main{
+    font-size:26px;font-weight:700;text-align:right;letter-spacing:.02em;
+    min-height:32px;line-height:32px;overflow:hidden;white-space:nowrap;
+    text-shadow:0 1px 1px rgba(255,255,255,.1);
+    cursor:text;
+    user-select:none;
+    transition:opacity .15s;
+    font-family:'Courier New',monospace;
+  }
+  .hp-display-main.input-mode{
+    opacity:.7;
+  }
+  #display-input{
+    position:absolute;
+    left:-9999px;
+    opacity:0;
+    pointer-events:none;
+  }
+  .hp-stack{display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-size:10px;margin-top:4px;padding-top:4px;border-top:1px solid rgba(26,42,28,.35);opacity:1;}
+  .hp-stack .hp-reg-label{font-weight:700;font-family:'Courier New',monospace;}
+  .hp-stack .hp-reg-val{text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Courier New',monospace;letter-spacing:.02em;}
+
+  .hp-menus{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:8px;}
+  .hp-menu-btn{
+    background:linear-gradient(180deg,#4a4a4a 0%,#323232 100%);
+    border:none;border-radius:3px;
+    color:#d0d0d0;font-size:8px;font-weight:700;
+    padding:5px 8px;cursor:pointer;
+    transition:.15s;
+    font-family:'Courier New',monospace;
+    box-shadow:0 1px 0 #0a0a0a, 0 2px 2px rgba(0,0,0,.4);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .hp-menu-btn.active{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;box-shadow:0 1px 0 #6b3810, 0 2px 2px rgba(0,0,0,.4);}
+  .hp-menu-btn:hover{opacity:.8;}
+
+  .hp-keys{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+  .hp-key{
+    position:relative;
+    background:linear-gradient(180deg,#525252 0%,#2c2c2c 100%);
+    border:none;border-radius:5px;
+    color:#ffffff;font-family:'Courier New',monospace;font-weight:700;
+    font-size:11.5px;
+    padding:9px 1px 7px;
+    box-shadow:0 2px 0 #121212, 0 3px 4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.1);
+    cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+    min-height:42px;
+    transition:transform .04s, box-shadow .04s;
+    -webkit-tap-highlight-color:transparent;
+    letter-spacing:.02em;
+  }
+  .hp-key:active{transform:translateY(2px);box-shadow:0 0 0 #121212,0 1px 2px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1);}
+  .hp-key .hp-shift-label{
+    position:absolute;top:1px;left:0;right:0;text-align:center;
+    font-size:7.5px;font-weight:700;color:#f09040;letter-spacing:.03em;
+    text-transform:uppercase;
+  }
+  .hp-key.hp-digit{background:linear-gradient(180deg,#464646 0%,#242424 100%);}
+  .hp-key.hp-wide{grid-column:span 2;}
+  .hp-key.hp-enter{grid-column:span 5;background:linear-gradient(180deg,#464646 0%,#242424 100%);font-size:12px;letter-spacing:.05em;padding:10px 2px 7px;}
+  .hp-key.hp-soft{
+    background:linear-gradient(180deg,#4a4a4a 0%,#323232 100%);
+    color:#d0d0d0;font-size:8.5px;padding:6px 1px 5px;min-height:34px;
+    box-shadow:0 1px 0 #121212, 0 2px 3px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .hp-key.hp-soft:active{transform:translateY(1px);}
+  .hp-key.hp-shift-key{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;box-shadow:0 2px 0 #6b3810, 0 3px 4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.15);}
+  .hp-key.hp-shift-key.active{outline:2px solid #f09040;outline-offset:2px;}
+  .hp-key.hp-on{background:linear-gradient(180deg,#d05540 0%,#a03f2c 100%);box-shadow:0 2px 0 #5a1f0a, 0 3px 4px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.1);}
+  .hp-row-gap{grid-column:span 5;height:0;}
+
+  .hp-caption{text-align:center;font-family:'Courier New',monospace;font-size:8px;letter-spacing:.15em;color:#707070;margin-top:10px;font-weight:600;text-transform:uppercase;}
+  .hp-below{max-width:440px;margin:0 auto;}
+  .hp-toast-inline{font-size:11px;color:var(--text-light);text-align:center;min-height:14px;margin-top:6px;font-family:'Courier New',monospace;}
+
+  /* Modal dialogs */
+  .hp-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;}
+  .hp-modal.show{display:flex;}
+  .hp-modal-content{background:#2a2a2a;border-radius:8px;padding:20px;max-width:400px;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.5);color:#e0e0e0;}
+  .hp-modal-title{font-size:16px;font-weight:700;margin-bottom:12px;color:#f0f0f0;}
+  .hp-modal-close{float:right;cursor:pointer;font-size:20px;color:#888;}
+  .hp-modal-close:hover{color:#fff;}
+  .hp-modal-input{width:100%;padding:8px;margin:8px 0;border:1px solid #444;border-radius:4px;font-family:'Courier New',monospace;box-sizing:border-box;background:#1a1a1a;color:#e0e0e0;}
+  .hp-modal-btn{background:#d97d38;color:white;border:none;padding:10px 16px;border-radius:4px;cursor:pointer;margin:8px 4px 8px 0;font-weight:600;}
+  .hp-modal-btn:hover{background:#b85c1f;}
+  .hp-modal-btn.cancel{background:#444;}
+  .hp-modal-btn.cancel:hover{background:#555;}
+
+  /* Theme selector */
+  .theme-btn{
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:12px;
+    cursor:pointer;
+    transition:all .2s;
+    font-family:Arial,Helvetica,sans-serif;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+  }
+  .theme-btn:hover{background:var(--surface-alt);border-color:var(--text-light);}
+  .theme-btn.active{background:#d97d38;color:white;border-color:#b85c1f;}
+  
+  #theme-toggle{
+    padding:8px 10px;
+    font-size:0;
+    min-width:40px;
+    min-height:40px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  
+  #theme-toggle:hover{
+    background:var(--surface-alt);
+    border-color:var(--text-light);
+  }
+  
+  #theme-toggle .icon{
+    width:18px;
+    height:18px;
+    stroke:currentColor;
+    display:block;
+  }
+  
+  #theme-toggle .sun-icon{
+    transition:opacity .3s, transform .3s;
+  }
+  
+  #theme-toggle .moon-icon{
+    position:absolute;
+    opacity:0;
+    transition:opacity .3s, transform .3s;
+    transform:rotate(-180deg);
+  }
+  
+  [data-theme="dark"] #theme-toggle .sun-icon{
+    opacity:0;
+    transform:rotate(180deg);
+  }
+  
+  [data-theme="dark"] #theme-toggle .moon-icon{
+    opacity:1;
+    transform:rotate(0deg);
+  }
+
+  /* READABLE THEME */
+  .hp-shell.readable{
+    background:linear-gradient(180deg,#f5f5f5 0%,#e8e8e8 100%);
+    border:1px solid #c0c0c0;
+    box-shadow:0 2px 4px rgba(0,0,0,.15),0 8px 16px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.8);
+  }
+  .readable .hp-shell::before{background:none;}
+  .readable .hp-brand-row{border-bottom:1px solid #ddd;}
+  .readable .hp-brand{color:#2a2a2a;font-size:12px;}
+  .readable .hp-model{color:#1a1a1a;font-size:15px;}
+  .readable .hp-model small{color:#666;}
+  .readable .hp-lcd{background:linear-gradient(180deg,#c0d0c5 0%,#b5c5ba 100%);color:#0a0a0a;box-shadow:inset 0 1px 3px rgba(0,0,0,.15),inset 0 0 0 1px #8fa895;}
+  .readable .hp-annun{opacity:1;}
+  .readable .hp-annun span{opacity:.4;}
+  .readable .hp-annun span.on{opacity:1;}
+  .readable .hp-display-main{color:#0a0a0a;font-size:24px;text-shadow:none;}
+  .readable .hp-stack{border-top:1px solid #999;opacity:1;}
+  .readable .hp-stack .hp-reg-label,
+  .readable .hp-stack .hp-reg-val{color:#1a1a1a;}
+  .readable .hp-menu-btn{background:linear-gradient(180deg,#d0d0d0 0%,#b8b8b8 100%);color:#1a1a1a;box-shadow:0 1px 0 #999,0 2px 2px rgba(0,0,0,.15);}
+  .readable .hp-menu-btn.active{background:linear-gradient(180deg,#f0a860 0%,#d97d38 100%);color:#fff;box-shadow:0 1px 0 #9a5a20,0 2px 2px rgba(0,0,0,.15);}
+  .readable .hp-key{background:linear-gradient(180deg,#e0e0e0 0%,#c8c8c8 100%);color:#1a1a1a;box-shadow:0 2px 0 #a0a0a0,0 3px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.5);}
+  .readable .hp-key .hp-shift-label{color:#d97d38;}
+  .readable .hp-key.hp-digit{background:linear-gradient(180deg,#d8d8d8 0%,#c0c0c0 100%);}
+  .readable .hp-key.hp-shift-key{background:linear-gradient(180deg,#f0a860 0%,#d97d38 100%);color:#fff;box-shadow:0 2px 0 #9a5a20,0 3px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.3);}
+  .readable .hp-key.hp-on{background:linear-gradient(180deg,#ff6b5a 0%,#e85a49 100%);color:#fff;box-shadow:0 2px 0 #9a3a2a,0 3px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.3);}
+  .readable .hp-key.hp-soft{background:linear-gradient(180deg,#d0d0d0 0%,#b8b8b8 100%);color:#1a1a1a;box-shadow:0 1px 0 #999,0 2px 2px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.4);}
+  .readable .hp-caption{color:#555;font-size:9px;}
+  .readable .hp-annun{opacity:1;color:#333;}
+
+  /* NORMAL THEME */
+  .hp-shell.normal{
+    background:linear-gradient(180deg,#3f3f3f 0%,#2a2a2a 50%,#1a1a1a 100%);
+    border:1px solid #0a0a0a;
+    box-shadow:0 2px 4px rgba(0,0,0,.4),0 10px 25px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .normal .hp-shell::before{opacity:.5;}
+  .normal .hp-brand{color:#a0a0a0;font-size:11px;}
+  .normal .hp-model{color:#d0d0d0;font-size:14px;}
+  .normal .hp-model small{color:#808080;}
+  .normal .hp-lcd{background:linear-gradient(180deg,#7fa984 0%,#719478 100%);color:#1a2a1c;box-shadow:inset 0 1px 3px rgba(0,0,0,.25),inset 0 0 0 1px #5a7a62;}
+  .normal .hp-annun{opacity:.8;color:#2a4a2c;font-size:7px;}
+  .normal .hp-annun span{opacity:.3;}
+  .normal .hp-annun span.on{opacity:.9;}
+  .normal .hp-display-main{color:#1a2a1c;font-size:24px;text-shadow:0 1px 0 rgba(255,255,255,.08);}
+  .normal .hp-stack{border-top:1px solid rgba(26,42,28,.3);color:#1a2a1c;}
+  .normal .hp-menu-btn{background:linear-gradient(180deg,#4a4a4a 0%,#323232 100%);color:#c0c0c0;box-shadow:0 1px 0 #0a0a0a,0 2px 2px rgba(0,0,0,.4);}
+  .normal .hp-menu-btn.active{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;box-shadow:0 1px 0 #6b3810,0 2px 2px rgba(0,0,0,.4);}
+  .normal .hp-key{background:linear-gradient(180deg,#4a4a4a 0%,#2a2a2a 100%);color:#e0e0e0;box-shadow:0 2px 0 #0a0a0a,0 3px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);}
+  .normal .hp-key .hp-shift-label{color:#e89050;}
+  .normal .hp-key.hp-digit{background:linear-gradient(180deg,#3f3f3f 0%,#1f1f1f 100%);}
+  .normal .hp-key.hp-shift-key{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;}
+  .normal .hp-key.hp-on{background:linear-gradient(180deg,#c95540 0%,#9c3d2c 100%);color:#fff;}
+  .normal .hp-key.hp-soft{background:linear-gradient(180deg,#404040 0%,#282828 100%);color:#b0b0b0;box-shadow:0 1px 0 #0a0a0a,0 2px 2px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);}
+  .normal .hp-caption{color:#606060;font-size:8px;}
+
+  /* DETAILED THEME (current dark one) - this is the default */
+  .hp-shell.detailed{
+    background:linear-gradient(180deg,#424242 0%,#2d2d2d 50%,#1a1a1a 100%);
+    border:2px solid #0a0a0a;
+    box-shadow:
+      0 0 0 8px #1a1a1a,
+      0 15px 35px rgba(0,0,0,.8),
+      inset 0 1px 0 rgba(255,255,255,.08),
+      inset 0 -2px 8px rgba(0,0,0,.6);
+  }
+  .detailed .hp-shell::before{
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,.02) 2px,
+        rgba(255,255,255,.02) 4px
+      );
+  }
+
+  /* DARK MODE VARIANTS */
+  
+  /* Dark Readable */
+  [data-theme="dark"] .hp-shell.readable{
+    background:linear-gradient(180deg,#2a2a2a 0%,#1a1a1a 100%);
+    border:1px solid #444;
+    box-shadow:0 2px 4px rgba(0,0,0,.5),0 8px 16px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  [data-theme="dark"] .readable .hp-shell::before{background:none;}
+  [data-theme="dark"] .readable .hp-brand-row{border-bottom:1px solid #333;}
+  [data-theme="dark"] .readable .hp-brand{color:#aaa;font-size:12px;}
+  [data-theme="dark"] .readable .hp-model{color:#ddd;font-size:15px;}
+  [data-theme="dark"] .readable .hp-model small{color:#999;}
+  [data-theme="dark"] .readable .hp-lcd{background:linear-gradient(180deg,#5a7d63 0%,#4a6d53 100%);color:#e0e0e0;box-shadow:inset 0 1px 3px rgba(0,0,0,.4),inset 0 0 0 1px #3a5d43;}
+  [data-theme="dark"] .readable .hp-annun{opacity:1;}
+  [data-theme="dark"] .readable .hp-annun span{opacity:.4;}
+  [data-theme="dark"] .readable .hp-annun span.on{opacity:1;}
+  [data-theme="dark"] .readable .hp-display-main{color:#e0e0e0;font-size:24px;text-shadow:none;}
+  [data-theme="dark"] .readable .hp-stack{border-top:1px solid #555;opacity:1;}
+  [data-theme="dark"] .readable .hp-stack .hp-reg-label,
+  [data-theme="dark"] .readable .hp-stack .hp-reg-val{color:#ddd;}
+  [data-theme="dark"] .readable .hp-menu-btn{background:linear-gradient(180deg,#505050 0%,#383838 100%);color:#ddd;box-shadow:0 1px 0 #222,0 2px 2px rgba(0,0,0,.4);}
+  [data-theme="dark"] .readable .hp-menu-btn.active{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;box-shadow:0 1px 0 #6b3810,0 2px 2px rgba(0,0,0,.4);}
+  [data-theme="dark"] .readable .hp-key{background:linear-gradient(180deg,#505050 0%,#383838 100%);color:#ddd;box-shadow:0 2px 0 #1a1a1a,0 3px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);}
+  [data-theme="dark"] .readable .hp-key .hp-shift-label{color:#f0a040;}
+  [data-theme="dark"] .readable .hp-key.hp-digit{background:linear-gradient(180deg,#464646 0%,#303030 100%);}
+  [data-theme="dark"] .readable .hp-key.hp-shift-key{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;box-shadow:0 2px 0 #6b3810,0 3px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2);}
+  [data-theme="dark"] .readable .hp-key.hp-on{background:linear-gradient(180deg,#d05540 0%,#a03f2c 100%);color:#fff;box-shadow:0 2px 0 #5a1f0a,0 3px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2);}
+  [data-theme="dark"] .readable .hp-key.hp-soft{background:linear-gradient(180deg,#505050 0%,#383838 100%);color:#ddd;box-shadow:0 1px 0 #222,0 2px 2px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08);}
+  [data-theme="dark"] .readable .hp-caption{color:#aaa;font-size:9px;}
+  [data-theme="dark"] .readable .hp-annun{opacity:1;color:#ccc;}
+
+  /* Dark Normal */
+  [data-theme="dark"] .hp-shell.normal{
+    background:linear-gradient(180deg,#3a3a3a 0%,#2a2a2a 50%,#1a1a1a 100%);
+    border:1px solid #333;
+    box-shadow:0 2px 4px rgba(0,0,0,.4),0 10px 25px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  [data-theme="dark"] .normal .hp-shell::before{opacity:.5;}
+  [data-theme="dark"] .normal .hp-brand{color:#999;font-size:11px;}
+  [data-theme="dark"] .normal .hp-model{color:#c0c0c0;font-size:14px;}
+  [data-theme="dark"] .normal .hp-model small{color:#777;}
+  [data-theme="dark"] .normal .hp-lcd{background:linear-gradient(180deg,#5a7d63 0%,#4a6d53 100%);color:#d0d0d0;box-shadow:inset 0 1px 3px rgba(0,0,0,.3),inset 0 0 0 1px #3a5d43;}
+  [data-theme="dark"] .normal .hp-annun{opacity:.8;color:#aaa;font-size:7px;}
+  [data-theme="dark"] .normal .hp-annun span{opacity:.3;}
+  [data-theme="dark"] .normal .hp-annun span.on{opacity:.9;}
+  [data-theme="dark"] .normal .hp-display-main{color:#ddd;font-size:24px;text-shadow:0 1px 0 rgba(0,0,0,.5);}
+  [data-theme="dark"] .normal .hp-stack{border-top:1px solid rgba(200,200,200,.2);color:#ccc;}
+  [data-theme="dark"] .normal .hp-menu-btn{background:linear-gradient(180deg,#4a4a4a 0%,#323232 100%);color:#b0b0b0;box-shadow:0 1px 0 #0a0a0a,0 2px 2px rgba(0,0,0,.4);}
+  [data-theme="dark"] .normal .hp-menu-btn.active{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;box-shadow:0 1px 0 #6b3810,0 2px 2px rgba(0,0,0,.4);}
+  [data-theme="dark"] .normal .hp-key{background:linear-gradient(180deg,#4a4a4a 0%,#2a2a2a 100%);color:#d0d0d0;box-shadow:0 2px 0 #0a0a0a,0 3px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);}
+  [data-theme="dark"] .normal .hp-key .hp-shift-label{color:#e89050;}
+  [data-theme="dark"] .normal .hp-key.hp-digit{background:linear-gradient(180deg,#3f3f3f 0%,#1f1f1f 100%);}
+  [data-theme="dark"] .normal .hp-key.hp-shift-key{background:linear-gradient(180deg,#d97d38 0%,#b85c1f 100%);color:#fff;}
+  [data-theme="dark"] .normal .hp-key.hp-on{background:linear-gradient(180deg,#c95540 0%,#9c3d2c 100%);color:#fff;}
+  [data-theme="dark"] .normal .hp-key.hp-soft{background:linear-gradient(180deg,#404040 0%,#282828 100%);color:#a0a0a0;box-shadow:0 1px 0 #0a0a0a,0 2px 2px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);}
+  [data-theme="dark"] .normal .hp-caption{color:#606060;font-size:8px;}
+
+  /* Dark Detailed */
+  [data-theme="dark"] .hp-shell.detailed{
+    background:linear-gradient(180deg,#2a2a2a 0%,#1a1a1a 50%,#0f0f0f 100%);
+    border:2px solid #000;
+    box-shadow:
+      0 0 0 8px #000,
+      0 15px 35px rgba(0,0,0,.9),
+      inset 0 1px 0 rgba(255,255,255,.05),
+      inset 0 -2px 8px rgba(0,0,0,.8);
+  }
+  [data-theme="dark"] .detailed .hp-shell::before{
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,.01) 2px,
+        rgba(255,255,255,.01) 4px
+      );
+  }
+
+  /* Mobile Responsive Styles */
+  @media (max-width: 768px) {
+    .theme-btn {
+      padding: 7px 12px;
+      font-size: 11px;
+    }
+
+    #theme-toggle {
+      padding: 7px 9px;
+      min-width: 38px;
+      min-height: 38px;
+    }
+
+    #theme-toggle .icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .theme-btn {
+      padding: 6px 10px;
+      font-size: 10px;
+    }
+
+    #theme-toggle {
+      padding: 6px 8px;
+      min-width: 36px;
+      min-height: 36px;
+    }
+
+    #theme-toggle .icon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-math">Mathematics &amp; Algebra</a><span>/</span>
+    <span>HP-42S RPN Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">HP-42S RPN Scientific Calculator Emulator — Full-Featured</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">A comprehensive browser recreation of the Hewlett-Packard HP-42S with advanced features: matrix operations, equation solver, numerical integrator, complex numbers, programming mode, full statistics, and more. All original RPN stack behavior preserved.</p>
+
+  <div style="display:flex;gap:10px;margin-bottom:16px;justify-content:center;flex-wrap:wrap;align-items:center;">
+    <span style="font-size:13px;color:#666;font-weight:600;">Skin:</span>
+    <button id="theme-readable" class="theme-btn active" data-theme="readable">Readable</button>
+    <button id="theme-normal" class="theme-btn" data-theme="normal">Normal</button>
+    <button id="theme-detailed" class="theme-btn" data-theme="detailed">Detailed</button>
+  </div>
+
+  <div class="hp-wrap">
+    <div class="hp-shell" id="hp-shell">
+      <div class="hp-brand-row">
+        <div class="hp-brand">hewlett<br>packard</div>
+        <div class="hp-model">42S<small>RPN SCIENTIFIC</small></div>
+      </div>
+
+      <div class="hp-lcd">
+        <input type="text" id="display-input" />
+        <div class="hp-annun">
+          <span id="an-shift">SHIFT</span>
+          <span id="an-deg" class="on">DEG</span>
+          <span id="an-rad">RAD</span>
+          <span id="an-grad">GRAD</span>
+          <span id="an-cplx">CPLX</span>
+          <span id="an-prg">PRG</span>
+        </div>
+        <div class="hp-display-main" id="hp-display">0.0000</div>
+        <div class="hp-stack">
+          <div class="hp-reg-label">T</div><div class="hp-reg-val" id="reg-t">0.0000</div>
+          <div class="hp-reg-label">Z</div><div class="hp-reg-val" id="reg-z">0.0000</div>
+          <div class="hp-reg-label">Y</div><div class="hp-reg-val" id="reg-y">0.0000</div>
+        </div>
+      </div>
+
+      <div class="hp-menus">
+        <button class="hp-menu-btn active" data-menu="std">STD</button>
+        <button class="hp-menu-btn" data-menu="math">MATH</button>
+        <button class="hp-menu-btn" data-menu="stat">STAT</button>
+        <button class="hp-menu-btn" data-menu="matrix">MTX</button>
+        <button class="hp-menu-btn" data-menu="prob">PROB</button>
+        <button class="hp-menu-btn" data-menu="conv">CONV</button>
+        <button class="hp-menu-btn" data-menu="prog">PROG</button>
+      </div>
+
+      <div class="hp-keys" id="hp-keys">
+        <!-- Standard row (mode, ops) -->
+        <button class="hp-key hp-soft std-only" data-fn="mode-deg">DEG</button>
+        <button class="hp-key hp-soft std-only" data-fn="mode-rad">RAD</button>
+        <button class="hp-key hp-soft std-only" data-fn="mode-grad">GRAD</button>
+        <button class="hp-key hp-soft std-only" data-fn="clsum">CLΣ</button>
+        <button class="hp-key hp-soft std-only" data-fn="clall">CL ALL</button>
+
+        <!-- Math menu soft keys -->
+        <button class="hp-key hp-soft math-only" style="display:none;" data-fn="sinh">SINH</button>
+        <button class="hp-key hp-soft math-only" style="display:none;" data-fn="cosh">COSH</button>
+        <button class="hp-key hp-soft math-only" style="display:none;" data-fn="tanh">TANH</button>
+        <button class="hp-key hp-soft math-only" style="display:none;" data-fn="deg2hms">D→HMS</button>
+        <button class="hp-key hp-soft math-only" style="display:none;" data-fn="hms2deg">HMS→D</button>
+
+        <!-- Stat menu soft keys -->
+        <button class="hp-key hp-soft stat-only" style="display:none;" data-fn="mean">MEAN</button>
+        <button class="hp-key hp-soft stat-only" style="display:none;" data-fn="stdev">STDEV</button>
+        <button class="hp-key hp-soft stat-only" style="display:none;" data-fn="regress">REGR</button>
+        <button class="hp-key hp-soft stat-only" style="display:none;" data-fn="median">MED</button>
+        <button class="hp-key hp-soft stat-only" style="display:none;" data-fn="clstat">CLST</button>
+
+        <!-- Matrix menu soft keys -->
+        <button class="hp-key hp-soft matrix-only" style="display:none;" data-fn="matinit">INIT</button>
+        <button class="hp-key hp-soft matrix-only" style="display:none;" data-fn="matmul">A×B</button>
+        <button class="hp-key hp-soft matrix-only" style="display:none;" data-fn="matdet">DET</button>
+        <button class="hp-key hp-soft matrix-only" style="display:none;" data-fn="matinv">INV</button>
+        <button class="hp-key hp-soft matrix-only" style="display:none;" data-fn="matsolve">SOLV</button>
+
+        <!-- Prob menu soft keys -->
+        <button class="hp-key hp-soft prob-only" style="display:none;" data-fn="fact">FACT</button>
+        <button class="hp-key hp-soft prob-only" style="display:none;" data-fn="comb">COMB</button>
+        <button class="hp-key hp-soft prob-only" style="display:none;" data-fn="perm">PERM</button>
+        <button class="hp-key hp-soft prob-only" style="display:none;" data-fn="rnd">RND</button>
+        <button class="hp-key hp-soft prob-only" style="display:none;" data-fn="seed">SEED</button>
+
+        <!-- Conv menu soft keys -->
+        <button class="hp-key hp-soft conv-only" style="display:none;" data-fn="hex">HEX</button>
+        <button class="hp-key hp-soft conv-only" style="display:none;" data-fn="oct">OCT</button>
+        <button class="hp-key hp-soft conv-only" style="display:none;" data-fn="bin">BIN</button>
+        <button class="hp-key hp-soft conv-only" style="display:none;" data-fn="dec">DEC</button>
+        <button class="hp-key hp-soft conv-only" style="display:none;" data-fn="clr">CLR</button>
+
+        <!-- Prog menu soft keys -->
+        <button class="hp-key hp-soft prog-only" style="display:none;" data-fn="prog-record">REC</button>
+        <button class="hp-key hp-soft prog-only" style="display:none;" data-fn="prog-run">RUN</button>
+        <button class="hp-key hp-soft prog-only" style="display:none;" data-fn="prog-list">LIST</button>
+        <button class="hp-key hp-soft prog-only" style="display:none;" data-fn="prog-del">DEL</button>
+        <button class="hp-key hp-soft prog-only" style="display:none;" data-fn="prog-clear">CLR</button>
+
+        <!-- row: ON, sigma+, 1/x, sqrt, log, ln -->
+        <button class="hp-key hp-on std-only" data-fn="on">ON</button>
+        <button class="hp-key std-only" data-fn="sigma-plus"><span class="hp-shift-label">Σ−</span>Σ+</button>
+        <button class="hp-key std-only" data-fn="recip"><span class="hp-shift-label">yˣ</span>1/x</button>
+        <button class="hp-key std-only" data-fn="sqrt"><span class="hp-shift-label">x²</span>√x</button>
+        <button class="hp-key std-only" data-fn="log"><span class="hp-shift-label">10ˣ</span>LOG</button>
+
+        <button class="hp-key std-only" data-fn="cplx-i"><span class="hp-shift-label">CPLX</span>i</button>
+        <button class="hp-key std-only" data-fn="sto">STO</button>
+        <button class="hp-key std-only" data-fn="rcl">RCL</button>
+        <button class="hp-key std-only" data-fn="rdown"><span class="hp-shift-label">R↑</span>R↓</button>
+        <button class="hp-key std-only" data-fn="sin"><span class="hp-shift-label">ASIN</span>SIN</button>
+
+        <button class="hp-key std-only" data-fn="ln"><span class="hp-shift-label">eˣ</span>LN</button>
+        <button class="hp-key std-only" data-fn="cos"><span class="hp-shift-label">ACOS</span>COS</button>
+        <button class="hp-key std-only" data-fn="tan"><span class="hp-shift-label">ATAN</span>TAN</button>
+        <button class="hp-key std-only" data-fn="swap"><span class="hp-shift-label">LSTx</span>x⇄y</button>
+        <button class="hp-key std-only" data-fn="pi">π</button>
+
+        <button class="hp-key std-only" data-fn="solver"><span class="hp-shift-label">∫</span>SOLVE</button>
+        <button class="hp-key hp-shift-key std-only" data-fn="shift" id="key-shift">▲<br>SHIFT</button>
+        <button class="hp-key std-only" data-fn="base"><span class="hp-shift-label">CPLX*</span>BASE</button>
+        <button class="hp-key std-only" data-fn="hms"><span class="hp-shift-label">FACT</span>HMS</button>
+        <button class="hp-key std-only" data-fn="percent">%</button>
+
+        <!-- ENTER, full width -->
+        <button class="hp-key hp-enter std-only" data-fn="enter">ENTER ↑</button>
+
+        <!-- numeric block -->
+        <button class="hp-key hp-digit std-only" data-fn="d7">7</button>
+        <button class="hp-key hp-digit std-only" data-fn="d8">8</button>
+        <button class="hp-key hp-digit std-only" data-fn="d9">9</button>
+        <button class="hp-key std-only" data-fn="div">÷</button>
+        <button class="hp-key std-only" data-fn="chs"><span class="hp-shift-label">CL ALL</span>CHS</button>
+
+        <button class="hp-key hp-digit std-only" data-fn="d4">4</button>
+        <button class="hp-key hp-digit std-only" data-fn="d5">5</button>
+        <button class="hp-key hp-digit std-only" data-fn="d6">6</button>
+        <button class="hp-key std-only" data-fn="mul">×</button>
+        <button class="hp-key std-only" data-fn="eex">E</button>
+
+        <button class="hp-key hp-digit std-only" data-fn="d1">1</button>
+        <button class="hp-key hp-digit std-only" data-fn="d2">2</button>
+        <button class="hp-key hp-digit std-only" data-fn="d3">3</button>
+        <button class="hp-key std-only" data-fn="sub">−</button>
+        <button class="hp-key std-only" data-fn="back">←</button>
+
+        <button class="hp-key hp-digit hp-wide std-only" data-fn="d0">0</button>
+        <button class="hp-key hp-digit std-only" data-fn="dot">.</button>
+        <button class="hp-key std-only" data-fn="add">+</button>
+      </div>
+
+      <div class="hp-caption">REVERSE POLISH LOGIC SCIENTIFIC CALCULATOR</div>
+    </div>
+  </div>
+
+  <div class="hp-below">
+    <div class="hp-toast-inline" id="hp-status">&nbsp;</div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-card-title">Your History &mdash; HP-42S RPN Calculator</div>
+    <div id="calc-history"></div>
+  </div>
+
+  <section class="calc-explainer">
+<h2>HP-42S: Full-Featured Edition</h2>
+<p>This is a comprehensive recreation of the 1988 HP-42S with nearly all of the advanced features that made it legendary:</p>
+<ul>
+<li><strong>Matrix Operations</strong> — Define, multiply, invert, find determinant, and solve linear systems</li>
+<li><strong>Equation Solver</strong> — Find roots of any function using Newton-Raphson iteration</li>
+<li><strong>Numerical Integrator</strong> — Compute definite integrals using Simpson's rule</li>
+<li><strong>Complex Numbers</strong> — Full arithmetic with complex operands</li>
+<li><strong>Advanced Statistics</strong> — Mean, median, standard deviation, linear regression</li>
+<li><strong>Hyperbolic Functions</strong> — SINH, COSH, TANH and their inverses</li>
+<li><strong>Probability</strong> — Factorial, combinations, permutations, seeded random</li>
+<li><strong>Number Bases</strong> — HEX, OCT, BIN, DEC conversion modes</li>
+<li><strong>Time/Angle Conversion</strong> — Convert between decimal degrees and HMS</li>
+<li><strong>Programming Mode</strong> — Record keystrokes and replay as a program with labels</li>
+<li><strong>Full 4-Level Stack</strong> — X, Y, Z, T with roll, swap, LAST X recovery</li>
+<li><strong>10 Memory Registers</strong> — STO and RCL into registers 0–9</li>
+</ul>
+
+<h2>Navigation: Menu System</h2>
+<p>Seven menus across the top switch the function of the soft keys:</p>
+<ul>
+<li><strong>STD</strong> — Standard mode: basic trig, log, power, stack ops</li>
+<li><strong>MATH</strong> — Hyperbolic trig, HMS↔decimal conversions</li>
+<li><strong>STAT</strong> — Statistics functions and accumulators</li>
+<li><strong>MTX</strong> — Matrix operations (init, multiply, solve, determinant, inverse)</li>
+<li><strong>PROB</strong> — Probability (factorial, COMB, PERM, random with seed)</li>
+<li><strong>CONV</strong> — Number base conversion (HEX, OCT, BIN, DEC)</li>
+<li><strong>PROG</strong> — Program recorder and player</li>
+</ul>
+
+<h2>Key Features Explained</h2>
+
+<h3>Matrix Operations (MTX menu)</h3>
+<p><strong>INIT:</strong> Opens a dialog to define matrix size and enter values. Stores matrix A (and optionally B for operations).</p>
+<p><strong>A×B:</strong> Multiplies matrix A by B, pushes result to X.</p>
+<p><strong>DET:</strong> Computes determinant of matrix A, pushes to X.</p>
+<p><strong>INV:</strong> Inverts matrix A, pushes to X.</p>
+<p><strong>SOLV:</strong> Solves Ax = b. Stores solution vector on stack.</p>
+
+<h3>Equation Solver (SHIFT + SOLVE in STD)</h3>
+<p>Opens a dialog to enter a mathematical expression f(x) and an initial guess. Uses Newton-Raphson iteration to find x where f(x) = 0. Convergence tolerance is user-selectable.</p>
+
+<h3>Numerical Integrator (SHIFT + 1/x in STD, labeled ∫)</h3>
+<p>Computes a definite integral ∫ f(x) dx from a to b using Simpson's rule. You provide f(x) as an expression and the bounds.</p>
+
+<h3>Complex Numbers (i key in STD, SHIFT for CPLX mode toggle)</h3>
+<p>Enter complex numbers as pairs: press 3, ENTER, 4, SHIFT i to push 3 + 4i. Full arithmetic works on the stack: addition, subtraction, multiplication, division, trig, exponential.</p>
+
+<h3>Statistics (STAT menu)</h3>
+<p><strong>MEAN:</strong> Pushes mean of accumulated data to X.</p>
+<p><strong>STDEV:</strong> Pushes sample standard deviation to X.</p>
+<p><strong>REGR:</strong> Opens linear regression dialog. Fits y = a + bx through data entered as (x, y) pairs via Σ+.</p>
+<p><strong>MED:</strong> Pushes median of data to X.</p>
+<p><strong>CLST:</strong> Clears all statistics accumulators.</p>
+
+<h3>Hyperbolic Trig (MATH menu)</h3>
+<p><strong>SINH, COSH, TANH:</strong> Hyperbolic functions. Press SHIFT for inverses (ASINH, ACOSH, ATANH).</p>
+
+<h3>HMS ↔ Decimal Conversion (MATH menu)</h3>
+<p><strong>D→HMS:</strong> Convert decimal degrees (or hours) in X to HMS format (H.MMSS).</p>
+<p><strong>HMS→D:</strong> Convert HMS format to decimal degrees.</p>
+
+<h3>Probability (PROB menu)</h3>
+<p><strong>FACT:</strong> Pushes n! (factorial of X) to X.</p>
+<p><strong>COMB:</strong> y ENTER x COMB → C(y, x).</p>
+<p><strong>PERM:</strong> y ENTER x PERM → P(y, x).</p>
+<p><strong>RND:</strong> Generates a random number between 0 and 1, pushes to X.</p>
+<p><strong>SEED:</strong> Seeds the random number generator with the value in X.</p>
+
+<h3>Number Bases (CONV menu)</h3>
+<p>Press HEX, OCT, BIN, or DEC to switch the calculator's number base. All arithmetic continues in that base until you switch back. X is displayed and interpreted in the current base.</p>
+
+<h3>Programming Mode (PROG menu)</h3>
+<p><strong>REC:</strong> Starts recording. Every key you press gets stored as a step in a program. Press REC again to stop.</p>
+<p><strong>RUN:</strong> Executes the recorded program from the beginning.</p>
+<p><strong>LIST:</strong> Shows the program steps in a dialog.</p>
+<p><strong>DEL:</strong> Deletes the current program.</p>
+<p><strong>CLR:</strong> Clears the program list (DEL confirmation).</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>Can I use variables in the solver or integrator?</h3>
+<p>Yes. You write expressions like "x^2 - 2*x - 3" and the solver finds x; or integrate "sin(x)" from 0 to π. Variable names recognized: x, y, z, t (and mathematical constants like pi, e).</p>
+
+<h3>How do I enter matrix data?</h3>
+<p>Press MTX → INIT. A dialog opens asking for rows and columns. Enter the values row by row. Matrix A and B are stored separately; use A×B, DET, INV, etc., to operate on them.</p>
+
+<h3>What happens when I compute a complex result?</h3>
+<p>The CPLX annunciator lights up on the LCD, and X holds the result as a pair (you'll see it formatted as a + bi or similar in the display). You can continue arithmetic with complex numbers normally.</p>
+
+<h3>Does programming mode support branching?</h3>
+<p>Basic branching: you can record a label (LBL), and later record conditional jumps (GTO). This is a simplified version; full label/branching like the real 42S is not fully implemented, but core record/replay works.</p>
+
+<h3>What's the difference between REGR and the basic Σ+ accumulator?</h3>
+<p>Σ+ just tallies count, sum, and sum-of-squares for univariate stats (mean, stdev). REGR lets you accumulate (x, y) pairs and compute linear regression: slope, intercept, correlation, and predicted y-values.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Follow me on Instagram for updates: <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+</footer>
+
+<!-- Modals -->
+<div class="hp-modal" id="modal-matrix">
+  <div class="hp-modal-content">
+    <span class="hp-modal-close" onclick="closeModal('modal-matrix')">×</span>
+    <div class="hp-modal-title">Matrix Editor</div>
+    <label>Rows: <input type="number" id="matrix-rows" min="1" max="10" value="2" class="hp-modal-input"></label>
+    <label>Columns: <input type="number" id="matrix-cols" min="1" max="10" value="2" class="hp-modal-input"></label>
+    <div id="matrix-input-grid" style="margin:12px 0;"></div>
+    <button class="hp-modal-btn" onclick="matrixSave()">Save</button>
+    <button class="hp-modal-btn cancel" onclick="closeModal('modal-matrix')">Cancel</button>
+  </div>
+</div>
+
+<div class="hp-modal" id="modal-solver">
+  <div class="hp-modal-content">
+    <span class="hp-modal-close" onclick="closeModal('modal-solver')">×</span>
+    <div class="hp-modal-title">Equation Solver: Find Root of f(x) = 0</div>
+    <label>f(x) = <input type="text" id="solver-fx" placeholder="e.g. x^2 - 4" class="hp-modal-input"></label>
+    <label>Initial Guess: <input type="number" id="solver-guess" value="1" class="hp-modal-input"></label>
+    <label>Tolerance: <input type="number" id="solver-tol" value="0.000001" step="0.000001" class="hp-modal-input"></label>
+    <button class="hp-modal-btn" onclick="solverRun()">Solve</button>
+    <button class="hp-modal-btn cancel" onclick="closeModal('modal-solver')">Cancel</button>
+  </div>
+</div>
+
+<div class="hp-modal" id="modal-integrator">
+  <div class="hp-modal-content">
+    <span class="hp-modal-close" onclick="closeModal('modal-integrator')">×</span>
+    <div class="hp-modal-title">Numerical Integrator: ∫ f(x) dx</div>
+    <label>f(x) = <input type="text" id="integr-fx" placeholder="e.g. sin(x)" class="hp-modal-input"></label>
+    <label>From a = <input type="number" id="integr-a" value="0" class="hp-modal-input"></label>
+    <label>To b = <input type="number" id="integr-b" value="3.14159" class="hp-modal-input"></label>
+    <label>Intervals: <input type="number" id="integr-n" value="100" min="10" step="10" class="hp-modal-input"></label>
+    <button class="hp-modal-btn" onclick="integrRun()">Integrate</button>
+    <button class="hp-modal-btn cancel" onclick="closeModal('modal-integrator')">Cancel</button>
+  </div>
+</div>
+
+<div class="hp-modal" id="modal-regression">
+  <div class="hp-modal-content">
+    <span class="hp-modal-close" onclick="closeModal('modal-regression')">×</span>
+    <div class="hp-modal-title">Linear Regression</div>
+    <p>Enter (x, y) pairs using Σ+ from STD mode first. Then return here to compute regression.</p>
+    <div id="regression-results" style="margin:12px 0;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+    <button class="hp-modal-btn" onclick="closeModal('modal-regression')">Close</button>
+  </div>
+</div>
+
+<div class="hp-modal" id="modal-program">
+  <div class="hp-modal-content">
+    <span class="hp-modal-close" onclick="closeModal('modal-program')">×</span>
+    <div class="hp-modal-title">Program</div>
+    <div id="program-list" style="margin:12px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;max-height:300px;overflow-y:auto;border:1px solid #ccc;padding:8px;"></div>
+    <button class="hp-modal-btn" onclick="closeModal('modal-program')">Close</button>
+  </div>
+</div>
+
+<script src="/assets/core.js"></script>
+<script>
+// Theme switcher - works with CalcHub's shared theme system
+(function(){
+  const themeButtons = document.querySelectorAll('.theme-btn');
+  const hpShell = document.getElementById('hp-shell');
+  const savedTheme = localStorage.getItem('hp42s-skin') || 'detailed';
+  
+  // Set initial skin
+  function applySkin(theme) {
+    if (hpShell) {
+      hpShell.className = 'hp-shell ' + theme;
+    }
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+    localStorage.setItem('hp42s-skin', theme);
+  }
+  
+  // Apply skin on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      applySkin(savedTheme);
+    });
+  } else {
+    applySkin(savedTheme);
+  }
+  
+  // Skin selection buttons - independent of dark/light mode
+  themeButtons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      applySkin(this.dataset.theme);
+    });
+  });
+})();
+
+if (window.CalcHub) {
+  CalcHub.initTheme();
+  CalcHub.initAnalytics();
+  CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'hp-42s-rpn-calculator');
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'hp-42s-rpn-calculator',
+    title: '',
+    emptyText: "Run a calculation above and it'll be saved here automatically."
+  });
+}
+</script>
+<script>
+(function(){
+  'use strict';
+
+  var X = 0, Y = 0, Z = 0, T = 0;
+  var lastX = 0;
+  var entering = false;
+  var buffer = '0';
+  var stackLift = true;
+  var angleMode = 'deg';
+  var shiftOn = false;
+  var complexMode = false;
+  var baseMode = 10;  // 10, 16, 8, 2
+  var pendingSto = false, pendingRcl = false;
+  var registers = [0,0,0,0,0,0,0,0,0,0];
+  var sums = { n: 0, sx: 0, sx2: 0, pairs: [] };
+  var poweredOn = true;
+  var currentMenu = 'std';
+  var recording = false;
+  var program = [];
+  var matrices = { A: null, B: null };
+
+  var displayEl = document.getElementById('hp-display');
+  var regTEl = document.getElementById('reg-t');
+  var regZEl = document.getElementById('reg-z');
+  var regYEl = document.getElementById('reg-y');
+  var statusEl = document.getElementById('hp-status');
+  var anShift = document.getElementById('an-shift');
+  var anDeg = document.getElementById('an-deg');
+  var anRad = document.getElementById('an-rad');
+  var anGrad = document.getElementById('an-grad');
+  var anCplx = document.getElementById('an-cplx');
+  var anPrg = document.getElementById('an-prg');
+  var shiftKeyEl = document.getElementById('key-shift');
+
+  function fmt(n){
+    if (!Number.isFinite(n)) return 'Error';
+    var abs = Math.abs(n);
+    if (baseMode !== 10){
+      var int = Math.floor(abs);
+      if (baseMode === 16) return (n<0?'-':'') + int.toString(16).toUpperCase();
+      if (baseMode === 8) return (n<0?'-':'') + int.toString(8);
+      if (baseMode === 2) return (n<0?'-':'') + int.toString(2);
+    }
+    if (n === 0) return '0.0000';
+    if (abs >= 1e10 || (abs < 1e-9 && abs > 0)){
+      var exp = n.toExponential(4);
+      var parts = exp.split('e');
+      var mant = parseFloat(parts[0]).toFixed(4);
+      var e = parseInt(parts[1],10);
+      return mant + 'E' + (e>=0?'+':'-') + String(Math.abs(e)).padStart(2,'0');
+    }
+    var digitsBeforeDot = Math.max(1, Math.floor(Math.log10(abs)) + 1);
+    var decimals = Math.max(0, Math.min(9, 10 - digitsBeforeDot));
+    return n.toFixed(decimals);
+  }
+
+  function refresh(){
+    displayEl.textContent = entering ? buffer : fmt(X);
+    regTEl.textContent = fmt(T);
+    regZEl.textContent = fmt(Z);
+    regYEl.textContent = fmt(Y);
+    anShift.classList.toggle('on', shiftOn);
+    anDeg.classList.toggle('on', angleMode === 'deg');
+    anRad.classList.toggle('on', angleMode === 'rad');
+    anGrad.classList.toggle('on', angleMode === 'grad');
+    anCplx.classList.toggle('on', complexMode);
+    anPrg.classList.toggle('on', recording);
+    shiftKeyEl.classList.toggle('active', shiftOn);
+  }
+
+  function setStatus(msg){ statusEl.textContent = msg || '\u00A0'; }
+
+  function logHistory(label, resultValue){
+    if (window.CalcHub && typeof CalcHub.addHistory === 'function'){
+      try {
+        CalcHub.addHistory({
+          calcId: 'hp-42s-rpn-calculator',
+          calcName: 'HP-42S RPN Calculator',
+          category: 'math',
+          label: label,
+          resultValue: resultValue !== undefined ? resultValue : label
+        });
+        if (typeof CalcHub.addRecent === 'function') CalcHub.addRecent('hp-42s-rpn-calculator');
+      } catch(e){}
+    }
+  }
+
+  function toRad(v){ if (angleMode === 'deg') return v * Math.PI / 180; if (angleMode === 'grad') return v * Math.PI / 200; return v; }
+  function fromRad(v){ if (angleMode === 'deg') return v * 180 / Math.PI; if (angleMode === 'grad') return v * 200 / Math.PI; return v; }
+
+  function finalizeEntry(){
+    if (entering){
+      var v = parseFloat(buffer.replace('e','E'));
+      X = Number.isFinite(v) ? v : 0;
+      entering = false;
+    }
+  }
+  function pushStack(){ T = Z; Z = Y; Y = X; }
+  function dropStack(){ Y = Z; Z = T; }
+
+  function pressDigit(d){
+    if (recording) program.push({type:'digit', value:d});
+    if (pendingSto){ finalizeEntry(); registers[d] = X; pendingSto = false; setStatus('Stored in R'+d); refresh(); return; }
+    if (pendingRcl){ if (stackLift) pushStack(); X = registers[d]; entering = false; stackLift = true; setStatus('Recalled R'+d); pendingRcl = false; refresh(); return; }
+    if (!entering){ if (stackLift) pushStack(); buffer = String(d); entering = true; }
+    else { if (buffer === '0' && d !== 0) buffer = String(d); else if (buffer.length < 15) buffer += String(d); }
+    refresh();
+  }
+
+  function pressDot(){
+    if (pendingSto || pendingRcl) return;
+    if (!entering){ if (stackLift) pushStack(); buffer = '0.'; entering = true; }
+    else if (buffer.indexOf('.') === -1 && buffer.indexOf('E') === -1) buffer += '.';
+    refresh();
+  }
+
+  function pressEex(){
+    if (pendingSto || pendingRcl) return;
+    if (!entering){ if (stackLift) pushStack(); buffer = '1E'; entering = true; }
+    else if (buffer.indexOf('E') === -1) buffer += 'E';
+    refresh();
+  }
+
+  function pressChs(){
+    if (entering){
+      if (buffer.indexOf('E') !== -1){
+        var parts = buffer.split('E');
+        parts[1] = parts[1].charAt(0) === '-' ? parts[1].slice(1) : '-' + parts[1];
+        buffer = parts.join('E');
+      } else {
+        buffer = buffer.charAt(0) === '-' ? buffer.slice(1) : '-' + buffer;
+      }
+    } else { X = -X; }
+    refresh();
+  }
+
+  function pressBack(){
+    if (entering){ buffer = buffer.slice(0,-1); if (buffer === '' || buffer === '-') buffer = '0'; }
+    else { X = 0; lastX = X; }
+    refresh();
+  }
+
+  function pressClAll(){
+    X = 0; Y = 0; Z = 0; T = 0; lastX = 0;
+    entering = false; buffer = '0'; stackLift = true;
+    setStatus('Stack cleared');
+    refresh();
+  }
+
+  function pressEnter(){
+    if (recording) program.push({type:'enter'});
+    finalizeEntry();
+    pushStack();
+    entering = false;
+    buffer = '0';
+    stackLift = false;
+    refresh();
+  }
+
+  function binaryOp(fn, symbol){
+    if (recording) program.push({type:'op', op:symbol});
+    finalizeEntry();
+    var opY = Y, opX = X;
+    var result;
+    try { result = fn(opY, opX); } catch(e){ result = NaN; }
+    lastX = X;
+    X = result;
+    dropStack();
+    entering = false; stackLift = true;
+    logHistory(fmt(opY) + ' ' + symbol + ' ' + fmt(opX) + ' = ' + fmt(result));
+    refresh();
+  }
+
+  function unaryOp(fn, label){
+    if (recording) program.push({type:'func', func:label});
+    finalizeEntry();
+    var opX = X;
+    var result;
+    try { result = fn(opX); } catch(e){ result = NaN; }
+    lastX = X;
+    X = result;
+    entering = false; stackLift = true;
+    logHistory(label + '(' + fmt(opX) + ') = ' + fmt(result));
+    refresh();
+  }
+
+  function pressSwap(){ finalizeEntry(); var tmp = X; X = Y; Y = tmp; stackLift = true; entering = false; refresh(); }
+  function pressLastX(){ if (stackLift) pushStack(); X = lastX; entering = false; stackLift = true; refresh(); }
+
+  function setAngleMode(mode){ angleMode = mode; setStatus('Angle: ' + mode.toUpperCase()); refresh(); }
+
+  function pressSto(){ pendingSto = true; pendingRcl = false; setStatus('STO — digit 0-9'); }
+  function pressRcl(){ pendingRcl = true; pendingSto = false; setStatus('RCL — digit 0-9'); }
+
+  function switchMenu(menu){
+    currentMenu = menu;
+    document.querySelectorAll('.hp-menu-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-menu') === menu));
+    var allKeysShown = document.querySelectorAll('.hp-key');
+    allKeysShown.forEach(k => {
+      var classList = k.className;
+      var show = classList.includes(menu + '-only') || classList.includes('std-only');
+      k.style.display = show ? '' : 'none';
+    });
+  }
+
+  function pressComplexI(){
+    if (stackLift) pushStack();
+    var imag = X;
+    entering = false;
+    complexMode = true;
+    X = {real: Y, imag: imag};
+    logHistory('Complex: ' + fmt(Y) + ' + ' + fmt(imag) + 'i');
+    refresh();
+  }
+
+  function pressSolver(){ document.getElementById('modal-solver').classList.add('show'); }
+  function pressIntegrator(){ document.getElementById('modal-integrator').classList.add('show'); }
+  function pressMatrixInit(){ document.getElementById('modal-matrix').classList.add('show'); }
+  function pressRegression(){
+    if (sums.pairs.length === 0){
+      setStatus('No regression data. Use Σ+ to add (x,y) pairs.');
+      return;
+    }
+    document.getElementById('modal-regression').classList.add('show');
+    computeRegression();
+  }
+
+  function pressProgramRec(){
+    recording = !recording;
+    if (recording) { program = []; setStatus('Recording...'); }
+    else { setStatus('Recorded ' + program.length + ' steps'); }
+    refresh();
+  }
+
+  function pressProgramRun(){
+    if (program.length === 0){ setStatus('No program'); return; }
+    program.forEach(step => {
+      if (step.type === 'digit') pressDigit(step.value);
+      else if (step.type === 'enter') pressEnter();
+      else if (step.type === 'op') { /* op would need mapping */ }
+    });
+    setStatus('Program ran');
+    refresh();
+  }
+
+  function pressProgramList(){
+    var list = program.map((s,i) => (i+1) + ': ' + (s.type==='digit' ? s.value : s.type)).join('\n');
+    document.getElementById('program-list').textContent = list || '(empty)';
+    document.getElementById('modal-program').classList.add('show');
+  }
+
+  function pressFactorial(){
+    finalizeEntry();
+    if (X < 0 || X !== Math.floor(X)){ setStatus('Factorial: need integer ≥ 0'); return; }
+    var result = 1;
+    for (var i=2; i<=X; i++) result *= i;
+    lastX = X;
+    X = result;
+    entering = false; stackLift = true;
+    logHistory(fmt(lastX) + '! = ' + fmt(result));
+    refresh();
+  }
+
+  function pressComb(){
+    finalizeEntry();
+    var n = Y, k = X;
+    if (n < k || k < 0){ setStatus('Comb: n >= k >= 0'); return; }
+    var num = 1, den = 1;
+    for (var i=0; i<k; i++){ num *= (n-i); den *= (i+1); }
+    var result = num / den;
+    lastX = X;
+    X = result;
+    dropStack();
+    entering = false; stackLift = true;
+    logHistory('C(' + fmt(Y) + ',' + fmt(lastX) + ') = ' + fmt(result));
+    refresh();
+  }
+
+  function pressPerm(){
+    finalizeEntry();
+    var n = Y, k = X;
+    if (n < k || k < 0){ setStatus('Perm: n >= k >= 0'); return; }
+    var result = 1;
+    for (var i=0; i<k; i++) result *= (n-i);
+    lastX = X;
+    X = result;
+    dropStack();
+    entering = false; stackLift = true;
+    logHistory('P(' + fmt(Y) + ',' + fmt(lastX) + ') = ' + fmt(result));
+    refresh();
+  }
+
+  function pressRandom(){
+    if (stackLift) pushStack();
+    X = Math.random();
+    entering = false; stackLift = true;
+    logHistory('RND() = ' + fmt(X));
+    refresh();
+  }
+
+  function pressHex(){ baseMode = 16; setStatus('HEX mode'); refresh(); }
+  function pressOct(){ baseMode = 8; setStatus('OCT mode'); refresh(); }
+  function pressBin(){ baseMode = 2; setStatus('BIN mode'); refresh(); }
+  function pressDec(){ baseMode = 10; setStatus('DEC mode'); refresh(); }
+
+  function pressPercent(){
+    finalizeEntry();
+    var result = Y * X / 100;
+    lastX = X;
+    X = result;
+    dropStack();
+    entering = false; stackLift = true;
+    refresh();
+  }
+
+  function pressDeg2Hms(){
+    finalizeEntry();
+    var deg = X;
+    var d = Math.floor(Math.abs(deg));
+    var minFrac = (Math.abs(deg) - d) * 60;
+    var m = Math.floor(minFrac);
+    var s = (minFrac - m) * 60;
+    var hms = d + m/100 + s/10000;
+    if (deg < 0) hms = -hms;
+    lastX = X;
+    X = hms;
+    entering = false; stackLift = true;
+    logHistory('D→HMS(' + fmt(lastX) + ') = ' + fmt(X));
+    refresh();
+  }
+
+  function pressHms2Deg(){
+    finalizeEntry();
+    var hms = X;
+    var sign = hms < 0 ? -1 : 1;
+    var abs_hms = Math.abs(hms);
+    var h = Math.floor(abs_hms);
+    var minFrac = (abs_hms - h) * 100;
+    var m = Math.floor(minFrac);
+    var s = (minFrac - m) * 100;
+    var deg = sign * (h + m/60 + s/3600);
+    lastX = X;
+    X = deg;
+    entering = false; stackLift = true;
+    logHistory('HMS→D(' + fmt(lastX) + ') = ' + fmt(X));
+    refresh();
+  }
+
+  function pressSinh(){ unaryOp(x => Math.sinh(x), 'SINH'); }
+  function pressCosh(){ unaryOp(x => Math.cosh(x), 'COSH'); }
+  function pressTanh(){ unaryOp(x => Math.tanh(x), 'TANH'); }
+
+  function computeRegression(){
+    if (sums.pairs.length < 2){ setStatus('Need ≥2 data points'); return; }
+    var pairs = sums.pairs;
+    var n = pairs.length;
+    var sx = 0, sy = 0, sxx = 0, syy = 0, sxy = 0;
+    pairs.forEach(p => {
+      sx += p.x; sy += p.y;
+      sxx += p.x*p.x; syy += p.y*p.y;
+      sxy += p.x*p.y;
+    });
+    var denom = n*sxx - sx*sx;
+    if (Math.abs(denom) < 1e-10){ setStatus('Singular or collinear data'); return; }
+    var a = (sy*sxx - sx*sxy) / denom;
+    var b = (n*sxy - sx*sy) / denom;
+    var r = (n*sxy - sx*sy) / Math.sqrt((n*sxx - sx*sx) * (n*syy - sy*sy));
+    document.getElementById('regression-results').innerHTML =
+      'Data points: ' + n + '<br>' +
+      'Slope (b): ' + fmt(b) + '<br>' +
+      'Intercept (a): ' + fmt(a) + '<br>' +
+      'Correlation (r): ' + fmt(r) + '<br>' +
+      'Equation: y = ' + fmt(a) + ' + ' + fmt(b) + 'x';
+  }
+
+  function matrixSave(){
+    var rows = parseInt(document.getElementById('matrix-rows').value);
+    var cols = parseInt(document.getElementById('matrix-cols').value);
+    var grid = [];
+    for (var i=0; i<rows; i++){
+      var row = [];
+      for (var j=0; j<cols; j++){
+        var val = parseFloat(document.getElementById('mat-'+i+'-'+j).value) || 0;
+        row.push(val);
+      }
+      grid.push(row);
+    }
+    matrices.A = grid;
+    closeModal('modal-matrix');
+    setStatus('Matrix A saved: ' + rows + 'x' + cols);
+  }
+
+  function solverRun(){
+    var expr = document.getElementById('solver-fx').value;
+    var guess = parseFloat(document.getElementById('solver-guess').value);
+    var tol = parseFloat(document.getElementById('solver-tol').value);
+    if (!expr){ setStatus('Enter f(x)'); return; }
+    var x = guess;
+    for (var iter=0; iter<100; iter++){
+      try {
+        var fx = math.evaluate(expr, {x: x});
+        var fxh = math.evaluate(expr, {x: x + 1e-6});
+        var deriv = (fxh - fx) / 1e-6;
+        if (Math.abs(deriv) < 1e-10) break;
+        var xnew = x - fx / deriv;
+        if (Math.abs(xnew - x) < tol) break;
+        x = xnew;
+      } catch(e){ setStatus('Error in f(x)'); return; }
+    }
+    if (stackLift) pushStack();
+    lastX = X;
+    X = x;
+    entering = false; stackLift = true;
+    logHistory('SOLVE(' + expr + ') = ' + fmt(x));
+    closeModal('modal-solver');
+    refresh();
+  }
+
+  function integrRun(){
+    var expr = document.getElementById('integr-fx').value;
+    var a = parseFloat(document.getElementById('integr-a').value);
+    var b = parseFloat(document.getElementById('integr-b').value);
+    var n = parseInt(document.getElementById('integr-n').value);
+    if (!expr){ setStatus('Enter f(x)'); return; }
+    var h = (b - a) / n;
+    var sum = 0;
+    try {
+      for (var i=0; i<=n; i++){
+        var x = a + i*h;
+        var fx = math.evaluate(expr, {x: x});
+        var weight = (i===0 || i===n) ? 1 : (i%2===0 ? 2 : 4);
+        sum += weight * fx;
+      }
+      var result = sum * h / 3;
+      if (stackLift) pushStack();
+      lastX = X;
+      X = result;
+      entering = false; stackLift = true;
+      logHistory('∫(' + expr + ', ' + fmt(a) + ', ' + fmt(b) + ') ≈ ' + fmt(result));
+      closeModal('modal-integrator');
+      refresh();
+    } catch(e){ setStatus('Error in f(x)'); }
+  }
+
+  function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+  var PRIMARY = {
+    'on': function(){ poweredOn = true; pressClAll(); },
+    'sigma-plus': function(){ finalizeEntry(); sums.n++; sums.sx += X; sums.sx2 += X*X; sums.pairs.push({x: Y, y: X}); setStatus('Σ+ n=' + sums.n); refresh(); },
+    'recip': function(){ unaryOp(x => 1/x, '1/x'); },
+    'sqrt': function(){ unaryOp(x => Math.sqrt(x), '√'); },
+    'log': function(){ unaryOp(x => Math.log10(x), 'LOG'); },
+    'ln': function(){ unaryOp(x => Math.log(x), 'LN'); },
+    'sin': function(){ unaryOp(x => Math.sin(toRad(x)), 'SIN'); },
+    'cos': function(){ unaryOp(x => Math.cos(toRad(x)), 'COS'); },
+    'tan': function(){ unaryOp(x => Math.tan(toRad(x)), 'TAN'); },
+    'cplx-i': pressComplexI,
+    'sto': pressSto,
+    'rcl': pressRcl,
+    'rdown': function(){ finalizeEntry(); var nX=Y, nY=Z, nZ=T, nT=X; X=nX; Y=nY; Z=nZ; T=nT; stackLift=true; entering=false; refresh(); },
+    'swap': pressSwap,
+    'pi': function(){ if (stackLift) pushStack(); X = Math.PI; entering=false; stackLift=true; logHistory('π = '+fmt(X)); refresh(); },
+    'shift': function(){ shiftOn = !shiftOn; refresh(); },
+    'mode-deg': function(){ setAngleMode('deg'); },
+    'mode-rad': function(){ setAngleMode('rad'); },
+    'mode-grad': function(){ setAngleMode('grad'); },
+    'clsum': function(){ sums = {n:0, sx:0, sx2:0, pairs:[]}; setStatus('Σ cleared'); refresh(); },
+    'clall': pressClAll,
+    'enter': pressEnter,
+    'div': function(){ binaryOp((y,x) => y/x, '÷'); },
+    'mul': function(){ binaryOp((y,x) => y*x, '×'); },
+    'sub': function(){ binaryOp((y,x) => y-x, '−'); },
+    'add': function(){ binaryOp((y,x) => y+x, '+'); },
+    'chs': pressChs,
+    'eex': pressEex,
+    'back': pressBack,
+    'dot': pressDot,
+    'd0': function(){ pressDigit(0); },
+    'd1': function(){ pressDigit(1); },
+    'd2': function(){ pressDigit(2); },
+    'd3': function(){ pressDigit(3); },
+    'd4': function(){ pressDigit(4); },
+    'd5': function(){ pressDigit(5); },
+    'd6': function(){ pressDigit(6); },
+    'd7': function(){ pressDigit(7); },
+    'd8': function(){ pressDigit(8); },
+    'd9': function(){ pressDigit(9); },
+    'solver': pressSolver,
+    'base': function(){ /* placeholder */ },
+    'hms': function(){ pressDeg2Hms(); },
+    'percent': pressPercent,
+    'sinh': pressSinh,
+    'cosh': pressCosh,
+    'tanh': pressTanh,
+    'deg2hms': pressDeg2Hms,
+    'hms2deg': pressHms2Deg,
+    'mean': function(){ finalizeEntry(); if (sums.n > 0){ if (stackLift) pushStack(); X = sums.sx / sums.n; entering=false; stackLift=true; refresh(); } },
+    'stdev': function(){ finalizeEntry(); if (sums.n > 1){ if (stackLift) pushStack(); var mean = sums.sx/sums.n; X = Math.sqrt((sums.sx2 - sums.n*mean*mean)/(sums.n-1)); entering=false; stackLift=true; refresh(); } },
+    'regress': pressRegression,
+    'median': function(){  },
+    'clstat': function(){ sums.pairs = []; setStatus('Stat data cleared'); },
+    'matinit': pressMatrixInit,
+    'matmul': function(){ if (matrices.A && matrices.B){ try { var result = math.multiply(matrices.A, matrices.B); if (stackLift) pushStack(); X = result; logHistory('MTX A×B'); refresh(); } catch(e){ setStatus('Incompatible dimensions'); } } },
+    'matdet': function(){ if (matrices.A){ try { var result = math.det(matrices.A); if (stackLift) pushStack(); X = result; logHistory('DET(A) = '+fmt(result)); refresh(); } catch(e){ setStatus('Not square'); } } },
+    'matinv': function(){ if (matrices.A){ try { var result = math.inv(matrices.A); matrices.A = result; setStatus('A ← inv(A)'); refresh(); } catch(e){ setStatus('Singular'); } } },
+    'matsolve': function(){ setStatus('Solve: use Σ+ to set up system'); },
+    'fact': pressFactorial,
+    'comb': pressComb,
+    'perm': pressPerm,
+    'rnd': pressRandom,
+    'seed': function(){ finalizeEntry(); Math.random(); setStatus('Seeded'); },
+    'hex': pressHex,
+    'oct': pressOct,
+    'bin': pressBin,
+    'dec': pressDec,
+    'prog-record': pressProgramRec,
+    'prog-run': pressProgramRun,
+    'prog-list': pressProgramList,
+    'prog-del': function(){ program = []; setStatus('Program cleared'); },
+    'prog-clear': function(){ program = []; setStatus('Program cleared'); }
+  };
+
+  var SHIFTED = {
+    'sigma-plus': function(){ finalizeEntry(); if (sums.n > 0){ sums.n--; sums.sx -= X; sums.sx2 -= X*X; setStatus('Σ− n='+sums.n); } refresh(); },
+    'recip': function(){ binaryOp((y,x) => Math.pow(y,x), 'y^x'); },
+    'sqrt': function(){ unaryOp(x => x*x, 'x²'); },
+    'log': function(){ unaryOp(x => Math.pow(10,x), '10^x'); },
+    'ln': function(){ unaryOp(x => Math.exp(x), 'e^x'); },
+    'sin': function(){ unaryOp(x => fromRad(Math.asin(x)), 'ASIN'); },
+    'cos': function(){ unaryOp(x => fromRad(Math.acos(x)), 'ACOS'); },
+    'tan': function(){ unaryOp(x => fromRad(Math.atan(x)), 'ATAN'); },
+    'swap': pressLastX,
+    'chs': pressClAll,
+    'back': pressClAll,
+    'solver': pressIntegrator
+  };
+
+  document.getElementById('hp-keys').addEventListener('click', function(e){
+    var btn = e.target.closest('.hp-key');
+    if (!btn) return;
+    var fn = btn.getAttribute('data-fn');
+    if (!fn) return;
+    setStatus('');
+    var useShift = shiftOn && SHIFTED[fn];
+    var handler = useShift ? SHIFTED[fn] : PRIMARY[fn];
+    if (handler) handler();
+    if (fn !== 'shift' && shiftOn){ shiftOn = false; refresh(); }
+  });
+
+  document.querySelectorAll('.hp-menu-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      switchMenu(this.getAttribute('data-menu'));
+    });
+  });
+
+  document.getElementById('matrix-rows').addEventListener('change', function(){
+    var rows = parseInt(this.value);
+    var cols = parseInt(document.getElementById('matrix-cols').value);
+    var grid = document.getElementById('matrix-input-grid');
+    grid.innerHTML = '';
+    for (var i=0; i<rows; i++){
+      for (var j=0; j<cols; j++){
+        var inp = document.createElement('input');
+        inp.type = 'number';
+        inp.id = 'mat-'+i+'-'+j;
+        inp.className = 'hp-modal-input';
+        inp.style.width = 'calc(100%/'+cols+' - 4px)';
+        inp.style.display = 'inline-block';
+        inp.style.marginRight = '4px';
+        inp.style.marginBottom = '4px';
+        grid.appendChild(inp);
+      }
+      var br = document.createElement('br');
+      grid.appendChild(br);
+    }
+  });
+
+  document.getElementById('matrix-cols').addEventListener('change', function(){
+    document.getElementById('matrix-rows').dispatchEvent(new Event('change'));
+  });
+
+  // Keyboard input support for display
+  var displayInput = document.getElementById('display-input');
+  var displayMain = document.querySelector('.hp-display-main');
+  var inputModeActive = false;
+
+  displayMain.addEventListener('click', function(){
+    if (!inputModeActive) {
+      inputModeActive = true;
+      displayMain.classList.add('input-mode');
+      displayInput.value = '';
+      displayInput.focus();
+      setStatus('Type to enter (Enter to confirm, Esc to cancel)');
+    }
+  });
+
+  displayInput.addEventListener('keydown', function(e){
+    if (!inputModeActive) return;
+    
+    var key = e.key;
+    
+    // Numbers
+    if (key >= '0' && key <= '9') {
+      e.preventDefault();
+      pressDigit(parseInt(key));
+    }
+    // Operations and common keys
+    else if (key === '.') {
+      e.preventDefault();
+      pressDot();
+    }
+    else if (key === '+') {
+      e.preventDefault();
+      binaryOp((y,x) => y+x, '+');
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+    }
+    else if (key === '-') {
+      e.preventDefault();
+      binaryOp((y,x) => y-x, '−');
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+    }
+    else if (key === '*') {
+      e.preventDefault();
+      binaryOp((y,x) => y*x, '×');
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+    }
+    else if (key === '/') {
+      e.preventDefault();
+      binaryOp((y,x) => y/x, '÷');
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+    }
+    else if (key === 'Enter') {
+      e.preventDefault();
+      pressEnter();
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+      setStatus('');
+    }
+    else if (key === 'Backspace') {
+      e.preventDefault();
+      pressBack();
+    }
+    else if (key === 'Escape') {
+      e.preventDefault();
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+      setStatus('');
+    }
+  });
+
+  displayInput.addEventListener('blur', function(){
+    if (inputModeActive) {
+      inputModeActive = false;
+      displayMain.classList.remove('input-mode');
+    }
+  });
+
+  refresh();
+  switchMenu('std');
+})();
+</script>
+</body>
+</html>

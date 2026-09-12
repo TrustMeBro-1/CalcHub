@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Ohm's Law & Circuit Analyzer: Ohm's Law Calculator - Calculate Voltage, Current, & Resistance</title>
+<meta name="description" content="Solve for voltage, current, resistance, or power using Ohm's Law.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/ohms-law-calculator">
+<meta property="og:title" content="Ohm's Law & Circuit Analyzer — CalcHub">
+<meta property="og:description" content="Solve for voltage, current, resistance, or power using Ohm's Law.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/ohms-law-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ohm's Law & Circuit Analyzer: Ohm's Law Calculator - Calculate Voltage, Current, & Resistance">
+<meta name="twitter:description" content="Solve for voltage, current, resistance, or power using Ohm's Law.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Ohm's Law & Circuit Analyzer: Ohm's Law Calculator - Calculate Voltage, Current, & Resistance",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Solve for voltage, current, resistance, or power using Ohm's Law.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-science">Science & Physics</a><span>/</span>
+    <span>Ohm's Law & Circuit Analyzer: Ohm's Law Calculator - Calculate Voltage, Current, & Resistance</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Ohm's Law & Circuit Analyzer: Ohm's Law Calculator - Calculate Voltage, Current, & Resistance</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Solve for voltage, current, resistance, or power using Ohm's Law.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>The relationship behind V = IR</h2>
+<p>Voltage, current, and resistance in a circuit are locked together by Ohm's Law. Knowing any two lets you solve for the third, which is why this tool only needs two of the three values to compute the missing one.</p>
+<h2>Where Ohm's Law doesn't apply cleanly</h2>
+<p>The law assumes a simple resistive (ohmic) component. Parts like diodes and transistors don't have constant resistance and don't follow a straight-line voltage-current relationship, so Ohm's Law alone won't accurately describe their behavior.</p>
+      <h1>Ohm's Law</h1>
+<p>Ohm's Law is a foundational principle in electrical engineering and physics that states the relationship between voltage, current, and resistance in an electrical circuit. Discovered by physicist Georg Ohm, the law establishes that the electrical current flowing through a conductor is directly proportional to the voltage applied across it, and inversely proportional to the circuit's total resistance. This rule acts as the basic roadmap for designing, diagnosing, and repairing any electrical circuit, from simple flashlights to microscopic computer processors, ensuring components receive safe operational power levels.</p>
+
+<h2>Ohm's Law Calculator Components</h2>
+<p>The mathematical model links three distinct electronic metrics, allowing users to calculate any single trait by providing the other two.</p>
+<ul>
+    <li><strong>Voltage (V):</strong> The electrical potential difference or driving pressure that pushes electric charges through a loop, measured in Volts.</li>
+    <li><strong>Current (I):</strong> The physical flow rate of electric charge moving past a specific point in the circuit, measured in Amperes or Amps.</li>
+    <li><strong>Resistance (R):</strong> The natural opposition or friction a material exerts against the passage of electrical current, measured in Ohms.</li>
+</ul>
+
+<h2>The Algebraic Formula Framework</h2>
+<p>The calculator utilizes a simple mathematical wheel to isolate your target electronic metric based on your data inputs.</p>
+<p>Voltage = Current * Resistance</p>
+<p>By restructuring this equation, the tool can isolate Current (I = V / R) or solve for Resistance (R = V / I), allowing you to safely plan electrical hardware loads.</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What happens to the current in a circuit if the resistance doubles?</h3>
+<p>If the resistance in a circuit doubles while the voltage source remains completely steady, the current flow drops exactly in half. Increasing resistance creates more friction, restriction, and drag against the movement of electrical charges.</p>
+
+<h3>What is the difference between direct current (DC) and alternating current (AC)?</h3>
+<p>Direct current forces electrical charge to flow continuously in one single direction, typical of batteries and electronics. Alternating current periodically reverses its flow direction at fixed intervals, which is the universal standard for grid power distribution systems.</p>
+
+<h3>How does Ohm's Law help prevent electrical fires?</h3>
+<p>If a circuit experiences zero resistance, known as a short circuit, the current instantly surges to dangerous levels. This massive current generation creates extreme heat inside the wiring, melting insulation layers and sparking fires unless safety fuses pop to break the line.</p>
+
+<h3>Can I apply Ohm's Law directly to alternating current (AC) appliances?</h3>
+<p>Ohm's Law applies directly to simple AC heating and lighting elements. However, complex AC appliances with motors or transformers introduce secondary magnetic restrictions known as impedance, which requires advanced vector formulas to track accurately.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'ohms-law-calculator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'ohms-law-calculator',
+  fields: [
+    {id:'solveFor', label:'Solve For', type:'select', default:'voltage', options:[{value:'voltage',label:'Voltage (V)'},{value:'current',label:'Current (I)'},{value:'resistance',label:'Resistance (R)'}]},
+    {id:'voltage', label:'Voltage', unit:'V', default:12, step:0.1},
+    {id:'current', label:'Current', unit:'A', default:2, step:0.1},
+    {id:'resistance', label:'Resistance', unit:'\u03a9', default:6, step:0.1}
+  ],
+  compute: function(v){
+    var V=v.voltage, I=v.current, R=v.resistance;
+    if (v.solveFor==='voltage') V = I*R;
+    else if (v.solveFor==='current') I = V/R;
+    else R = V/I;
+    var P = V*I;
+    var solved = {voltage:V,current:I,resistance:R}[v.solveFor];
+    var unit = {voltage:'V',current:'A',resistance:'\u03a9'}[v.solveFor];
+    return {
+      label: 'Solved: ' + v.solveFor,
+      headline: CalcHub.fmtNum(solved,3) + ' ' + unit,
+      stats: [
+        {label:'Voltage (V)', value: CalcHub.fmtNum(V,3), highlight:v.solveFor==='voltage'},
+        {label:'Current (A)', value: CalcHub.fmtNum(I,3), highlight:v.solveFor==='current'},
+        {label:'Resistance (\u03a9)', value: CalcHub.fmtNum(R,3), highlight:v.solveFor==='resistance'},
+        {label:'Power (W)', value: CalcHub.fmtNum(P,3)}
+      ],
+      chart: {type:'bar', labels:['V','I','R','P'], series:[{name:'Value', data:[V,I,R,P], color:'#5a1a8a'}]},
+      historyLabel: 'V='+CalcHub.fmtNum(V,2)+'V, I='+CalcHub.fmtNum(I,2)+'A, R='+CalcHub.fmtNum(R,2)+'\u03a9',
+      copyValue: CalcHub.fmtNum(solved,3)+' '+unit
+    };
+  }
+});
+
+</script>
+</body>
+</html>

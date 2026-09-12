@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Wage Calculator: Overtime, Tips, Bonuses, Insurance & 401k Included</title>
+<meta name="description" content="See what you actually take home — overtime, weekend pay, tips, bonuses, health insurance, 401k match, and paid time off, all in one place. Plus how many years until you hit $100k.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/wage-calculator">
+<meta property="og:title" content="Wage Calculator: Overtime, Tips, Bonuses, Insurance & 401k Included">
+<meta property="og:description" content="See what you actually take home — overtime, weekend pay, tips, bonuses, health insurance, 401k match, and paid time off, all in one place.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/wage-calculator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Wage9 Calculator: Overtime, Tips, Bonuses, Insurance & 401k Included">
+<meta name="twitter:description" content="See what you actually take home — overtime, weekend pay, tips, bonuses, health insurance, 401k match, and paid time off, all in one place.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Paycheck Calculator: Overtime, Tips, Bonuses, Insurance & 401k Included",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "See what you actually take home — overtime, weekend pay, tips, bonuses, health insurance, 401k match, and paid time off, all in one place. Plus how many years until you hit $100k.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<link rel="stylesheet" href="/assets/compare.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="header-inner"><a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img" /></a>
+<div class="header-actions"><a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a> <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode"> <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg> <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg> </button></div>
+</div>
+</header><main class="main-layout calc-page"><nav class="breadcrumb"><a href="../index.html">Home</a><span>/</span> <a href="../index.html#cat-finance">Finance &amp; Investment</a><span>/</span> <span>Paycheck Calculator: Overtime, Tips, Bonuses, Insurance &amp; 401k Included</span></nav>
+<div class="calc-page-header">
+<h1 class="calc-page-title">Paycheck Calculator: What You Actually Take Home</h1>
+<button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button></div>
+<p class="calc-page-intro">Add in your overtime, weekend hours, tips, bonus, health insurance, and 401k — and see your real take-home pay, not just hourly times hours.</p>
+<button id="mode-toggle-btn" class="btn-secondary" style="width:auto;display:inline-block;margin:0 0 var(--sp-md)">Too complex? Click here!</button>
+<div id="calc-root" class="calc-layout"></div>
+<button id="compare-toggle-btn" class="btn-secondary" style="width:auto;display:inline-block;margin:var(--sp-md) 0" aria-expanded="false">Compare Scenarios</button>
+<div id="calc-compare-root"></div>
+<section class="calc-explainer" id="calc-explainer">
+<h2>Your paycheck is more than hourly times hours</h2>
+<p>Most pay calculators just multiply your rate by your hours. But real paychecks have more pieces than that — overtime, weekend shifts, tips, a bonus check, money coming out for insurance, money going into a 401k. This calculator adds all of that in, so the number you get is closer to what actually lands in your bank account.</p>
+<h2>What "take-home pay" actually means here</h2>
+<p>Take-home pay is what's left after your 401k contribution, your insurance premiums, and taxes come out. It's the number that matters for budgeting — not your gross pay, which is bigger but not what you actually get to spend.</p>
+<h2>The pay you don't see in your check</h2>
+<p>If your job matches part of your 401k, that match is real money — it just doesn't show up as cash in your paycheck. Same with paid days off: you're getting paid for days you don't work. This calculator adds both up separately so you can see the full picture, not just what hits your bank account.</p>
+<h2>Why "years to $100k" is a projection, not a promise</h2>
+<p>This uses the raise percentage you enter and assumes it happens every year, which real life doesn't guarantee. Treat it as a rough timeline based on "if things stay steady," not a guarantee of when you'll get there.</p>
+<h2>Frequently Asked Questions (FAQ)</h2>
+<h3>What's the difference between gross pay and take-home pay?</h3>
+<p>Gross pay is everything you earn before anything comes out — your hourly pay, overtime, tips, and bonus. Take-home pay is what's left after your 401k contribution, insurance premiums, and taxes are taken out. Take-home is the number that actually matters for your budget.</p>
+<h3>How is overtime pay calculated?</h3>
+<p>Under federal rules, hours worked beyond 40 in a single week are usually paid at 1.5 times your regular hourly rate. Some jobs pay a different overtime rate, or pay a premium for weekend shifts on top of that — that's why both are adjustable here instead of locked to 1.5x.</p>
+<h3>Does this include paid time off (PTO)?</h3>
+<p>Yes. Paid days off are turned into a dollar value based on your daily rate, and shown separately so you can see what your time off is actually worth, on top of your regular pay.</p>
+<h3>What is a 401k match, and why does it matter?</h3>
+<p>A 401k match is free money your employer adds when you contribute your own money to your 401k, usually up to a certain percentage of your pay. If you're not contributing enough to get the full match, you're leaving money on the table — this calculator will tell you if that's happening.</p>
+<h3>How accurate is the tax estimate here?</h3>
+<p>Not fully accurate on purpose — real taxes depend on your filing status, your state, and current tax brackets, which is more than a simple calculator can account for. Instead, you enter your own estimated tax rate (check a recent paystub for a good number), and the calculator uses that to estimate your take-home pay.</p>
+<h3>How is the "years to $100k" number calculated?</h3>
+<p>It takes your current yearly pay (or take-home pay) and the raise percentage you expect each year, then figures out how long it would take to reach $100k if that raise happens every year. It's a simple projection, not a forecast — actual raises are rarely that consistent.</p>
+<p><span style="color: #000000; text-decoration:none;"><strong><a href="https://www.congress.gov/crs-product/R42713" title="Fair Labor Standards Act (FLSA)" style="color: #000000; text-decoration:none;">Fair Labor Standards Act</a></strong></span></p>
+</section>
+<section class="page-section">
+<div class="section-label">Similar Calculators</div>
+<div class="pill-list">
+<div class="pill-row"><span class="pill-dot" style="background:var(--finance)"></span><a class="pill-link" href="mortgage-calculator.html">Mortgage Calculator</a><span class="pill-meta">Finance & Investment</span></div>
+<div class="pill-row"><span class="pill-dot" style="background:var(--finance)"></span><a class="pill-link" href="loan-repayment-planner.html">Loan Repayment Planner</a><span class="pill-meta">Finance & Investment</span></div>
+<div class="pill-row"><span class="pill-dot" style="background:var(--finance)"></span><a class="pill-link" href="compound-interest-calculator.html">Compound Interest Calculator</a><span class="pill-meta">Finance & Investment</span></div>
+<div class="pill-row"><span class="pill-dot" style="background:var(--finance)"></span><a class="pill-link" href="retirement-401k-estimator.html">Retirement & 401(k) Estimator</a><span class="pill-meta">Finance & Investment</span></div>
+<div class="pill-row"><span class="pill-dot" style="background:var(--finance)"></span><a class="pill-link" href="credit-card-debt-payoff.html">Credit Card Debt Payoff</a><span class="pill-meta">Finance & Investment</span></div>
+</div>
+</section>
+</main><footer class="site-footer">
+<p>© 2026 CalcHub — Built for people who need answers fast.</p>
+ <p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p><p class="footer-signoff">Thanks for stopping by — I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<p>
+<script src="/assets/core.js"></script>
+<script src="/assets/compare.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'wage-calculator');
+
+
+var advancedConfig = {
+  id: 'wage-calculator',
+  fields: [
+    {id:'hourly', label:'Hourly Rate', unit:'$', default:28, step:0.5},
+    {id:'hours', label:'Regular Hours per Week', default:40, step:1},
+    {id:'otHours', label:'Extra Hours (Overtime) per Week', default:0, step:1},
+    {id:'otMult', label:'Overtime Pay Rate (x your hourly)', default:1.5, step:0.1},
+    {id:'weekendHours', label:'Weekend Hours per Week', default:0, step:1},
+    {id:'weekendMult', label:'Weekend Pay Rate (x your hourly)', default:1.5, step:0.1},
+    {id:'tips', label:'Tips per Week', unit:'$', default:0, step:5},
+    {id:'bonus', label:'Bonus per Year', unit:'$', default:0, step:100},
+    {id:'weeks', label:'Weeks You Actually Work per Year', default:50, step:1},
+    {id:'ptoDays', label:'Paid Days Off per Year', default:10, step:1},
+    {id:'contrib401k', label:'How Much You Put in 401k', unit:'%', default:5, step:1},
+    {id:'match401k', label:'How Much Your Job Matches', unit:'%', default:3, step:1},
+    {id:'medical', label:'Medical Insurance per Month', unit:'$', default:100, step:10},
+    {id:'dental', label:'Dental Insurance per Month', unit:'$', default:15, step:5},
+    {id:'vision', label:'Vision Insurance per Month', unit:'$', default:8, step:2},
+    {id:'taxRate', label:'Taxes Taken Out (your guess)', unit:'%', default:25, step:1},
+    {id:'raiseRate', label:'Raise You Expect per Year', unit:'%', default:3, step:0.5}
+  ],
+  compute: function(v){
+    // --- base pay ---
+    var regularWeekly = v.hourly * v.hours;
+    var otWeekly = (v.hourly * v.otMult) * v.otHours;
+    var weekendWeekly = (v.hourly * v.weekendMult) * v.weekendHours;
+    var tipsWeekly = v.tips;
+    var grossWeekly = regularWeekly + otWeekly + weekendWeekly + tipsWeekly;
+    var grossFromWork = grossWeekly * v.weeks;
+    var annualGross = grossFromWork + v.bonus;
+
+    // --- paid days off, turned into a dollar value (assumes a 5-day work week) ---
+    var dailyRate = v.hours > 0 ? (v.hourly * (v.hours / 5)) : 0;
+    var ptoValue = dailyRate * v.ptoDays;
+
+    // --- retirement ---
+    var basePlusPto = annualGross + ptoValue;
+    var your401k = basePlusPto * (v.contrib401k / 100);
+    var matchPct = Math.min(v.contrib401k, v.match401k);
+    var employerMatch = basePlusPto * (matchPct / 100);
+
+    // --- insurance ---
+    var yearlyInsurance = (v.medical + v.dental + v.vision) * 12;
+
+    // --- take-home (rough, using the tax % you gave us) ---
+    var taxableIncome = annualGross - your401k;
+    var estimatedTax = taxableIncome * (v.taxRate / 100);
+    var takeHome = annualGross - your401k - yearlyInsurance - estimatedTax;
+
+    // --- stuff you don't see in your paycheck but is still real money ---
+    var hiddenComp = employerMatch + ptoValue;
+
+    // --- milestone: how many years to $100k ---
+    function yearsTo(target, current, ratePct){
+      if (current <= 0) return null;
+      if (current >= target) return 0;
+      if (ratePct <= 0) return null;
+      return Math.log(target / current) / Math.log(1 + (ratePct / 100));
+    }
+    var yearsPreTax = yearsTo(100000, annualGross, v.raiseRate);
+    var yearsAfterTax = yearsTo(100000, takeHome, v.raiseRate);
+
+    function fmtYears(y){
+      if (y === null) return 'not with these numbers';
+      if (y === 0) return 'already there';
+      return y.toFixed(1) + ' yrs';
+    }
+
+    return {
+      label: 'Yearly Take-Home Pay',
+      headline: CalcHub.fmtUSD0(takeHome),
+      stats: [
+        {label:'Weekly Pay (before tax)', value: CalcHub.fmtUSD0(grossWeekly)},
+        {label:'Yearly Pay (before tax)', value: CalcHub.fmtUSD0(annualGross)},
+        {label:'Take-Home Pay (after tax)', value: CalcHub.fmtUSD0(takeHome), highlight:true},
+        {label:'Paid Days Off, in Dollars', value: CalcHub.fmtUSD0(ptoValue)},
+        {label:'401k: You + Company Match', value: CalcHub.fmtUSD0(your401k) + ' + ' + CalcHub.fmtUSD0(employerMatch)},
+        {label:'Insurance Cost per Year', value: CalcHub.fmtUSD0(yearlyInsurance)},
+        {label:'Money You Get Beyond Your Paycheck', value: CalcHub.fmtUSD0(hiddenComp)},
+        {label:'Years to $100k (before tax)', value: fmtYears(yearsPreTax)},
+        {label:'Years to $100k (after tax)', value: fmtYears(yearsAfterTax)}
+      ],
+      chart: {type:'bar', labels:['Before Tax','Take-Home','401k + Match','Insurance'], series:[{name:'Yearly $', data:[annualGross, takeHome, your401k+employerMatch, yearlyInsurance], color:'#1a6e3c'}]},
+      historyLabel: CalcHub.fmtUSD(v.hourly) + '/hr \u2192 ' + CalcHub.fmtUSD0(takeHome) + '/yr take-home',
+      copyValue: CalcHub.fmtUSD0(takeHome) + '/year take-home'
+    };
+  },
+  explain: function(v, r){
+    var notes = [];
+
+    if (v.otHours > 0 && v.weekendHours > 0) {
+      notes.push("You've got both overtime and weekend hours in here, so this isn't just a base hourly number anymore \u2014 it's your real weekly schedule.");
+    } else if (v.otHours > 0) {
+      notes.push("Your extra hours are paid at " + v.otMult + "x your hourly rate, not the same as your regular hours.");
+    } else if (v.weekendHours > 0) {
+      notes.push("Weekend hours here are paid at " + v.weekendMult + "x your hourly rate.");
+    }
+
+    if (v.tips > 0 && v.tips > (v.hourly * v.hours * 0.3)) {
+      notes.push("Tips are a big chunk of your pay here \u2014 if tips vary week to week, your real annual number will swing more than this estimate shows.");
+    } else if (v.tips > 0) {
+      notes.push("Tips are counted as steady weekly income, but in real life they go up and down.");
+    }
+
+    if (v.bonus > 0) {
+      notes.push("Your " + CalcHub.fmtUSD0(v.bonus) + " bonus is spread across the year here, even though you probably get it in one lump sum.");
+    }
+
+    if (v.weeks < 52) {
+      notes.push("You said you work " + v.weeks + " weeks a year, so the other " + (52 - v.weeks) + " weeks aren't paid in this number.");
+    }
+
+    if (v.ptoDays > 0) {
+      notes.push("Your " + v.ptoDays + " paid days off are worth real money even though you're not clocking in \u2014 that's counted separately as \"Paid Days Off, in Dollars.\"");
+    }
+
+    if (v.contrib401k > 0 && v.match401k > v.contrib401k) {
+      notes.push("Your job will match up to " + v.match401k + "%, but you're only putting in " + v.contrib401k + "%. You're leaving free match money on the table \u2014 bumping your contribution up to " + v.match401k + "% gets you all of it.");
+    } else if (v.contrib401k > 0 && v.match401k > 0) {
+      notes.push("You're putting in enough to get the full company match \u2014 that match money doesn't show up in your paycheck, but it's real.");
+    } else if (v.contrib401k === 0 && v.match401k > 0) {
+      notes.push("Your job offers up to " + v.match401k + "% in matching, but you're not putting anything in, so you're not getting any of it right now.");
+    }
+
+    var monthlyInsuranceTotal = v.medical + v.dental + v.vision;
+    if (monthlyInsuranceTotal > 0 && (monthlyInsuranceTotal * 12) > (v.hourly * v.hours * v.weeks * 0.08)) {
+      notes.push("Your insurance costs are a fairly large slice of your pay \u2014 worth double-checking if your job covers part of the premium, since that part wouldn't come out of your check.");
+    }
+
+    if (v.taxRate < 10) {
+      notes.push("A " + v.taxRate + "% tax rate is low for most people \u2014 double check this against a recent paystub if you want the take-home number to be close to real.");
+    } else if (v.taxRate > 40) {
+      notes.push("A " + v.taxRate + "% tax rate is high for most incomes \u2014 make sure that's really what's coming out of your check and not a guess that's too high.");
+    }
+
+    if (v.raiseRate <= 0) {
+      notes.push("With no expected raise, the \"years to $100k\" numbers can't really be projected \u2014 add a raise percentage to see a timeline.");
+    }
+
+    if (notes.length === 0) {
+      notes.push("This is a plain hourly-to-yearly conversion with no overtime, tips, bonus, or benefits added in yet.");
+    }
+
+    return notes.join(' ');
+  }
+};
+
+var simpleConfig = {
+  id: 'wage-calculator',
+  fields: [
+    {id:'hourly', label:'Hourly Rate', unit:'$', default:28, step:0.5},
+    {id:'hours', label:'Hours per Week', default:40, step:1},
+    {id:'weeks', label:'Weeks Worked per Year', default:50, step:1}
+  ],
+  compute: function(v){
+    var weekly = v.hourly*v.hours;
+    var annual = weekly*v.weeks;
+    var monthly = annual/12;
+    return {
+      label: 'Annual Pay',
+      headline: CalcHub.fmtUSD0(annual),
+      stats: [{label:'Weekly Pay', value: CalcHub.fmtUSD0(weekly)}, {label:'Monthly Pay', value: CalcHub.fmtUSD0(monthly)}, {label:'Annual Pay', value: CalcHub.fmtUSD0(annual), highlight:true}],
+      chart: {type:'bar', labels:['Weekly','Monthly','Annual'], series:[{name:'Pay', data:[weekly, monthly, annual], color:'#1a6e3c'}]},
+      historyLabel: CalcHub.fmtUSD(v.hourly) + '/hr \u2192 ' + CalcHub.fmtUSD0(annual) + '/yr',
+      copyValue: CalcHub.fmtUSD0(annual) + '/year'
+    };
+  },
+  explain: function(v, r){
+    if (v.weeks < 52) return "This assumes " + v.weeks + " paid weeks rather than a full 52 \u2014 if you actually get paid through unpaid time off, holidays, or seasonal layoffs, this annual figure reflects that reduced schedule, not a full-year salary equivalent.";
+    if (v.hours > 40) return "You've entered more than 40 hours/week. If hours beyond 40 are legally entitled to overtime pay (often 1.5x), this straight-line calculation will understate your real earnings \u2014 it doesn't apply an overtime premium automatically.";
+    return "This is a straightforward hourly-to-annual conversion; it won't reflect bonuses, raises, or irregular schedules.";
+  }
+};
+
+// --- content that changes between simple and advanced: title, meta, FAQ ---
+var pageMeta = {
+  advanced: {
+    title: 'Paycheck Calculator: Overtime, Tips, Bonuses, Insurance & 401k Included',
+    description: 'See what you actually take home — overtime, weekend pay, tips, bonuses, health insurance, 401k match, and paid time off, all in one place. Plus how many years until you hit $100k.',
+    h1: 'Paycheck Calculator: What You Actually Take Home',
+    crumb: 'Paycheck Calculator: Overtime, Tips, Bonuses, Insurance & 401k Included',
+    faq: '<h2>Your paycheck is more than hourly times hours</h2>' +
+      '<p>Most pay calculators just multiply your rate by your hours. But real paychecks have more pieces than that \u2014 overtime, weekend shifts, tips, a bonus check, money coming out for insurance, money going into a 401k. This calculator adds all of that in, so the number you get is closer to what actually lands in your bank account.</p>' +
+      '<h2>What "take-home pay" actually means here</h2>' +
+      '<p>Take-home pay is what\'s left after your 401k contribution, your insurance premiums, and taxes come out. It\'s the number that matters for budgeting \u2014 not your gross pay, which is bigger but not what you actually get to spend.</p>' +
+      '<h2>The pay you don\'t see in your check</h2>' +
+      '<p>If your job matches part of your 401k, that match is real money \u2014 it just doesn\'t show up as cash in your paycheck. Same with paid days off: you\'re getting paid for days you don\'t work. This calculator adds both up separately so you can see the full picture, not just what hits your bank account.</p>' +
+      '<h2>Why "years to $100k" is a projection, not a promise</h2>' +
+      '<p>This uses the raise percentage you enter and assumes it happens every year, which real life doesn\'t guarantee. Treat it as a rough timeline based on "if things stay steady," not a guarantee of when you\'ll get there.</p>' +
+      '<h2>Frequently Asked Questions (FAQ)</h2>' +
+      '<h3>What\'s the difference between gross pay and take-home pay?</h3>' +
+      '<p>Gross pay is everything you earn before anything comes out \u2014 your hourly pay, overtime, tips, and bonus. Take-home pay is what\'s left after your 401k contribution, insurance premiums, and taxes are taken out. Take-home is the number that actually matters for your budget.</p>' +
+      '<h3>How is overtime pay calculated?</h3>' +
+      '<p>Under federal rules, hours worked beyond 40 in a single week are usually paid at 1.5 times your regular hourly rate. Some jobs pay a different overtime rate, or pay a premium for weekend shifts on top of that \u2014 that\'s why both are adjustable here instead of locked to 1.5x.</p>' +
+      '<h3>Does this include paid time off (PTO)?</h3>' +
+      '<p>Yes. Paid days off are turned into a dollar value based on your daily rate, and shown separately so you can see what your time off is actually worth, on top of your regular pay.</p>' +
+      '<h3>What is a 401k match, and why does it matter?</h3>' +
+      '<p>A 401k match is free money your employer adds when you contribute your own money to your 401k, usually up to a certain percentage of your pay. If you\'re not contributing enough to get the full match, you\'re leaving money on the table \u2014 this calculator will tell you if that\'s happening.</p>' +
+      '<h3>How accurate is the tax estimate here?</h3>' +
+      '<p>Not fully accurate on purpose \u2014 real taxes depend on your filing status, your state, and current tax brackets, which is more than a simple calculator can account for. Instead, you enter your own estimated tax rate (check a recent paystub for a good number), and the calculator uses that to estimate your take-home pay.</p>' +
+      '<h3>How is the "years to $100k" number calculated?</h3>' +
+      '<p>It takes your current yearly pay (or take-home pay) and the raise percentage you expect each year, then figures out how long it would take to reach $100k if that raise happens every year. It\'s a simple projection, not a forecast \u2014 actual raises are rarely that consistent.</p>' +
+      '<p><span style="color: #000000; text-decoration:none;"><strong><a href="https://www.congress.gov/crs-product/R42713" title="Fair Labor Standards Act (FLSA)" style="color: #000000; text-decoration:none;">Fair Labor Standards Act</a></strong></span></p>'
+  },
+  simple: {
+    title: 'Wage Calculator: Hourly to Salary, Fast and Simple',
+    description: 'Turn an hourly wage into weekly, monthly, and yearly pay in a few seconds \u2014 just your rate, your hours, and the weeks you work.',
+    h1: 'Wage Calculator: Hourly to Salary, Fast and Simple',
+    crumb: 'Wage Calculator: Hourly to Salary, Fast and Simple',
+    faq: '<h2>Just the basics: rate times hours times weeks</h2>' +
+      '<p>This version skips overtime, tips, bonuses, and benefits \u2014 it just turns your hourly rate into a weekly, monthly, and yearly number. Good for a quick gut-check, not for a full picture of your pay.</p>' +
+      '<h2>Why this number might be a little off</h2>' +
+      '<p>It assumes every week is paid the same. If you take unpaid time off, work overtime, or your hours change week to week, your real yearly pay will be higher or lower than what\'s shown here.</p>' +
+      '<h2>Frequently Asked Questions (FAQ)</h2>' +
+      '<h3>What\'s the difference between a wage and a salary?</h3>' +
+      '<p>A wage is paid per hour worked, so your pay changes with your hours. A salary is a fixed yearly amount, paid the same no matter how many hours you actually work.</p>' +
+      '<h3>How is overtime handled here?</h3>' +
+      '<p>It\'s not \u2014 this version assumes every hour is paid at your regular rate. If you regularly work overtime, click "Too simple? Click here!" up top to switch to the version that accounts for it.</p>' +
+      '<h3>Does this account for paid time off or holidays?</h3>' +
+      '<p>Not directly. If you\'re not paid for every week of the year, lower the "Weeks Worked per Year" number to match how many weeks you actually get paid for.</p>' +
+      '<h3>How do I go from a yearly salary back to an hourly rate?</h3>' +
+      '<p>Divide the yearly salary by the weeks you work, then divide that by your weekly hours. For example, $50,000 over 52 weeks at 40 hours a week works out to about $24 an hour.</p>' +
+      '<p><span style="color: #000000; text-decoration:none;"><strong><a href="https://www.congress.gov/crs-product/R42713" title="Fair Labor Standards Act (FLSA)" style="color: #000000; text-decoration:none;">Fair Labor Standards Act</a></strong></span></p>'
+  }
+};
+
+function applyPageMeta(mode){
+  var m = pageMeta[mode];
+  document.title = m.title;
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', m.description);
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', m.title);
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', m.description);
+  var twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', m.title);
+  var twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc) twDesc.setAttribute('content', m.description);
+  var ld = document.querySelector('script[type="application/ld+json"]');
+  if (ld) {
+    try {
+      var ldData = JSON.parse(ld.textContent);
+      ldData.name = m.title;
+      ldData.description = m.description;
+      ld.textContent = JSON.stringify(ldData);
+    } catch (e) {}
+  }
+  var h1 = document.querySelector('.calc-page-title');
+  if (h1) h1.textContent = m.h1;
+  var crumb = document.querySelector('.breadcrumb span:last-child');
+  if (crumb) crumb.textContent = m.crumb;
+  var explainer = document.getElementById('calc-explainer');
+  if (explainer) explainer.innerHTML = m.faq;
+}
+
+// --- toggle between the simple and advanced versions, no page reload ---
+var calcMode = 'advanced';
+var modeToggleBtn = document.getElementById('mode-toggle-btn');
+
+function renderCalcMode(mode){
+  calcMode = mode;
+  var activeConfig = (mode === 'simple') ? simpleConfig : advancedConfig;
+  CalcHub.initCalculatorPage(activeConfig);
+  CalcHub.initCompareMode(activeConfig);
+  applyPageMeta(mode);
+  if (mode === 'simple') {
+    modeToggleBtn.textContent = 'Too simple? Click here!';
+  } else {
+    modeToggleBtn.textContent = 'Too complex? Click here!';
+  }
+}
+
+modeToggleBtn.addEventListener('click', function(){
+  renderCalcMode(calcMode === 'simple' ? 'advanced' : 'simple');
+});
+
+renderCalcMode('advanced');
+
+
+</script>
+</p>
+</body>
+</html>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Compound Interest Calculator: Calculate Growth Over Time</title>
+<meta name="description" content="Project how a starting balance and regular monthly contributions grow over time with compounding interest. Includes inflation adjustment, debt payoff mode, and year-by-year breakdown.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/compound-interest-calculator">
+<meta property="og:title" content="Compound Interest Calculator">
+<meta property="og:description" content="Calculate investment growth with compounding frequency control, inflation adjustment, and debt payoff mode.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Compound Interest Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Project how a starting balance and regular monthly contributions grow over time with compounding interest.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+  .calc-form-group { margin-bottom: 1.5rem; }
+  .calc-form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.95rem; }
+  .calc-form-input, .calc-form-select { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color, #d0d0d0); border-radius: 0.375rem; font-size: 1rem; background: var(--bg-color, #ffffff); color: var(--text-color, #000000); }
+  .calc-form-input:focus, .calc-form-select:focus { outline: none; border-color: var(--accent-color, #0ea5e9); box-shadow: 0 0 0 2px var(--accent-color, #0ea5e9)33; }
+  .calc-error { color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem; }
+  .calc-info { font-size: 0.875rem; color: var(--text-muted, #666666); margin-top: 0.25rem; }
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .calc-row { grid-template-columns: 1fr; } }
+  .calc-toggles { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .calc-toggle-btn { padding: 0.5rem 1rem; border: 1px solid var(--border-color, #d0d0d0); border-radius: 0.375rem; background: var(--bg-color, #ffffff); color: var(--text-color, #000000); cursor: pointer; transition: all 0.2s; }
+  .calc-toggle-btn.active { background: var(--accent-color, #0ea5e9); color: white; border-color: var(--accent-color, #0ea5e9); }
+  .calc-result-card { background: var(--card-bg, #f5f5f5); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+  .calc-headline { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .calc-subheadline { font-size: 0.95rem; color: var(--text-muted, #666666); margin-bottom: 1rem; }
+  .calc-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-stat { padding: 1rem; background: var(--bg-color, #ffffff); border-radius: 0.375rem; }
+  .calc-stat-label { font-size: 0.875rem; color: var(--text-muted, #666666); margin-bottom: 0.25rem; }
+  .calc-stat-value { font-size: 1.5rem; font-weight: 600; }
+  .calc-rule-72 { background: #f0f9ff; color: #0369a1; padding: 0.75rem 1rem; border-radius: 0.375rem; font-size: 0.9rem; margin-top: 0.5rem; }
+  .dark-mode .calc-rule-72 { background: #082f49; }
+  .calc-chart-container { margin: 1.5rem 0; }
+  .calc-table-wrapper { overflow-x: auto; margin: 1.5rem 0; }
+  .calc-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .calc-table th { background: var(--card-bg, #f5f5f5); padding: 0.75rem; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border-color, #d0d0d0); }
+  .calc-table td { padding: 0.75rem; border-bottom: 1px solid var(--border-color, #d0d0d0); }
+  .calc-table tr:hover { background: var(--bg-color, #ffffff); }
+  .calc-export-btn { padding: 0.75rem 1.5rem; background: var(--accent-color, #0ea5e9); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 500; transition: opacity 0.2s; }
+  .calc-export-btn:hover { opacity: 0.9; }
+  .calc-export-btn:active { opacity: 0.8; }
+  .calc-range-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+  .calc-range-label { font-size: 0.875rem; color: var(--text-muted, #666666); }
+  .input-prefix, .input-suffix { display: flex; align-items: center; padding: 0.75rem; background: var(--bg-color, #ffffff); border-radius: 0.375rem; font-size: 1rem; color: var(--text-color, #000000); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-finance">Finance & Investment</a><span>/</span>
+    <span>Compound Interest Calculator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Compound Interest Calculator</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Project how a starting balance and regular contributions grow over time with compounding interest. Contributions are applied end-of-period each month.</p>
+  
+  <div class="calc-layout">
+    <div class="calc-toggles">
+      <button class="calc-toggle-btn active" data-mode="growth" aria-label="Calculate investment growth">Growth Mode</button>
+      <button class="calc-toggle-btn" data-mode="debt" aria-label="Calculate debt payoff">Debt Payoff Mode</button>
+    </div>
+
+    <form id="calc-form" class="calc-form" aria-label="Compound interest calculator inputs">
+      <div class="calc-row">
+        <div class="calc-form-group">
+          <label for="principal" class="calc-form-label">Starting Balance</label>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <span style="padding:0.75rem; background:var(--bg-color, #ffffff); border-radius:0.375rem; min-width:2rem; text-align:center;">$</span>
+            <input type="number" id="principal" class="calc-form-input" value="5000" step="100" min="0" aria-describedby="principal-error" aria-live="polite">
+          </div>
+          <div id="principal-error" class="calc-error" role="alert"></div>
+        </div>
+
+        <div class="calc-form-group">
+          <label for="monthly" class="calc-form-label">Monthly Contribution</label>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <span style="padding:0.75rem; background:var(--bg-color, #ffffff); border-radius:0.375rem; min-width:2rem; text-align:center;">$</span>
+            <input type="number" id="monthly" class="calc-form-input" value="200" step="25" min="0" aria-describedby="monthly-error" aria-live="polite">
+          </div>
+          <div id="monthly-error" class="calc-error" role="alert"></div>
+        </div>
+      </div>
+
+      <div class="calc-row">
+        <div class="calc-form-group">
+          <label for="rate" class="calc-form-label">Annual Return Rate</label>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="number" id="rate" class="calc-form-input" value="7" step="0.1" min="0" max="100" aria-describedby="rate-error rate-info" aria-live="polite">
+            <span style="padding:0.75rem; background:var(--bg-color, #ffffff); border-radius:0.375rem; min-width:2rem; text-align:center;">%</span>
+          </div>
+          <div id="rate-info" class="calc-info" aria-live="polite"></div>
+          <div id="rate-error" class="calc-error" role="alert"></div>
+        </div>
+
+        <div class="calc-form-group">
+          <label for="years" class="calc-form-label">Time Horizon</label>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="number" id="years" class="calc-form-input" value="20" step="1" min="0" max="100" aria-describedby="years-error" aria-live="polite">
+            <span style="padding:0.75rem; background:var(--bg-color, #ffffff); border-radius:0.375rem; min-width:3rem; text-align:center;">years</span>
+          </div>
+          <div id="years-error" class="calc-error" role="alert"></div>
+        </div>
+      </div>
+
+      <div class="calc-form-group">
+        <label for="frequency" class="calc-form-label">Compounding Frequency</label>
+        <select id="frequency" class="calc-form-select" aria-describedby="frequency-info">
+          <option value="annual">Annual (once per year)</option>
+          <option value="semiannual">Semiannual (twice per year)</option>
+          <option value="quarterly">Quarterly (4 times per year)</option>
+          <option value="monthly" selected>Monthly (12 times per year)</option>
+          <option value="daily">Daily (365 times per year)</option>
+        </select>
+        <div id="frequency-info" class="calc-info">More frequent compounding accelerates growth, especially over long periods.</div>
+      </div>
+
+      <div class="calc-form-group">
+        <label class="calc-form-label">
+          <input type="checkbox" id="use-rate-range" style="margin-right:0.5rem;">
+          Show Rate Sensitivity (Best/Worst Case)
+        </label>
+        <div id="rate-range-inputs" class="calc-range-inputs" style="display:none;">
+          <div>
+            <label for="min-rate" class="calc-range-label">Minimum Rate (%)</label>
+            <input type="number" id="min-rate" class="calc-form-input" value="3" step="0.1" min="0" max="100" aria-describedby="rate-range-error">
+          </div>
+          <div>
+            <label for="max-rate" class="calc-range-label">Maximum Rate (%)</label>
+            <input type="number" id="max-rate" class="calc-form-input" value="12" step="0.1" min="0" max="100" aria-describedby="rate-range-error">
+          </div>
+          <div id="rate-range-error" class="calc-error" style="grid-column: 1 / -1;" role="alert"></div>
+        </div>
+      </div>
+
+      <div class="calc-form-group">
+        <label class="calc-form-label">
+          <input type="checkbox" id="use-inflation" style="margin-right:0.5rem;">
+          Adjust for Inflation
+        </label>
+        <div id="inflation-input" style="display:none;">
+          <label for="inflation-rate" class="calc-range-label">Annual Inflation Rate (%)</label>
+          <input type="number" id="inflation-rate" class="calc-form-input" value="2.5" step="0.1" min="0" max="20" aria-describedby="inflation-error">
+          <div id="inflation-error" class="calc-error" role="alert"></div>
+          <div class="calc-info">This shows what your future balance will be worth in today's dollars.</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button type="button" class="calc-export-btn" id="export-csv">Export to CSV</button>
+      </div>
+    </form>
+
+    <div class="calc-results-section">
+      <div class="calc-result-card">
+        <div class="calc-headline" id="final-balance-display">$0</div>
+        <div class="calc-subheadline" id="balance-label">Final Balance</div>
+        
+        <div class="calc-stat-row">
+          <div class="calc-stat">
+            <div class="calc-stat-label" id="contrib-label">Total Contributions</div>
+            <div class="calc-stat-value" id="total-contributed">$0</div>
+          </div>
+          <div class="calc-stat">
+            <div class="calc-stat-label" id="interest-label">Interest Earned</div>
+            <div class="calc-stat-value" id="interest-earned">$0</div>
+          </div>
+        </div>
+
+        <div id="doubling-time-display" style="display:none;">
+          <div class="calc-rule-72">
+            <strong>Doubling Time:</strong> <span id="doubling-time-value"></span> years
+          </div>
+        </div>
+
+        <div id="rule-72-display" style="display:none;">
+          <div class="calc-rule-72">
+            <strong>Rule of 72 Estimate:</strong> <span id="rule-72-value"></span> years to double
+          </div>
+        </div>
+
+        <div id="inflation-display" style="display:none;">
+          <div style="margin-top:1rem; padding:1rem; background:var(--bg-color); border-radius:0.375rem;">
+            <div class="calc-stat-label">Real Value (in today's dollars)</div>
+            <div class="calc-stat-value" id="real-balance-display">$0</div>
+          </div>
+        </div>
+
+        <div id="debt-payoff-display" style="display:none;">
+          <div style="margin-top:1rem; padding:1rem; background:var(--bg-color); border-radius:0.375rem;">
+            <div class="calc-stat-label">Time to Pay Off</div>
+            <div class="calc-stat-value" id="payoff-months">0</div>
+            <div class="calc-info" id="payoff-years-display"></div>
+          </div>
+          <div style="margin-top:1rem; padding:1rem; background:var(--bg-color); border-radius:0.375rem;">
+            <div class="calc-stat-label">Total Interest Paid</div>
+            <div class="calc-stat-value" id="total-interest-paid">$0</div>
+          </div>
+        </div>
+
+        <div id="sensitivity-results" style="display:none; margin-top:1.5rem;">
+          <div style="padding:1rem; background:var(--bg-color); border-radius:0.375rem;">
+            <div class="calc-stat-label">Best Case Scenario</div>
+            <div class="calc-stat-value" id="best-case-display">$0</div>
+          </div>
+          <div style="padding:1rem; background:var(--bg-color); border-radius:0.375rem; margin-top:0.5rem;">
+            <div class="calc-stat-label">Worst Case Scenario</div>
+            <div class="calc-stat-value" id="worst-case-display">$0</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="breakdown-chart-container" class="calc-chart-container">
+        <h3>Principal vs. Interest Breakdown</h3>
+        <canvas id="breakdown-chart"></canvas>
+      </div>
+
+      <div id="growth-chart-container" class="calc-chart-container">
+        <h3>Growth Over Time</h3>
+        <canvas id="growth-chart"></canvas>
+      </div>
+
+      <div class="calc-table-wrapper">
+        <h3>Year-by-Year Schedule</h3>
+        <table class="calc-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Starting Balance</th>
+              <th>Contributions</th>
+              <th>Interest Earned</th>
+              <th>Ending Balance</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <section class="calc-explainer">
+<h2>Why compounding frequency changes the outcome</h2>
+<p>The formula behind this tool, A = P(1 + r/n)<sup>nt</sup>, means interest earned also earns interest — and how often that happens (annually vs. monthly vs. daily) meaningfully changes the total over long time horizons, even at the same stated rate. Daily compounding accelerates growth fastest, followed by monthly, then annual.</p>
+<h2>How this calculator computes doubling time</h2>
+<p>This calculator computes exact doubling time based on your entered rate and compounding frequency. Unlike the Rule of 72 (a quick mental shortcut), exact doubling time accounts for the precise compounding schedule you select, producing the true years-to-double for your scenario.</p>
+<h1>Compound Interest</h1>
+<p>Compound interest is the interest calculated on the initial principal of a deposit or loan plus all accumulated interest from previous periods. Unlike simple interest, which only generates earnings on the original amount, compounding allows your wealth to grow at an accelerating rate over time. This process creates a compounding loop where your interest earns interest, transforming small, consistent contributions into substantial capital over a long time horizon. Maximizing this compounding momentum requires a blend of consistent monthly contributions, a solid rate of return, and the single most critical asset in investing: time.</p>
+
+<h2>Compound Interest Calculator Components</h2>
+<p>Projecting the future growth of an investment requires a specific set of financial variables to map the acceleration curves accurately.</p>
+<ul>
+    <li><strong>Initial Principal:</strong> The base amount of money you deposit or invest at the very start of your savings timeline.</li>
+    <li><strong>Monthly Contribution:</strong> The steady stream of fresh capital you commit to adding to the account at regular intervals (applied end-of-period).</li>
+    <li><strong>Estimated Interest Rate:</strong> The annual percentage rate of return you expect your investment portfolio to yield over time.</li>
+    <li><strong>Length of Time:</strong> The total number of years you plan to leave your money invested to let the compounding cycle expand.</li>
+    <li><strong>Compounding Frequency:</strong> How often the lender or account calculates and applies your interest earnings, such as daily, monthly, quarterly, or annually.</li>
+</ul>
+
+<h2>The Power of Compounding Frequency</h2>
+<p>The frequency at which your interest compounds dictates how fast your investment grows, as more frequent intervals accelerate asset expansion.</p>
+<ul>
+    <li><strong>Annual Compounding:</strong> Interest is calculated once a year, providing a standard baseline for long-term investments.</li>
+    <li><strong>Semiannual Compounding:</strong> Earnings are calculated twice a year, commonly used for bonds.</li>
+    <li><strong>Quarterly Compounding:</strong> Interest is processed four times per year, typical for some savings accounts.</li>
+    <li><strong>Monthly Compounding:</strong> Earnings are calculated twelve times a year, which matches the payout cadence of most savings accounts and dividend funds.</li>
+    <li><strong>Daily Compounding:</strong> Interest is processed 365 times a year, maximizing growth potential by immediately turning daily fractions of earnings into capital.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the difference between simple interest and compound interest?</h3>
+<p>Simple interest is calculated solely as a percentage of your original principal balance throughout the entire duration of the loan or asset term. Compound interest calculates earnings on both your initial principal and all interest accumulated previously, causing your balance to grow exponentially faster.</p>
+
+<h3>What is the Rule of 72 and how does it relate to this calculator?</h3>
+<p>The Rule of 72 is a quick mental math shortcut used to estimate how many years it will take for your investment to double. You divide the number 72 by your annual expected interest rate. For example, an investment earning a 6 percent annual return will take approximately 12 years to double in value. This calculator displays both the Rule of 72 estimate and the exact doubling time based on your precise inputs.</p>
+
+<h3>How does inflation affect my long-term compound growth?</h3>
+<p>While compound interest increases the nominal dollar value of your account, inflation steadily erodes the purchasing power of those dollars over time. To find your true purchasing power growth, subtract the average annual inflation rate from your nominal interest rate to calculate your real rate of return. This calculator shows both nominal and real balances when inflation adjustment is enabled.</p>
+
+<h3>Does compound interest apply to debts as well as investments?</h3>
+<p>Yes, compound interest works against you when you carry revolving balances on credit cards or loans. If you do not pay off your monthly statement in full, the bank compounds the interest on your unpaid debt, making it increasingly expensive and difficult to eliminate over time. Use the Debt Payoff Mode to see how long it takes to pay down a balance at a given interest rate.</p>
+
+<h3>Why does my projection range matter?</h3>
+<p>Real-world returns vary year to year. The rate sensitivity feature lets you model best-case (high rate) and worst-case (low rate) scenarios so you can plan around uncertainty instead of betting on a single outcome.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'compound-interest-calculator');
+
+const calculator = {
+  mode: 'growth',
+  chart: null,
+  breakdownChart: null,
+  
+  frequencies: {
+    annual: 1,
+    semiannual: 2,
+    quarterly: 4,
+    monthly: 12,
+    daily: 365
+  },
+
+  validateInputs: function() {
+    const principal = parseFloat(document.getElementById('principal').value);
+    const monthly = parseFloat(document.getElementById('monthly').value);
+    const rate = parseFloat(document.getElementById('rate').value);
+    const years = parseFloat(document.getElementById('years').value);
+    const useRateRange = document.getElementById('use-rate-range').checked;
+    const useInflation = document.getElementById('use-inflation').checked;
+    
+    const errors = {};
+
+    if (isNaN(principal) || principal < 0) {
+      errors.principal = 'Starting balance must be a non-negative number';
+    }
+    if (isNaN(monthly) || monthly < 0) {
+      errors.monthly = 'Monthly contribution must be a non-negative number';
+    }
+    if (isNaN(rate) || rate < 0 || rate > 100) {
+      errors.rate = 'Rate must be between 0% and 100%';
+    }
+    if (isNaN(years) || years < 0 || years > 100) {
+      errors.years = 'Years must be between 0 and 100';
+    }
+    if (principal === 0 && monthly === 0) {
+      errors.principal = 'Enter either a starting balance or monthly contribution';
+    }
+
+    // Validate rate range
+    if (useRateRange) {
+      const minRate = parseFloat(document.getElementById('min-rate').value);
+      const maxRate = parseFloat(document.getElementById('max-rate').value);
+      
+      if (isNaN(minRate) || minRate < 0 || minRate > 100) {
+        errors.rateRange = 'Minimum rate must be between 0% and 100%';
+      }
+      if (isNaN(maxRate) || maxRate < 0 || maxRate > 100) {
+        errors.rateRange = 'Maximum rate must be between 0% and 100%';
+      }
+      if (!isNaN(minRate) && !isNaN(maxRate) && minRate > maxRate) {
+        errors.rateRange = 'Minimum rate must be less than or equal to maximum rate';
+      }
+    }
+
+    // Validate inflation
+    if (useInflation) {
+      const inflationRate = parseFloat(document.getElementById('inflation-rate').value);
+      if (isNaN(inflationRate) || inflationRate < 0 || inflationRate > 20) {
+        errors.inflation = 'Inflation rate must be between 0% and 20%';
+      }
+    }
+
+    // Display errors
+    Object.keys(errors).forEach(key => {
+      if (key === 'rateRange') {
+        document.getElementById('rate-range-error').textContent = errors[key] || '';
+      } else if (key === 'inflation') {
+        document.getElementById('inflation-error').textContent = errors[key] || '';
+      } else {
+        document.getElementById(key + '-error').textContent = errors[key] || '';
+      }
+    });
+
+    return Object.keys(errors).length === 0;
+  },
+
+  formatCurrency: function(value) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+  },
+
+  calculateRuleOf72: function(rate) {
+    if (rate <= 0) return null;
+    return (72 / rate).toFixed(1);
+  },
+
+  calculateExactDoublingTime: function(rate, frequency) {
+    if (rate <= 0) return null;
+    const n = this.frequencies[frequency];
+    const rateDecimal = rate / 100;
+    const periodicRate = rateDecimal / n;
+    
+    // A = P(1 + r)^t, solve for t when A = 2P
+    // 2 = (1 + r)^t
+    // ln(2) = t * ln(1 + r)
+    // t = ln(2) / ln(1 + r), where t is in periods
+    const periodsToDouble = Math.log(2) / Math.log(1 + periodicRate);
+    const yearsToDouble = periodsToDouble / n;
+    
+    return yearsToDouble.toFixed(2);
+  },
+
+  calculateDebtPayoff: function(principal, monthlyPayment, annualRate, frequency) {
+    const n = this.frequencies[frequency];
+    const periodRate = (annualRate / 100) / n;
+    
+    if (periodRate === 0) {
+      const monthsPerPeriod = 12 / n;
+      return monthlyPayment > 0 ? { months: principal / monthlyPayment, balance: 0 } : { months: Infinity, balance: principal };
+    }
+
+    let balance = principal;
+    let periods = 0;
+    const monthsPerPeriod = 12 / n;
+    const history = [{ balance: principal }];
+
+    while (balance > 0 && periods < 600 * n) { // 50 year max
+      const interest = balance * periodRate;
+      balance = Math.max(0, balance + interest - (monthlyPayment * monthsPerPeriod));
+      periods++;
+      history.push({ balance: parseFloat(balance.toFixed(2)) });
+    }
+
+    const totalMonths = (periods / n) * 12;
+    const totalPaid = principal + (monthlyPayment * totalMonths) - balance;
+
+    return { months: totalMonths, balance, history, totalPaid };
+  },
+
+  calculateGrowth: function(principal, monthlyContribution, annualRate, years, frequency, inflationRate = 0) {
+    const n = this.frequencies[frequency];
+    const rateDecimal = annualRate / 100;
+    const periodicRate = rateDecimal / n;
+    const periodsPerYear = n;
+    
+    let balance = principal;
+    let contributed = principal;
+    const history = [];
+    
+    history.push({
+      year: 0,
+      startBalance: principal,
+      contribution: 0,
+      interest: 0,
+      endBalance: principal,
+      nominalBalance: principal,
+      realBalance: principal
+    });
+
+    for (let y = 1; y <= years; y++) {
+      let yearStartBalance = balance;
+      let yearInterest = 0;
+      
+      // Apply interest and contributions based on compounding frequency
+      for (let p = 0; p < periodsPerYear; p++) {
+        const interestThisPeriod = balance * periodicRate;
+        yearInterest += interestThisPeriod;
+        balance = balance + interestThisPeriod;
+        
+        // Apply contributions proportionally across periods
+        // For monthly contributions, apply 12/n contributions per period
+        const contributionsPerPeriod = (monthlyContribution * 12) / periodsPerYear;
+        balance = balance + contributionsPerPeriod;
+        contributed += contributionsPerPeriod;
+      }
+
+      const nominalBalance = balance;
+      const realBalance = inflationRate > 0 ? nominalBalance / Math.pow(1 + inflationRate / 100, y) : nominalBalance;
+      
+      history.push({
+        year: y,
+        startBalance: yearStartBalance,
+        contribution: monthlyContribution * 12,
+        interest: yearInterest,
+        endBalance: balance,
+        nominalBalance: nominalBalance,
+        realBalance: realBalance
+      });
+    }
+
+    return {
+      finalBalance: balance,
+      totalContributed: contributed,
+      interestEarned: balance - contributed,
+      history: history
+    };
+  },
+
+  calculate: function() {
+    if (!this.validateInputs()) return;
+
+    const principal = parseFloat(document.getElementById('principal').value);
+    const monthly = parseFloat(document.getElementById('monthly').value);
+    const rate = parseFloat(document.getElementById('rate').value);
+    const years = parseFloat(document.getElementById('years').value);
+    const frequency = document.getElementById('frequency').value;
+    const useInflation = document.getElementById('use-inflation').checked;
+    const inflationRate = useInflation ? parseFloat(document.getElementById('inflation-rate').value) : 0;
+    const useRateRange = document.getElementById('use-rate-range').checked;
+
+    if (this.mode === 'growth') {
+      const result = this.calculateGrowth(principal, monthly, rate, years, frequency, inflationRate);
+      
+      // Update displays
+      document.getElementById('final-balance-display').textContent = this.formatCurrency(result.finalBalance);
+      document.getElementById('balance-label').textContent = 'Final Balance';
+      document.getElementById('total-contributed').textContent = this.formatCurrency(result.totalContributed);
+      document.getElementById('interest-earned').textContent = this.formatCurrency(result.interestEarned);
+
+      // Show doubling time if rate > 0
+      const doubtingTimeDisplay = document.getElementById('doubling-time-display');
+      const rule72Display = document.getElementById('rule-72-display');
+      
+      if (rate > 0) {
+        const exactDoublingTime = this.calculateExactDoublingTime(rate, frequency);
+        const rule72 = this.calculateRuleOf72(rate);
+        
+        if (exactDoublingTime) {
+          document.getElementById('doubling-time-value').textContent = exactDoublingTime;
+          doubtingTimeDisplay.style.display = 'block';
+        }
+        if (rule72) {
+          document.getElementById('rule-72-value').textContent = rule72;
+          rule72Display.style.display = 'block';
+        }
+      } else {
+        doubtingTimeDisplay.style.display = 'none';
+        rule72Display.style.display = 'none';
+      }
+
+      // Show inflation if enabled
+      if (useInflation) {
+        document.getElementById('inflation-display').style.display = 'block';
+        document.getElementById('real-balance-display').textContent = this.formatCurrency(result.history[years].realBalance);
+      } else {
+        document.getElementById('inflation-display').style.display = 'none';
+      }
+
+      // Hide debt display
+      document.getElementById('debt-payoff-display').style.display = 'none';
+
+      // Show sensitivity if enabled
+      if (useRateRange) {
+        const minRate = parseFloat(document.getElementById('min-rate').value);
+        const maxRate = parseFloat(document.getElementById('max-rate').value);
+        
+        const worstCase = this.calculateGrowth(principal, monthly, minRate, years, frequency, inflationRate);
+        const bestCase = this.calculateGrowth(principal, monthly, maxRate, years, frequency, inflationRate);
+        
+        document.getElementById('best-case-display').textContent = this.formatCurrency(bestCase.finalBalance);
+        document.getElementById('worst-case-display').textContent = this.formatCurrency(worstCase.finalBalance);
+        document.getElementById('sensitivity-results').style.display = 'block';
+      } else {
+        document.getElementById('sensitivity-results').style.display = 'none';
+      }
+
+      this.renderBreakdownChart(result.history);
+      this.renderGrowthChart(result.history);
+      this.populateTable(result.history);
+
+      // Show chart and table containers
+      document.getElementById('breakdown-chart-container').style.display = 'block';
+      document.getElementById('growth-chart-container').style.display = 'block';
+      document.querySelector('.calc-table-wrapper').style.display = 'block';
+
+    } else if (this.mode === 'debt') {
+      const result = this.calculateDebtPayoff(principal, monthly, rate, frequency);
+      const years = Math.floor(result.months / 12);
+      const months = Math.round(result.months % 12);
+
+      document.getElementById('final-balance-display').textContent = this.formatCurrency(result.balance);
+      document.getElementById('balance-label').textContent = 'Remaining Balance';
+      document.getElementById('contrib-label').textContent = 'Original Balance';
+      document.getElementById('interest-label').textContent = 'Total Interest Paid';
+      
+      document.getElementById('total-contributed').textContent = this.formatCurrency(principal);
+      const totalInterestPaid = (result.totalPaid - principal);
+      document.getElementById('interest-earned').textContent = this.formatCurrency(totalInterestPaid);
+
+      document.getElementById('payoff-months').textContent = Math.round(result.months) + ' months';
+      document.getElementById('payoff-years-display').textContent = `(${years} years and ${months} months)`;
+      document.getElementById('total-interest-paid').textContent = this.formatCurrency(totalInterestPaid);
+
+      document.getElementById('debt-payoff-display').style.display = 'block';
+      document.getElementById('inflation-display').style.display = 'none';
+      document.getElementById('doubling-time-display').style.display = 'none';
+      document.getElementById('rule-72-display').style.display = 'none';
+      document.getElementById('sensitivity-results').style.display = 'none';
+
+      // Hide chart and table for debt mode
+      document.getElementById('breakdown-chart-container').style.display = 'none';
+      document.getElementById('growth-chart-container').style.display = 'none';
+      document.querySelector('.calc-table-wrapper').style.display = 'none';
+    }
+  },
+
+  renderGrowthChart: function(history) {
+    const labels = history.map(h => h.year);
+    const balances = history.map(h => h.nominalBalance);
+
+    if (this.chart) this.chart.destroy();
+
+    const ctx = document.getElementById('growth-chart').getContext('2d');
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Total Balance',
+          data: balances,
+          borderColor: '#1a6e3c',
+          backgroundColor: 'rgba(26, 110, 60, 0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          filler: { propagate: true }
+        },
+        scales: {
+          y: { beginAtZero: true, ticks: { callback: (v) => '$' + (v / 1000).toFixed(0) + 'k' } }
+        }
+      }
+    });
+  },
+
+  renderBreakdownChart: function(history) {
+    const labels = history.map(h => h.year);
+    const contributions = history.map((h, i) => h.startBalance + (history.slice(0, i + 1).reduce((sum, x) => sum + x.contribution, 0)));
+    const interest = history.map(h => h.nominalBalance - h.startBalance - (history.slice(0, history.indexOf(h) + 1).reduce((sum, x) => sum + x.contribution, 0)));
+
+    if (this.breakdownChart) this.breakdownChart.destroy();
+
+    const ctx = document.getElementById('breakdown-chart').getContext('2d');
+    this.breakdownChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Principal + Contributions',
+            data: history.map(h => {
+              const totalContributions = h.startBalance + history.slice(0, history.indexOf(h) + 1).reduce((sum, x) => sum + x.contribution, 0);
+              return totalContributions;
+            }),
+            backgroundColor: '#94a3b8',
+          },
+          {
+            label: 'Interest Earned',
+            data: history.map(h => h.nominalBalance - h.startBalance - history.slice(0, history.indexOf(h) + 1).reduce((sum, x) => sum + x.contribution, 0)),
+            backgroundColor: '#1a6e3c',
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'x',
+        responsive: true,
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true, ticks: { callback: (v) => '$' + (v / 1000).toFixed(0) + 'k' } }
+        },
+        plugins: { legend: { display: true } }
+      }
+    });
+  },
+
+  populateTable: function(history) {
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = '';
+    history.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row.year}</td>
+        <td>${this.formatCurrency(row.startBalance)}</td>
+        <td>${this.formatCurrency(row.contribution)}</td>
+        <td>${this.formatCurrency(row.interest)}</td>
+        <td><strong>${this.formatCurrency(row.endBalance)}</strong></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  },
+
+  exportCSV: function() {
+    const tbody = document.getElementById('table-body');
+    const rows = Array.from(tbody.querySelectorAll('tr')).map(tr => 
+      Array.from(tr.cells).map(td => td.textContent.trim()).join(',')
+    );
+    const header = 'Year,Starting Balance,Contributions,Interest Earned,Ending Balance';
+    const csv = [header, ...rows].join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'compound-interest-breakdown.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+};
+
+// Event listeners
+document.getElementById('principal').addEventListener('input', () => calculator.calculate());
+document.getElementById('monthly').addEventListener('input', () => calculator.calculate());
+document.getElementById('rate').addEventListener('input', () => calculator.calculate());
+document.getElementById('years').addEventListener('input', () => calculator.calculate());
+document.getElementById('frequency').addEventListener('change', () => calculator.calculate());
+document.getElementById('use-inflation').addEventListener('change', function() {
+  document.getElementById('inflation-input').style.display = this.checked ? 'block' : 'none';
+  calculator.calculate();
+});
+document.getElementById('inflation-rate').addEventListener('input', () => calculator.calculate());
+document.getElementById('use-rate-range').addEventListener('change', function() {
+  document.getElementById('rate-range-inputs').style.display = this.checked ? 'grid' : 'none';
+  calculator.calculate();
+});
+document.getElementById('min-rate').addEventListener('input', () => calculator.calculate());
+document.getElementById('max-rate').addEventListener('input', () => calculator.calculate());
+
+document.querySelectorAll('[data-mode]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    calculator.mode = this.dataset.mode;
+    if (calculator.mode === 'debt') {
+      document.getElementById('monthly').value = 500;
+      document.querySelector('label[for="monthly"] .calc-form-label').textContent = 'Monthly Payment';
+      document.getElementById('years').style.display = 'none';
+      document.querySelector('label[for="years"]').style.display = 'none';
+    } else {
+      document.querySelector('label[for="monthly"] .calc-form-label').textContent = 'Monthly Contribution';
+      document.getElementById('years').style.display = 'block';
+      document.querySelector('label[for="years"]').style.display = 'block';
+    }
+    calculator.calculate();
+  });
+});
+
+document.getElementById('export-csv').addEventListener('click', () => calculator.exportCSV());
+
+// Initial calculation
+calculator.calculate();
+</script>
+</body>
+</html>

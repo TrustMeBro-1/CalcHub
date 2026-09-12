@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Pregnancy & Due Date Tracker: Pregnancy Due Date Calculator - Estimate Your Delivery Date</title>
+<meta name="description" content="Estimate a due date and current week of pregnancy based on the first day of the last menstrual period.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/pregnancy-due-date">
+<meta property="og:title" content="Pregnancy & Due Date Tracker: Pregnancy Due Date Calculator - Estimate Your Delivery Date">
+<meta property="og:description" content="Estimate a due date and current week of pregnancy based on the first day of the last menstrual period.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/pregnancy-due-date.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pregnancy & Due Date Tracker: Pregnancy Due Date Calculator - Estimate Your Delivery Date">
+<meta name="twitter:description" content="Estimate a due date and current week of pregnancy based on the first day of the last menstrual period.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pregnancy & Due Date Tracker: Pregnancy Due Date Calculator - Estimate Your Delivery Date",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Estimate a due date and current week of pregnancy based on the first day of the last menstrual period.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-health">Health & Wellness</a><span>/</span>
+    <span>Pregnancy & Due Date Tracker: Pregnancy Due Date Calculator - Estimate Your Delivery Date</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Pregnancy & Due Date Tracker: Pregnancy Due Date Calculator - Estimate Your Delivery Date</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Estimate a due date and current week of pregnancy based on the first day of the last menstrual period.</p>
+  <div id="calc-root" class="calc-layout"></div>
+  <section class="calc-explainer">
+<h2>How the estimate is calculated</h2>
+<p>The standard method, Naegele's rule, adds 280 days (40 weeks) to the first day of your last menstrual period, assuming a typical 28-day cycle — which is why it's called an <em>estimated</em> due date, not a fixed one.</p>
+<h2>Why so few births land exactly on the date</h2>
+<p>Full-term birth is considered a range, roughly 37–42 weeks, and cycle length variation or irregular periods can shift the real date from the calculated one. An early ultrasound typically refines this estimate more accurately than LMP-based dating alone.</p>
+<h1>Pregnancy Due Dates</h1>
+<p>A pregnancy due date calculator estimates an expectant mother's projected delivery date by tracking biological markers and gestational milestones. Standard human pregnancies average roughly 280 days, or 40 weeks, starting from the very first day of the last menstrual period. Because exact conception windows are often difficult to isolate, tracking clinical cycle patterns offers a highly reliable method for establishing developmental timelines. Predicting this timeline helps families plan medical checkups, track fetal development markers, and organize essential lifestyle adjustments well ahead of arrival.</p>
+
+<h2>Due Date Calculator Components</h2>
+<p>Projecting clinical delivery windows requires inputting individual physiological metrics to map out your structural timeline.</p>
+<ul>
+    <li><strong>Last Period Date:</strong> The calendar date matching the very first day of bleeding during your last normal menstrual cycle.</li>
+    <li><strong>Average Cycle Length:</strong> The typical number of days passing between the start of one period and the start of the next, defaulting to 28 days.</li>
+    <li><strong>Conception Date (Optional):</strong> The exact calendar day of fertilization, used if tracking via structured ovulation monitoring or medical fertility routines.</li>
+</ul>
+
+<h2>The Clinical Calculation Rules</h2>
+<p>The tracking utility applies standard obstetrical rules to translate your calendar inputs into a developmental timeline target.</p>
+<ul>
+    <li><strong>Naegele's Rule:</strong> The standard clinical formula takes the first day of your last period, adds seven calendar days, subtracts three calendar months, and advances the calendar year by one.</li>
+    <li><strong>Gestational Adjustments:</strong> The calculator shifts your timeline forward or backward if your personal menstrual cycle duration is consistently shorter or longer than the standard 28-day baseline.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>How accurate is an estimated pregnancy due date?</h3>
+<p>An estimated due date serves as a generalized target window rather than a strict deadline promise. Only about 4 to 5 percent of babies are born precisely on their calculated due date, though the vast majority arrive safely within a two-week window before or after that estimated target.</p>
+
+<h3>What is the difference between gestational age and fetal age?</h3>
+<p>Gestational age measures pregnancy progress starting from the first day of your last period, which is the universal standard utilized by medical professionals. Fetal age measures the actual age of the growing baby from the precise moment of conception, making it roughly two weeks younger than the gestational age track.</p>
+
+<h3>Can an early ultrasound change my official calculated due date?</h3>
+<p>Yes. Early first-trimester ultrasounds measure physical crown-to-rump dimensions to establish exceptional developmental tracking accuracy. If those physical ultrasound measurements differ from your period-based calculation by more than seven days, your healthcare provider will update your official due date.</p>
+
+<h3>What does it mean if a baby is considered full term?</h3>
+<p>A pregnancy is clinically recognized as full term once it reaches 39 weeks of developmental gestation. Delivering during this window ensures the baby's vital organs, specifically the lungs and brain tissue, have reached full maturity, minimizing neonatal care complications.</p>
+<br> <br>
+      <h3>Medical Disclaimer:</h3>
+<p>
+The information provided in this pregnancy guide is intended for general educational and informational purposes only. It does not constitute professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider or obstetrician regarding any medical conditions, pregnancy tracking, or personalized health decisions. </p>
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'pregnancy-due-date');
+
+
+CalcHub.initCalculatorPage({
+  id: 'pregnancy-due-date',
+  fields: [
+    {id:'lmp', label:'First Day of Last Period', type:'date', default:''},
+    {id:'cycle', label:'Average Cycle Length', unit:'days', default:28, step:1}
+  ],
+  compute: function(v){
+    if (!v.lmp) return {headline:'Pick a date above', stats:[], chart:null};
+    var lmpDate = new Date(v.lmp + 'T00:00:00');
+    var adjust = v.cycle - 28;
+    var due = new Date(lmpDate.getTime() + (280+adjust)*86400000);
+    var today = new Date();
+    var daysElapsed = Math.floor((today - lmpDate)/86400000);
+    var week = Math.max(0, Math.floor(daysElapsed/7));
+    var trimester = week<13 ? '1st' : (week<27 ? '2nd' : '3rd');
+    var daysRemaining = Math.max(0, Math.floor((due-today)/86400000));
+    var weeksElapsedClamped = Math.min(40, week);
+    return {
+      label: 'Estimated Due Date',
+      headline: due.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}),
+      stats: [{label:'Current Week', value: 'Week '+week}, {label:'Trimester', value: trimester}, {label:'Days Remaining', value: String(daysRemaining)}],
+      chart: {type:'donut', labels:['Weeks Elapsed','Weeks Remaining'], data:[weeksElapsedClamped, Math.max(0,40-weeksElapsedClamped)], colors:['#a32020','#e2e8f0']},
+      historyLabel: 'Due '+due.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+', week '+week,
+      copyValue: 'Due date: '+due.toLocaleDateString('en-US')
+    };
+  },
+  explain: function(v, r){
+    if (!v.lmp) return "";
+    var week = parseInt(String(r.stats[0].value).replace('Week ',''),10);
+    if (week < 13) return "This falls in the first trimester. Standard early-pregnancy care includes an initial prenatal visit if you haven't had one yet, since an early ultrasound often refines this due-date estimate.";
+    if (week < 27) return "This falls in the second trimester, when routine anatomy scans and screening tests are typically scheduled \u2014 check with your provider that these are on the calendar.";
+    if (week < 37) return "This falls in the third trimester. From here, prenatal visits usually become more frequent.";
+    if (week < 42) return "This is in the full-term window (37\u201342 weeks). If you notice reduced fetal movement, contractions, fluid leakage, or bleeding, contact your healthcare provider promptly rather than waiting.";
+    return "This is past the typical 42-week full-term window based on this estimate. Please contact your healthcare provider \u2014 pregnancies extending past 42 weeks are usually monitored closely or induction is discussed.";
+  }
+});
+
+</script>
+</body>
+</html>

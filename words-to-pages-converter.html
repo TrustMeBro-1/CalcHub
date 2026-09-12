@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Words-To-Pages Document Converter: Estimate Pages Accurately for Your Assignment Format</title>
+<meta name="description" content="Estimate pages accurately for your assignment format. Format-aware converter for students, teachers, and parents with academic presets, layout controls, and transparent estimates.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/words-to-pages-converter">
+<meta property="og:title" content="Words-To-Pages Document Converter: Estimate Pages Accurately">
+<meta property="og:description" content="Estimate pages accurately for your assignment format. Academic presets, layout controls, transparent estimates.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/words-to-pages-converter.html">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Words-To-Pages Document Converter",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Estimate pages accurately for your assignment format with academic presets and transparent estimates.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<style>
+.mode-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.mode-tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--primary-color);
+}
+
+.mode-tab:hover {
+  color: var(--text-primary);
+}
+
+.converter-section {
+  display: none;
+  animation: fadeIn 0.3s;
+}
+
+.converter-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color, #d0d0d0);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(184, 79, 0, 0.1);
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.preset-btn {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  color: var(--text-primary);
+}
+
+.preset-btn:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+.preset-btn.selected {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.format-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-highlight);
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.format-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.format-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.format-value {
+  color: var(--text-primary);
+}
+
+.advanced-controls {
+  border-top: 1px solid var(--border-color);
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.toggle-item label {
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.result-card {
+  background: var(--bg-surface);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.result-headline {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.result-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.result-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.result-stat-label {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.result-stat-value {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.uncertainty-note {
+  padding: 1rem;
+  background: rgba(184, 79, 0, 0.08);
+  border-left: 3px solid var(--primary-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.paste-box {
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.text-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-highlight);
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+}
+
+.text-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.text-stat-label {
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.text-stat-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.disclaimer {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-highlight);
+  border-color: var(--primary-color);
+}
+
+.teacher-section {
+  background: var(--bg-highlight);
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-top: 2rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.teacher-section h3 {
+  margin-top: 0;
+}
+
+.requirement-link-box {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.requirement-link-box input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: monospace;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.copy-btn {
+  padding: 0.75rem 1.25rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  opacity: 0.9;
+}
+
+.warning-box {
+  padding: 1rem;
+  background: rgba(255, 152, 0, 0.1);
+  border-left: 3px solid #ff9800;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.success-box {
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid #4caf50;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.hidden {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a 6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-education">Education & Grades</a><span>/</span>
+    <span>Words-To-Pages Converter</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Words-To-Pages Converter</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Estimate pages accurately for your assignment format. Match your required layout and know how much to write next.</p>
+  
+  <div id="calc-root" class="calc-layout">
+    <!-- Mode tabs -->
+    <div class="mode-tabs" role="tablist">
+      <button class="mode-tab active" data-mode="words-to-pages" role="tab" aria-selected="true">
+        Words → Pages
+      </button>
+      <button class="mode-tab" data-mode="pages-to-words" role="tab" aria-selected="false">
+        Pages → Words
+      </button>
+      <button class="mode-tab" data-mode="paste-text" role="tab" aria-selected="false">
+        Paste My Draft
+      </button>
+    </div>
+
+    <!-- Words to Pages Mode -->
+    <div class="converter-section active" id="section-words-to-pages">
+      <div class="input-group">
+        <label for="words-input">I have ___ words</label>
+        <input type="number" id="words-input" min="0" step="50" value="1500" placeholder="Enter word count">
+      </div>
+
+      <div class="input-group">
+        <label for="preset-select">Academic Preset</label>
+        <select id="preset-select">
+          <option value="mla9">MLA 9 (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="apa7">APA 7 (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="chicago">Chicago/Turabian (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="standard-college">Standard College Essay (12pt, double-spaced, 1" margins)</option>
+          <option value="high-school">High School Essay (12pt, double-spaced, 1" margins)</option>
+          <option value="custom">Custom Format</option>
+        </select>
+      </div>
+
+      <div class="input-group hidden" id="custom-controls">
+        <label style="margin-bottom: 0.75rem; font-weight: 600;">Format Controls</label>
+        <div class="two-column">
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="font-family">Font Family</label>
+            <select id="font-family">
+              <option value="times">Times New Roman</option>
+              <option value="arial">Arial</option>
+              <option value="calibri">Calibri</option>
+              <option value="georgia">Georgia</option>
+              <option value="courier">Courier New</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="font-size">Font Size</label>
+            <select id="font-size">
+              <option value="10">10pt</option>
+              <option value="11">11pt</option>
+              <option value="12" selected>12pt</option>
+              <option value="13">13pt</option>
+              <option value="14">14pt</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="line-spacing">Line Spacing</label>
+            <select id="line-spacing">
+              <option value="single">Single (1.0)</option>
+              <option value="1.15">1.15</option>
+              <option value="1.5">1.5</option>
+              <option value="double" selected>Double (2.0)</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="paper-size">Paper Size</label>
+            <select id="paper-size">
+              <option value="letter" selected>US Letter (8.5" × 11")</option>
+              <option value="a4">A4 (210 × 297mm)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="advanced-controls">
+        <label style="font-weight: 600; display: block; margin-bottom: 1rem;">Include in your document:</label>
+        <div class="toggle-group">
+          <div class="toggle-item">
+            <input type="checkbox" id="include-title" checked>
+            <label for="include-title">Title page</label>
+          </div>
+          <div class="toggle-item">
+            <input type="checkbox" id="include-headings">
+            <label for="include-headings">Headings/sections</label>
+          </div>
+          <div class="toggle-item">
+            <input type="checkbox" id="include-quotes">
+            <label for="include-quotes">Block quotes</label>
+          </div>
+          <div class="toggle-item">
+            <input type="checkbox" id="include-references">
+            <label for="include-references">References/bibliography</label>
+          </div>
+          <div class="toggle-item">
+            <input type="checkbox" id="include-tables">
+            <label for="include-tables">Tables/figures</label>
+          </div>
+        </div>
+      </div>
+
+      <div id="words-result"></div>
+    </div>
+
+    <!-- Pages to Words Mode -->
+    <div class="converter-section" id="section-pages-to-words">
+      <div class="input-group">
+        <label for="pages-input">I need ___ pages</label>
+        <input type="number" id="pages-input" min="0.25" step="0.25" value="4" placeholder="Enter page count">
+      </div>
+
+      <div class="input-group">
+        <label for="preset-select-pages">Academic Preset</label>
+        <select id="preset-select-pages">
+          <option value="mla9">MLA 9 (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="apa7">APA 7 (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="chicago">Chicago/Turabian (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="standard-college">Standard College Essay (12pt, double-spaced, 1" margins)</option>
+          <option value="high-school">High School Essay (12pt, double-spaced, 1" margins)</option>
+          <option value="custom">Custom Format</option>
+        </select>
+      </div>
+
+      <div class="input-group hidden" id="custom-controls-pages">
+        <label style="margin-bottom: 0.75rem; font-weight: 600;">Format Controls</label>
+        <div class="two-column">
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="font-family-pages">Font Family</label>
+            <select id="font-family-pages">
+              <option value="times">Times New Roman</option>
+              <option value="arial">Arial</option>
+              <option value="calibri">Calibri</option>
+              <option value="georgia">Georgia</option>
+              <option value="courier">Courier New</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="font-size-pages">Font Size</label>
+            <select id="font-size-pages">
+              <option value="10">10pt</option>
+              <option value="11">11pt</option>
+              <option value="12" selected>12pt</option>
+              <option value="13">13pt</option>
+              <option value="14">14pt</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="line-spacing-pages">Line Spacing</label>
+            <select id="line-spacing-pages">
+              <option value="single">Single (1.0)</option>
+              <option value="1.15">1.15</option>
+              <option value="1.5">1.5</option>
+              <option value="double" selected>Double (2.0)</option>
+            </select>
+          </div>
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="paper-size-pages">Paper Size</label>
+            <select id="paper-size-pages">
+              <option value="letter" selected>US Letter (8.5" × 11")</option>
+              <option value="a4">A4 (210 × 297mm)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="pages-result"></div>
+    </div>
+
+    <!-- Paste Text Mode -->
+    <div class="converter-section" id="section-paste-text">
+      <div class="input-group">
+        <label for="paste-textarea">Paste your draft text here</label>
+        <textarea id="paste-textarea" class="paste-box" placeholder="Paste your text here. We count words, characters, sentences, and estimate page length based on your format."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="preset-select-paste">Academic Preset</label>
+        <select id="preset-select-paste">
+          <option value="mla9">MLA 9 (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="apa7">APA 7 (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="chicago">Chicago/Turabian (12pt Times New Roman, double-spaced, 1" margins)</option>
+          <option value="standard-college">Standard College Essay (12pt, double-spaced, 1" margins)</option>
+          <option value="high-school">High School Essay (12pt, double-spaced, 1" margins)</option>
+          <option value="custom">Custom Format</option>
+        </select>
+      </div>
+
+      <div id="text-stats" class="text-stats">
+        <div class="text-stat">
+          <div class="text-stat-label">Words</div>
+          <div class="text-stat-value">0</div>
+        </div>
+        <div class="text-stat">
+          <div class="text-stat-label">Characters</div>
+          <div class="text-stat-value">0</div>
+        </div>
+        <div class="text-stat">
+          <div class="text-stat-label">Sentences</div>
+          <div class="text-stat-value">0</div>
+        </div>
+        <div class="text-stat">
+          <div class="text-stat-label">Paragraphs</div>
+          <div class="text-stat-value">0</div>
+        </div>
+        <div class="text-stat">
+          <div class="text-stat-label">Reading Time</div>
+          <div class="text-stat-value">0m</div>
+        </div>
+      </div>
+
+      <div id="paste-result"></div>
+    </div>
+
+    <!-- Teacher Section -->
+    <div class="teacher-section">
+      <h3>👨‍🏫 For Teachers: Share Assignment Requirements</h3>
+      <p>Create a preset for your class and share the link with students. They'll see your exact format assumptions.</p>
+      <div class="input-group">
+        <label for="teacher-page-range">Expected page range (e.g., 4-5)</label>
+        <input type="text" id="teacher-page-range" placeholder="e.g., 4-5">
+      </div>
+      <div class="input-group">
+        <label for="teacher-word-range">Expected word range (optional, e.g., 1000-1250)</label>
+        <input type="text" id="teacher-word-range" placeholder="e.g., 1000-1250">
+      </div>
+      <button class="copy-btn" onclick="generateTeacherLink()">Generate Shareable Link</button>
+      <div class="requirement-link-box" id="teacher-link-box" style="display:none;">
+        <input type="text" id="teacher-link-input" readonly>
+        <button class="copy-btn" onclick="copyTeacherLink()">Copy Link</button>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="calc-explainer">
+    <h2>Why "words per page" isn't a fixed number</h2>
+    <p>A page is not a fixed unit. Font, font size, line spacing, margins, paragraph length, headings, quotations, images, and headers/footers all change the result. This tool shows you a realistic <strong>range</strong> based on your exact format, not a false single number.</p>
+
+    <h2>How this converter works</h2>
+    <p><strong>Transparent assignment planning:</strong> Students need quick progress targets, teachers need format-aware consistency, and parents need a clear way to help without guessing. All three benefit when the tool visibly explains that page count is only an estimate.</p>
+    
+    <p><strong>Format matters:</strong> This converter respects that a page in double-spaced 12pt Times New Roman with 1-inch margins looks different from the same 1,000 words in single-spaced 11pt Arial. Select your exact format and we'll give you a realistic range.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <h3>Why do you show a range instead of one number?</h3>
+    <p>Real documents contain headings, quotations, references, tables, and whitespace—things that take up space without adding proportional word count. A 3.4–3.9 page range is honest. A single "3.6" looks falsely precise.</p>
+
+    <h3>Will my actual page count match this estimate?</h3>
+    <p>The estimate is your guide, but <strong>the page count in your actual editor (Word, Google Docs, etc.) is the final authority</strong>. Copy your exact text into this tool, select your format, and use the range as your target. Then verify in your submission editor.</p>
+
+    <h3>What if my document has lots of quotes, headings, or images?</h3>
+    <p>Use the "Include in your document" toggles to account for title pages, block quotes, references, and other non-body content. These add pages without proportional word count. The estimate will adjust accordingly.</p>
+
+    <h3>Can I use this for fiction, technical writing, or non-academic papers?</h3>
+    <p>This converter is built for academic assignments. If you're writing fiction or a published manuscript, page count depends on professional typesetting standards, which differ significantly from school papers. For those, we recommend checking your target publisher's guidelines.</p>
+
+    <h3>I need both a page range AND a word range. How do I set that up?</h3>
+    <p>If your teacher said "4–5 double-spaced pages, roughly 1,000–1,250 words," use the Pages → Words mode. That answers "How many words should I aim for?" more directly than page-to-page conversion.</p>
+
+  </section>
+
+  <section class="page-section">
+    <div class="section-label">Similar Calculators</div>
+    <div class="pill-list">
+      <div class="pill-row"><span class="pill-dot" style="background:var(--education)"></span><a class="pill-link" href="gpa-calculator.html">GPA & Weighted GPA Calculator</a><span class="pill-meta">Education & Grades</span></div>
+      <div class="pill-row"><span class="pill-dot" style="background:var(--education)"></span><a class="pill-link" href="final-grade-calculator.html">Final Grade Calculator Estimator</a><span class="pill-meta">Education & Grades</span></div>
+      <div class="pill-row"><span class="pill-dot" style="background:var(--education)"></span><a class="pill-link" href="test-score-percentage.html">Test Score Percentage Finder</a><span class="pill-meta">Education & Grades</span></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+  <p class="footer-contact">Follow me on Instagram for project updates: <a href="https://www.instagram.com/emmanuelbuildsofficial">EmmanuelBuildsOfficial</a></p>
+  <p class="footer-signoff">Thanks for stopping by — I hope your assignment goes well. Have a wonderful day :)</p>
+</footer>
+
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'words-to-pages-converter');
+
+// ============= FORMAT PRESETS =============
+const PRESETS = {
+  mla9: { font: 'times', size: 12, spacing: 'double', margin: 1, paper: 'letter' },
+  apa7: { font: 'times', size: 12, spacing: 'double', margin: 1, paper: 'letter' },
+  chicago: { font: 'times', size: 12, spacing: 'double', margin: 1, paper: 'letter' },
+  'standard-college': { font: 'times', size: 12, spacing: 'double', margin: 1, paper: 'letter' },
+  'high-school': { font: 'times', size: 12, spacing: 'double', margin: 1, paper: 'letter' }
+};
+
+const WORDS_PER_PAGE = {
+  single: { times: 500, arial: 480, calibri: 490, georgia: 510, courier: 400 },
+  1.15: { times: 435, arial: 420, calibri: 430, georgia: 445, courier: 350 },
+  1.5: { times: 330, arial: 315, calibri: 325, georgia: 340, courier: 265 },
+  double: { times: 250, arial: 240, calibri: 245, georgia: 255, courier: 200 }
+};
+
+// ============= MODE SWITCHING =============
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const mode = tab.dataset.mode;
+    
+    // Update active tab
+    document.querySelectorAll('.mode-tab').forEach(t => {
+      t.classList.toggle('active', t === tab);
+      t.setAttribute('aria-selected', t === tab);
+    });
+    
+    // Show active section
+    document.querySelectorAll('.converter-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    document.getElementById('section-' + mode).classList.add('active');
+  });
+});
+
+// ============= PRESET HANDLING =============
+function handlePresetChange(selectId, customControlsId) {
+  const select = document.getElementById(selectId);
+  const customControls = document.getElementById(customControlsId);
+  
+  select.addEventListener('change', () => {
+    if (select.value === 'custom') {
+      customControls.classList.remove('hidden');
+    } else {
+      customControls.classList.add('hidden');
+      const preset = PRESETS[select.value];
+      // Update font controls if they exist in this section
+      const fontFamily = document.getElementById(selectId.replace('preset-select', 'font-family'));
+      const fontSize = document.getElementById(selectId.replace('preset-select', 'font-size'));
+      const lineSpacing = document.getElementById(selectId.replace('preset-select', 'line-spacing'));
+      
+      if (fontFamily) fontFamily.value = preset.font;
+      if (fontSize) fontSize.value = preset.size;
+      if (lineSpacing) lineSpacing.value = preset.spacing;
+    }
+    
+    // Trigger recalculation
+    calculateResult();
+  });
+}
+
+handlePresetChange('preset-select', 'custom-controls');
+handlePresetChange('preset-select-pages', 'custom-controls-pages');
+
+// ============= WORDS TO PAGES CALCULATION =============
+function getFormatValues(prefix = '') {
+  const presetSelect = document.getElementById(prefix ? `preset-select${prefix}` : 'preset-select');
+  const presetValue = presetSelect.value;
+  
+  if (presetValue !== 'custom') {
+    const preset = PRESETS[presetValue];
+    return {
+      font: preset.font,
+      size: preset.size,
+      spacing: preset.spacing,
+      margin: preset.margin,
+      paper: preset.paper
+    };
+  }
+  
+  // Get custom values
+  const fontFamily = document.getElementById(`font-family${prefix}`).value;
+  const fontSize = document.getElementById(`font-size${prefix}`).value;
+  const lineSpacing = document.getElementById(`line-spacing${prefix}`).value;
+  
+  return {
+    font: fontFamily,
+    size: parseInt(fontSize),
+    spacing: lineSpacing,
+    margin: 1,
+    paper: document.getElementById(`paper-size${prefix}`).value
+  };
+}
+
+function calculateWordsToPages() {
+  const words = parseInt(document.getElementById('words-input').value) || 0;
+  const format = getFormatValues();
+  
+  // Get base WPP for the spacing/font combo
+  const baseWpp = WORDS_PER_PAGE[format.spacing][format.font];
+  
+  // Adjust for font size (12pt is our baseline)
+  const sizeAdjustment = 12 / format.size;
+  const wordsPerPage = baseWpp * sizeAdjustment;
+  
+  // Calculate estimate
+  const basePages = words / wordsPerPage;
+  
+  // Add uncertainty range (±15% for formatting uncertainty)
+  const minPages = basePages * 0.85;
+  const maxPages = basePages * 1.15;
+  
+  // Check for special conditions and adjust
+  const hasTitlePage = document.getElementById('include-title').checked;
+  const hasHeadings = document.getElementById('include-headings').checked;
+  const hasQuotes = document.getElementById('include-quotes').checked;
+  const hasReferences = document.getElementById('include-references').checked;
+  const hasTables = document.getElementById('include-tables').checked;
+  
+  let adjustedMin = minPages;
+  let adjustedMax = maxPages;
+  
+  if (hasTitlePage) adjustedMin += 1, adjustedMax += 1;
+  if (hasReferences) adjustedMax += 0.5; // References add ~0.5 pages
+  if (hasTables || hasQuotes) adjustedMax += 0.25; // Sparse elements take more space
+  
+  const resultHtml = `
+    <div class="uncertainty-note">
+      <strong>📋 Estimated, not guaranteed.</strong> This estimate assumes your text is continuous prose. Headings, quotations, references, tables, and short paragraphs can change the final count by ±10–20%.
+    </div>
+    
+    <div class="result-card">
+      <div class="result-headline">${(minPages + maxPages) / 2 >= 1 ? `${minPages.toFixed(1)}–${maxPages.toFixed(1)} pages` : '< 1 page'}</div>
+      <div class="result-subtitle">Based on ${words.toLocaleString()} words, ${format.font === 'times' ? 'Times New Roman' : format.font.charAt(0).toUpperCase() + format.font.slice(1)} ${format.size}pt, ${format.spacing === 'double' ? 'double' : format.spacing}-spaced, ${format.margin}" margins, ${format.paper === 'letter' ? 'US Letter' : 'A4'}</div>
+      
+      <div class="result-grid">
+        <div class="result-stat">
+          <div class="result-stat-label">Words Per Page</div>
+          <div class="result-stat-value">${Math.round(wordsPerPage)}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Pages (Low)</div>
+          <div class="result-stat-value">${minPages.toFixed(1)}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Pages (High)</div>
+          <div class="result-stat-value">${maxPages.toFixed(1)}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Midpoint</div>
+          <div class="result-stat-value">${((minPages + maxPages) / 2).toFixed(1)}</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="format-strip">
+      <div class="format-item">
+        <div class="format-label">Font</div>
+        <div class="format-value">${format.font === 'times' ? 'Times New Roman' : format.font.charAt(0).toUpperCase() + format.font.slice(1)}</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Size</div>
+        <div class="format-value">${format.size}pt</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Spacing</div>
+        <div class="format-value">${format.spacing === 'double' ? 'Double (2.0)' : format.spacing.charAt(0).toUpperCase() + format.spacing.slice(1)}</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Margins</div>
+        <div class="format-value">${format.margin}"</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Paper</div>
+        <div class="format-value">${format.paper === 'letter' ? 'US Letter' : 'A4'}</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Next step:</strong> Copy your actual text into "Paste My Draft" above for a more accurate estimate based on your real content. Then verify the final page count in Word or Google Docs, which is the authority for your submission.
+    </div>
+  `;
+  
+  document.getElementById('words-result').innerHTML = resultHtml;
+}
+
+// ============= PAGES TO WORDS CALCULATION =============
+function calculatePagesToWords() {
+  const pages = parseFloat(document.getElementById('pages-input').value) || 0;
+  const format = getFormatValues('-pages');
+  
+  const baseWpp = WORDS_PER_PAGE[format.spacing][format.font];
+  const sizeAdjustment = 12 / format.size;
+  const wordsPerPage = baseWpp * sizeAdjustment;
+  
+  const targetWords = Math.round(pages * wordsPerPage);
+  const minWords = Math.round(targetWords * 0.9);
+  const maxWords = Math.round(targetWords * 1.1);
+  
+  const resultHtml = `
+    <div class="uncertainty-note">
+      <strong>🎯 Target words.</strong> Aim for this range to comfortably fill your page requirement. The actual page count will depend on your headings, spacing, and document structure.
+    </div>
+    
+    <div class="result-card">
+      <div class="result-headline">${minWords.toLocaleString()}–${maxWords.toLocaleString()} words</div>
+      <div class="result-subtitle">To safely reach ${pages} pages in ${format.font === 'times' ? 'Times New Roman' : format.font.charAt(0).toUpperCase() + format.font.slice(1)} ${format.size}pt, ${format.spacing === 'double' ? 'double' : format.spacing}-spaced</div>
+      
+      <div class="result-grid">
+        <div class="result-stat">
+          <div class="result-stat-label">Target Words (Low)</div>
+          <div class="result-stat-value">${minWords.toLocaleString()}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Target Words (High)</div>
+          <div class="result-stat-value">${maxWords.toLocaleString()}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Midpoint</div>
+          <div class="result-stat-value">${Math.round((minWords + maxWords) / 2).toLocaleString()}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Words Per Page</div>
+          <div class="result-stat-value">${Math.round(wordsPerPage)}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="format-strip">
+      <div class="format-item">
+        <div class="format-label">Font</div>
+        <div class="format-value">${format.font === 'times' ? 'Times New Roman' : format.font.charAt(0).toUpperCase() + format.font.slice(1)}</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Size</div>
+        <div class="format-value">${format.size}pt</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Spacing</div>
+        <div class="format-value">${format.spacing === 'double' ? 'Double (2.0)' : format.spacing.charAt(0).toUpperCase() + format.spacing.slice(1)}</div>
+      </div>
+      <div class="format-item">
+        <div class="format-label">Margins</div>
+        <div class="format-value">${format.margin}"</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Tip:</strong> Many teachers now expect BOTH page count and word count in the assignment description. If they said "4–5 pages," ask or check the syllabus for the word range too.
+    </div>
+  `;
+  
+  document.getElementById('pages-result').innerHTML = resultHtml;
+}
+
+// ============= PASTE TEXT CALCULATION =============
+function countTextMetrics(text) {
+  const trimmed = text.trim();
+  const words = trimmed.length === 0 ? 0 : trimmed.split(/\s+/).length;
+  const chars = trimmed.length;
+  const sentences = trimmed.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+  const paragraphs = trimmed.split(/\n\n+/).filter(p => p.trim().length > 0).length;
+  const readingTimeMinutes = Math.ceil(words / 200); // 200 WPM is average
+  
+  return { words, chars, sentences, paragraphs, readingTimeMinutes };
+}
+
+document.getElementById('paste-textarea').addEventListener('input', () => {
+  const text = document.getElementById('paste-textarea').value;
+  const metrics = countTextMetrics(text);
+  
+  // Update live stats
+  document.querySelectorAll('#text-stats .text-stat').forEach((stat, i) => {
+    const value = stat.querySelector('.text-stat-value');
+    if (i === 0) value.textContent = metrics.words.toLocaleString();
+    if (i === 1) value.textContent = metrics.chars.toLocaleString();
+    if (i === 2) value.textContent = metrics.sentences;
+    if (i === 3) value.textContent = metrics.paragraphs;
+    if (i === 4) value.textContent = metrics.readingTimeMinutes + 'm';
+  });
+  
+  calculatePasteResult(metrics);
+});
+
+function calculatePasteResult(metrics) {
+  if (metrics.words === 0) {
+    document.getElementById('paste-result').innerHTML = '';
+    return;
+  }
+  
+  const format = getFormatValues('-paste');
+  const baseWpp = WORDS_PER_PAGE[format.spacing][format.font];
+  const sizeAdjustment = 12 / format.size;
+  const wordsPerPage = baseWpp * sizeAdjustment;
+  
+  const basePages = metrics.words / wordsPerPage;
+  const minPages = basePages * 0.85;
+  const maxPages = basePages * 1.15;
+  
+  const resultHtml = `
+    <div class="success-box">
+      ✓ Real text analysis. This estimate is based on your actual pasted content, not a formula.
+    </div>
+    
+    <div class="result-card">
+      <div class="result-headline">${minPages.toFixed(1)}–${maxPages.toFixed(1)} pages</div>
+      <div class="result-subtitle">Your ${metrics.words.toLocaleString()} words in ${format.font === 'times' ? 'Times New Roman' : format.font.charAt(0).toUpperCase() + format.font.slice(1)} ${format.size}pt, ${format.spacing === 'double' ? 'double' : format.spacing}-spaced</div>
+      
+      <div class="result-grid">
+        <div class="result-stat">
+          <div class="result-stat-label">Words</div>
+          <div class="result-stat-value">${metrics.words.toLocaleString()}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Sentences</div>
+          <div class="result-stat-value">${metrics.sentences}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Estimated Pages</div>
+          <div class="result-stat-value">${((minPages + maxPages) / 2).toFixed(1)}</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Reading Time</div>
+          <div class="result-stat-value">${metrics.readingTimeMinutes}m</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>⚠️ Important:</strong> This is an estimate based on your plain text. Formatting in Word (bold, italics, headings) and actual document structure may change the final page count. Always verify in your submission editor.
+    </div>
+  `;
+  
+  document.getElementById('paste-result').innerHTML = resultHtml;
+}
+
+// ============= TEACHER SHARING =============
+function generateTeacherLink() {
+  const pageRange = document.getElementById('teacher-page-range').value;
+  const wordRange = document.getElementById('teacher-word-range').value;
+  
+  if (!pageRange) {
+    alert('Please enter a page range (e.g., 4-5)');
+    return;
+  }
+  
+  const params = new URLSearchParams({
+    mode: 'teacher',
+    pages: pageRange,
+    words: wordRange || ''
+  }).toString();
+  
+  const link = window.location.href.split('?')[0] + '?' + params;
+  
+  document.getElementById('teacher-link-input').value = link;
+  document.getElementById('teacher-link-box').style.display = 'flex';
+}
+
+function copyTeacherLink() {
+  const input = document.getElementById('teacher-link-input');
+  input.select();
+  document.execCommand('copy');
+  alert('Link copied to clipboard!');
+}
+
+// ============= INITIALIZE =============
+document.getElementById('words-input').addEventListener('input', calculateWordsToPages);
+document.getElementById('preset-select').addEventListener('change', calculateWordsToPages);
+document.getElementById('font-family').addEventListener('change', calculateWordsToPages);
+document.getElementById('font-size').addEventListener('change', calculateWordsToPages);
+document.getElementById('line-spacing').addEventListener('change', calculateWordsToPages);
+document.getElementById('paper-size').addEventListener('change', calculateWordsToPages);
+document.getElementById('include-title').addEventListener('change', calculateWordsToPages);
+document.getElementById('include-headings').addEventListener('change', calculateWordsToPages);
+document.getElementById('include-quotes').addEventListener('change', calculateWordsToPages);
+document.getElementById('include-references').addEventListener('change', calculateWordsToPages);
+document.getElementById('include-tables').addEventListener('change', calculateWordsToPages);
+
+document.getElementById('pages-input').addEventListener('input', calculatePagesToWords);
+document.getElementById('preset-select-pages').addEventListener('change', calculatePagesToWords);
+document.getElementById('font-family-pages').addEventListener('change', calculatePagesToWords);
+document.getElementById('font-size-pages').addEventListener('change', calculatePagesToWords);
+document.getElementById('line-spacing-pages').addEventListener('change', calculatePagesToWords);
+document.getElementById('paper-size-pages').addEventListener('change', calculatePagesToWords);
+
+document.getElementById('preset-select-paste').addEventListener('change', () => {
+  const text = document.getElementById('paste-textarea').value;
+  const metrics = countTextMetrics(text);
+  calculatePasteResult(metrics);
+});
+
+// Calculate initial result
+function calculateResult() {
+  const activeSection = document.querySelector('.converter-section.active').id;
+  if (activeSection === 'section-words-to-pages') calculateWordsToPages();
+  if (activeSection === 'section-pages-to-words') calculatePagesToWords();
+}
+
+calculateWordsToPages();
+calculatePagesToWords();
+
+// Handle URL params for teacher links
+const params = new URLSearchParams(window.location.search);
+if (params.get('mode') === 'teacher') {
+  const pageRange = params.get('pages');
+  const wordRange = params.get('words');
+  if (pageRange) {
+    document.getElementById('pages-input').value = pageRange.split('-')[0];
+  }
+  alert(`📋 Teacher preset: ${pageRange} pages${wordRange ? ', ' + wordRange + ' words' : ''}`);
+}
+
+</script>
+</body>
+</html>

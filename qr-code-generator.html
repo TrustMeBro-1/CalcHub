@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>QR Code Generator: Free QR Code Generator - Create Custom QR Codes Instantly</title>
+<meta name="description" content="Turn any text, link, or message into a scannable QR code, free, with no sign-up, and download it as a PNG or PDF.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/qr-code-generator">
+<meta property="og:title" content="QR Code Generator: Free QR Code Generator - Create Custom QR Codes Instantly">
+<meta property="og:description" content="Turn any text, link, or message into a scannable QR code, free, with no sign-up, and download it as a PNG or PDF.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/qr-code-generator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QR Code Generator: Free QR Code Generator - Create Custom QR Codes Instantly">
+<meta name="twitter:description" content="Turn any text, link, or message into a scannable QR code, free, with no sign-up, and download it as a PNG or PDF.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QR Code Generator: Free QR Code Generator - Create Custom QR Codes Instantly",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "description": "Turn any text, link, or message into a scannable QR code, free, with no sign-up, and download it as a PNG or PDF.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-tools">Everyday Tools</a><span>/</span>
+    <span>QR Code Generator: Free QR Code Generator - Create Custom QR Codes Instantly</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">QR Code Generator: Free QR Code Generator - Create Custom QR Codes Instantly</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Turn any text, link, or message into a scannable QR code, free, with no sign-up.</p>
+  <div id="calc-root" class="calc-layout">
+    <div class="calc-form-col">
+      <div class="calc-card">
+        <div class="calc-card-title">Content</div>
+        <div class="field-grid">
+          <label class="field"><span class="field-label">Text or URL</span><textarea id="qr-text" rows="3" style="width:100%;font-family:inherit;font-size:14px;padding:10px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--surface);color:var(--text);">https://calchub-9k8.pages.dev</textarea></label>
+          <label class="field"><span class="field-label">Size</span>
+            <select id="qr-size" class="field-input">
+              <option value="128">Small (128px)</option>
+              <option value="256" selected>Medium (256px)</option>
+              <option value="512">Large (512px)</option>
+            </select>
+          </label>
+        </div>
+        <button type="button" class="btn-primary" id="qr-generate">Generate QR Code</button>
+      </div>
+    </div>
+    <div class="calc-side-col">
+      <div class="calc-card">
+        <div class="calc-card-title">Your QR Code</div>
+        <div id="qr-output" style="display:flex;justify-content:center;padding:16px;background:#fff;border-radius:var(--radius-md);"></div>
+        <div class="share-embed-row">
+          <button type="button" class="btn-secondary" id="qr-download-png" style="margin-top:10px">Download as PNG</button>
+          <button type="button" class="btn-secondary" id="qr-download-pdf" style="margin-top:10px">Download as PDF</button>
+        </div>
+      </div>
+      <div class="calc-card">
+        <div class="calc-card-title">Your History</div>
+        <div id="calc-history"></div>
+      </div>
+    </div>
+  </div>
+  <section class="calc-explainer">
+<h2>What a QR code actually stores</h2>
+<p>A QR code doesn't connect to the internet or "know" anything — it's just a visual encoding of the exact text you give it. A URL QR code works because your phone's camera reads the text, recognizes it looks like a link, and offers to open it; the QR code itself is static once generated.</p>
+<h2>Why some QR codes fail to scan</h2>
+<p>Low contrast between the code and its background, a size too small for the amount of text encoded, or a low error-correction level with a damaged/glare-covered print are the most common reasons a scan fails. For text longer than a short URL, use the larger size option for a more reliable scan.</p>
+      <h1>QR Code Generation</h1>
+<p>A QR Code generator is a digital utility that encodes text strings, uniform resource locators (URLs), and contact details into a scannable matrix barcodes. Quick Response (QR) codes function as visual links that bridge the physical world with digital endpoints, allowing smartphone cameras to scan and access data instantly without manual text typing. These matrices employ specialized Reed-Solomon error correction mathematics, ensuring the graphic remains fully readable even if it becomes scratched, dirty, or partially obscured. Utilizing a dedicated generator helps businesses and developers distribute data cleanly across marketing displays, digital interfaces, and physical labels.</p>
+
+<h2>QR Generator Components</h2>
+<p>Constructing a functional matrix barcode requires configuring data payloads and adjusting structural design layers.</p>
+<ul>
+    <li><strong>Data Payload:</strong> The underlying text, website URL, Wi-Fi credentials, or vCard details you want the barcode scanner to process.</li>
+    <li><strong>Error Correction Level:</strong> The mathematical redundancy tier (Low, Medium, Quartile, High) that dictates how much physical damage the code can survive.</li>
+    <li><strong>Visual Styling (Optional):</strong> Custom design controls that manage module shapes, background color hexes, and central logo branding integrations.</li>
+</ul>
+
+<h2>The Anatomy of a Matrix Code</h2>
+<p>Every generated QR graphic features distinct structural zones that tell smartphone scanners how to decode the embedded pixels.</p>
+<ul>
+    <li><strong>Position Detection Patterns:</strong> The large nested squares positioned in three corners of the matrix that help scanners locate and orient the code correctly.</li>
+    <li><strong>Alignment Squares:</strong> Smaller tracking boxes embedded within denser codes that correct for perspective distortions when scanning from angled positions.</li>
+    <li><strong>Data Modules:</strong> The individual black and white square pixels distributed across the grid that hold the actual encoded binary information.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What is the difference between a static and a dynamic QR code?</h3>
+<p>A static QR code encodes your data payload directly into the visual pixel grid permanently, meaning the target link can never be edited after printing. A dynamic QR code encodes a short redirect web link, allowing you to alter the ultimate destination URL at any point in the future without altering the printed graphic.</p>
+
+<h3>How much data can a single QR matrix hold?</h3>
+<p>A standard QR matrix can store up to 7,089 numeric characters or 4,296 alphanumeric characters in its maximum grid density configuration. However, encoding smaller data strings keeps the pixel layout simple, open, and significantly easier for budget smartphone cameras to scan quickly.</p>
+
+<h3>Why will my phone camera not scan a generated QR graphic?</h3>
+<p>Scanning failures typically stem from poor visual contrast, such as printing light-colored modules on a matching pale background. Ensure your code maintains high contrast with dark pixels on a clean white background, and verify that your viewing environment provides adequate lighting with zero glare.</p>
+
+<h3>Can QR codes carry malware or security threats?</h3>
+<p>A QR code itself cannot contain malicious executable virus code, as it functions purely as a text string. However, hackers can use them to display links pointing to deceptive phishing websites designed to steal passwords. Always double-check the preview URL destination on your mobile screen before approving the connection.</p>
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'qr-code-generator');
+
+(function () {
+  var outputEl = document.getElementById('qr-output');
+  var currentQR = null;
+  var lastText = '';
+
+  function generate() {
+    var text = document.getElementById('qr-text').value.trim();
+    var size = parseInt(document.getElementById('qr-size').value, 10);
+    if (!text) { CalcHub.toast && CalcHub.toast('Enter some text or a URL first.'); return; }
+    outputEl.innerHTML = '';
+    currentQR = new QRCode(outputEl, {
+      text: text,
+      width: size,
+      height: size,
+      colorDark: '#0d1b2a',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    lastText = text;
+    CalcHub.addRecent('qr-code-generator');
+    CalcHub.saveLastInputs('qr-code-generator', { text: text, size: size });
+  }
+
+  function getCanvas() {
+    return outputEl.querySelector('canvas');
+  }
+
+  document.getElementById('qr-generate').addEventListener('click', generate);
+
+  document.getElementById('qr-download-png').addEventListener('click', function () {
+    var canvas = getCanvas();
+    if (!canvas) { generate(); canvas = getCanvas(); }
+    if (!canvas) return;
+    var link = document.createElement('a');
+    link.download = 'calchub-qr-code.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  document.getElementById('qr-download-pdf').addEventListener('click', function () {
+    var canvas = getCanvas();
+    if (!canvas) { generate(); canvas = getCanvas(); }
+    CalcHub.downloadCanvasAsPDF(canvas, 'calchub-qr-code.pdf');
+  });
+
+  var saved = CalcHub.getLastInputs('qr-code-generator');
+  if (saved && saved.text) {
+    document.getElementById('qr-text').value = saved.text;
+    document.getElementById('qr-size').value = String(saved.size || 256);
+  }
+  generate();
+
+  CalcHub.renderHistoryPanel(document.getElementById('calc-history'), {
+    calcId: 'qr-code-generator', title: '',
+    emptyText: "Generate a QR code above and it'll be saved here automatically."
+  });
+})();
+</script>
+</body>
+</html>

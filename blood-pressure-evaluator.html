@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/compare.css">
+<script src="/assets/compare.js"></script>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<title>Blood Pressure Evaluator: Classify Your Reading by AHA Category, MAP & Pulse Pressure</title>
+<meta name="description" content="Classify a blood pressure reading using official American Heart Association categories, plus Mean Arterial Pressure (MAP) and pulse pressure — with low blood pressure detection.">
+<link rel="canonical" href="https://calchub-9k8.pages.dev/calculators/blood-pressure-evaluator">
+<meta property="og:title" content="Blood Pressure Evaluator: Classify Your Reading by AHA Category, MAP & Pulse Pressure">
+<meta property="og:description" content="Classify a blood pressure reading using official American Heart Association categories, plus Mean Arterial Pressure (MAP) and pulse pressure.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://calchub-9k8.pages.dev/calculators/blood-pressure-evaluator.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blood Pressure Evaluator: Classify Your Reading by AHA Category, MAP & Pulse Pressure">
+<meta name="twitter:description" content="Classify a blood pressure reading using official American Heart Association categories, plus Mean Arterial Pressure (MAP) and pulse pressure.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Blood Pressure Evaluator: Classify Your Reading by AHA Category, MAP & Pulse Pressure",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "description": "Classify a blood pressure reading using official American Heart Association categories, plus Mean Arterial Pressure (MAP) and pulse pressure, with low blood pressure detection.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are the official blood pressure categories?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Per the American Heart Association: Normal is below 120/80 mmHg. Elevated is systolic 120-129 with diastolic under 80. Hypertension Stage 1 is systolic 130-139 or diastolic 80-89. Hypertension Stage 2 is systolic 140 or higher, or diastolic 90 or higher. Hypertensive Crisis is systolic over 180 and/or diastolic over 120, and requires immediate medical attention, especially if accompanied by symptoms like chest pain, shortness of breath, or vision changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if my systolic and diastolic numbers fall into different categories?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The higher category always wins. If either number qualifies for a more severe category, the reading as a whole is classified there. This is why a reading like 145/78 is still Hypertension Stage 2, even though the diastolic number looks normal \u2014 this pattern is called isolated systolic hypertension and is common in older adults."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Mean Arterial Pressure (MAP) and why does it matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mean Arterial Pressure is the average pressure in your arteries during one full heartbeat cycle, calculated as diastolic pressure plus one-third of the pulse pressure (systolic minus diastolic). A MAP of at least 60 mmHg is generally considered necessary to adequately perfuse vital organs including the brain, heart, and kidneys; clinicians often target a MAP of 65 mmHg or higher in critically ill patients."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as low blood pressure (hypotension)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no single universal cutoff, but a commonly used clinical threshold is systolic under 90 mmHg or diastolic under 60 mmHg. Low blood pressure is only concerning when it causes symptoms such as dizziness, fainting, blurred vision, or fatigue \u2014 a naturally low reading without symptoms is not automatically a problem for many healthy, active people."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can one blood pressure reading diagnose hypertension?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A hypertension diagnosis requires an average of two or more readings taken on two or more separate occasions, because blood pressure fluctuates naturally throughout the day and can spike temporarily from stress, caffeine, physical activity, or the 'white coat effect' of being measured in a clinical setting. One elevated reading is a reason to re-check, not a diagnosis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is pulse pressure and what does a wide or narrow value mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pulse pressure is the difference between systolic and diastolic pressure. A normal pulse pressure is roughly 40 mmHg. A consistently wide pulse pressure (over about 60 mmHg) can indicate reduced arterial elasticity, often related to aging or arterial stiffness, while a narrow pulse pressure (under about 25 mmHg) can indicate reduced cardiac output. Neither is a standalone diagnosis \u2014 both warrant discussion with a healthcare provider if persistent."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/core.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="site-logo" href="../index.html"><img src="/assets/logo.png" alt="CalcHub" class="site-logo-img"></a>
+    <div class="header-actions">
+      <a class="header-icon-btn" href="../index.html#calchub-history"><span>History</span></a>
+      <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">
+        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-layout calc-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a><span>/</span>
+    <a href="../index.html#cat-health">Health & Wellness</a><span>/</span>
+    <span>Blood Pressure Evaluator</span>
+  </nav>
+  <div class="calc-page-header">
+    <h1 class="calc-page-title">Blood Pressure Evaluator: Classify Your Reading by AHA Category, MAP & Pulse Pressure</h1>
+    <button class="fav-star-btn large" id="fav-star-mount" aria-label="Toggle favorite"></button>
+  </div>
+  <p class="calc-page-intro">Classify a systolic/diastolic reading using official American Heart Association categories, and see Mean Arterial Pressure and pulse pressure calculated alongside it.</p>
+  <div id="calc-root" class="calc-layout"></div>
+
+  <section class="calc-explainer">
+<h2>Where your numbers fall on the standard categories</h2>
+<p>Blood pressure is read as two numbers — systolic (pressure during a heartbeat) over diastolic (pressure between beats) — compared against the American Heart Association's published thresholds for Normal, Elevated, Hypertension Stage 1, Hypertension Stage 2, and Hypertensive Crisis. Whichever number (systolic or diastolic) lands in the more severe category determines your overall classification.</p>
+<h2>Why a single reading isn't the full picture</h2>
+<p>Blood pressure naturally fluctuates through the day and can spike temporarily from caffeine, stress, physical activity, or the "white coat effect" of a clinical setting. A hypertension diagnosis requires an average of readings across two or more separate occasions — one elevated reading is a reason to re-check, not a diagnosis.</p>
+
+<h1>Blood Pressure Classification</h1>
+<p>Blood pressure measures the force of circulating blood against artery walls, expressed as two numbers in millimeters of mercury (mmHg). The systolic number (top) reflects pressure while the heart contracts and pumps blood; the diastolic number (bottom) reflects pressure while the heart rests between beats. Because sustained high blood pressure is a leading, largely symptomless risk factor for heart attack, stroke, and kidney disease, health organizations publish specific numeric thresholds so both patients and clinicians can classify a reading consistently.</p>
+
+<h2>American Heart Association Categories</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;">
+<thead><tr style="text-align:left;border-bottom:1px solid var(--border)"><th style="padding:8px 6px">Category</th><th style="padding:8px 6px">Systolic (mmHg)</th><th style="padding:8px 6px"></th><th style="padding:8px 6px">Diastolic (mmHg)</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 6px">Normal</td><td style="padding:8px 6px">Below 120</td><td style="padding:8px 6px">and</td><td style="padding:8px 6px">Below 80</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 6px">Elevated</td><td style="padding:8px 6px">120&ndash;129</td><td style="padding:8px 6px">and</td><td style="padding:8px 6px">Below 80</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 6px">Hypertension Stage 1</td><td style="padding:8px 6px">130&ndash;139</td><td style="padding:8px 6px">or</td><td style="padding:8px 6px">80&ndash;89</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 6px">Hypertension Stage 2</td><td style="padding:8px 6px">140 or higher</td><td style="padding:8px 6px">or</td><td style="padding:8px 6px">90 or higher</td></tr>
+<tr><td style="padding:8px 6px">Hypertensive Crisis</td><td style="padding:8px 6px">Over 180</td><td style="padding:8px 6px">and/or</td><td style="padding:8px 6px">Over 120</td></tr>
+</tbody>
+</table>
+<p>A Hypertensive Crisis reading calls for immediate medical attention, particularly if paired with symptoms such as chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</p>
+
+<h2>What This Calculator Adds Beyond a Basic Category Lookup</h2>
+<ul>
+    <li><strong>Mean Arterial Pressure (MAP):</strong> Calculated as diastolic + 1/3 &times; (systolic &minus; diastolic). MAP reflects the average pressure driving blood to your organs across a full heartbeat cycle, and is the number clinicians often watch most closely in acute care.</li>
+    <li><strong>Pulse Pressure:</strong> Systolic minus diastolic. A normal pulse pressure is roughly 40 mmHg; consistently wide or narrow pulse pressure can flag arterial stiffness or reduced cardiac output.</li>
+    <li><strong>Low Blood Pressure (Hypotension) Detection:</strong> Flags readings below the commonly used 90/60 mmHg threshold, which the basic AHA table doesn't address at all.</li>
+    <li><strong>Isolated Systolic Hypertension Note:</strong> Flags when systolic and diastolic point to different severities, a pattern common in older adults as arteries stiffen with age.</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>What are the official blood pressure categories?</h3>
+<p>Per the American Heart Association: Normal is below 120/80 mmHg. Elevated is systolic 120&ndash;129 with diastolic under 80. Hypertension Stage 1 is systolic 130&ndash;139 or diastolic 80&ndash;89. Hypertension Stage 2 is systolic 140 or higher, or diastolic 90 or higher. Hypertensive Crisis is systolic over 180 and/or diastolic over 120, and requires immediate medical attention, especially with symptoms like chest pain, shortness of breath, or vision changes.</p>
+
+<h3>What happens if my systolic and diastolic numbers fall into different categories?</h3>
+<p>The higher category always wins. If either number qualifies for a more severe category, the reading as a whole is classified there. This is why a reading like 145/78 is still Hypertension Stage 2, even though the diastolic number looks normal — this pattern is called isolated systolic hypertension and is common in older adults.</p>
+
+<h3>What is Mean Arterial Pressure (MAP) and why does it matter?</h3>
+<p>Mean Arterial Pressure is the average pressure in your arteries during one full heartbeat cycle, calculated as diastolic pressure plus one-third of the pulse pressure (systolic minus diastolic). A MAP of at least 60 mmHg is generally considered necessary to adequately perfuse vital organs including the brain, heart, and kidneys; clinicians often target a MAP of 65 mmHg or higher in critically ill patients.</p>
+
+<h3>What counts as low blood pressure (hypotension)?</h3>
+<p>There's no single universal cutoff, but a commonly used clinical threshold is systolic under 90 mmHg or diastolic under 60 mmHg. Low blood pressure is only concerning when it causes symptoms such as dizziness, fainting, blurred vision, or fatigue — a naturally low reading without symptoms isn't automatically a problem for many healthy, active people.</p>
+
+<h3>Can one blood pressure reading diagnose hypertension?</h3>
+<p>No. A hypertension diagnosis requires an average of two or more readings taken on two or more separate occasions, because blood pressure fluctuates naturally throughout the day and can spike temporarily from stress, caffeine, physical activity, or the "white coat effect" of being measured in a clinical setting. One elevated reading is a reason to re-check, not a diagnosis.</p>
+
+<h3>What is pulse pressure and what does a wide or narrow value mean?</h3>
+<p>Pulse pressure is the difference between systolic and diastolic pressure. A normal pulse pressure is roughly 40 mmHg. A consistently wide pulse pressure (over about 60 mmHg) can indicate reduced arterial elasticity, often related to aging, while a narrow pulse pressure (under about 25 mmHg) can indicate reduced cardiac output. Neither is a standalone diagnosis — both warrant discussion with a healthcare provider if persistent.</p>
+
+<h3>Medical Disclaimer</h3>
+<p>This tool provides general educational information based on published American Heart Association thresholds. It is not a substitute for professional medical advice, diagnosis, or treatment, and it cannot account for medications, other health conditions, or measurement technique. Always consult a qualified healthcare provider about your blood pressure, and seek emergency care immediately for a Hypertensive Crisis reading accompanied by symptoms.</p>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 CalcHub &mdash; Built for people who need answers fast.</p>
+<p class="footer-contact">Also make sure to follow me on instagram for my next projects and updates! <a href="https://www.instagram.com/emmanuelbuildsofficial?igsh=NXY5ZnZtcml0M2hk">EmmanuelBuildsOfficial</a></p>
+
+  <p class="footer-signoff">Thanks for stopping by &mdash; I hope whatever you were calculating works out. Have a wonderful day :)</p>
+</footer>
+<script src="/assets/core.js"></script>
+<script>
+CalcHub.initTheme();
+CalcHub.initAnalytics();
+CalcHub.renderFavoriteStar(document.getElementById('fav-star-mount'), 'blood-pressure-evaluator');
+
+
+CalcHub.initCalculatorPage({
+  id: 'blood-pressure-evaluator',
+  fields: [
+    {id:'systolic', label:'Systolic', unit:'mmHg', default:120, step:1},
+    {id:'diastolic', label:'Diastolic', unit:'mmHg', default:80, step:1}
+  ],
+  compute: function(v){
+    var category, color;
+    if (v.systolic>=180 || v.diastolic>=120) { category='Hypertensive Crisis'; color='#7c1818'; }
+    else if (v.systolic>=140 || v.diastolic>=90) { category='Hypertension Stage 2'; color='#a32020'; }
+    else if (v.systolic>=130 || v.diastolic>=80) { category='Hypertension Stage 1'; color='#b84f00'; }
+    else if (v.systolic>=120) { category='Elevated'; color='#b8951a'; }
+    else if (v.systolic<90 || v.diastolic<60) { category='Low (Hypotension)'; color='#1a4f99'; }
+    else { category='Normal'; color='#1a6e3c'; }
+
+    var pulsePressure = v.systolic - v.diastolic;
+    var map = v.diastolic + (pulsePressure/3);
+
+    return {
+      label: 'Blood Pressure Category',
+      headline: v.systolic + '/' + v.diastolic + ' mmHg \u2014 ' + category,
+      stats: [
+        {label:'Systolic', value: v.systolic+' mmHg'},
+        {label:'Diastolic', value: v.diastolic+' mmHg'},
+        {label:'Category', value: category, highlight:true},
+        {label:'Mean Arterial Pressure', value: CalcHub.fmtNum(map,1)+' mmHg'},
+        {label:'Pulse Pressure', value: pulsePressure+' mmHg'}
+      ],
+      chart: {type:'bar', labels:['Systolic','Diastolic','MAP'], series:[{name:'mmHg', data:[v.systolic, v.diastolic, Math.round(map*10)/10], color: color}]},
+      historyLabel: v.systolic+'/'+v.diastolic+' mmHg ('+category+')',
+      copyValue: v.systolic+'/'+v.diastolic+' mmHg - '+category
+    };
+  },
+  explain: function(v, r){
+    var msgs = [];
+    var pulsePressure = v.systolic - v.diastolic;
+    var category = r.stats[2].value;
+
+    if (category === 'Hypertensive Crisis') {
+      msgs.push("This reading falls in the Hypertensive Crisis range. If you're experiencing chest pain, shortness of breath, back pain, numbness, vision changes, or difficulty speaking, seek emergency medical care immediately. Even without symptoms, re-check and contact a healthcare provider promptly.");
+    } else if (category === 'Hypertension Stage 2' || category === 'Hypertension Stage 1') {
+      msgs.push("This reading falls in a hypertension range. A single reading isn't a diagnosis \u2014 hypertension is typically confirmed with an average of readings across two or more separate occasions. If this is a consistent pattern, it's worth discussing with a healthcare provider.");
+    } else if (category === 'Low (Hypotension)') {
+      msgs.push("This reading falls below the commonly used 90/60 mmHg threshold for low blood pressure. This isn't automatically a problem \u2014 many healthy, active people run naturally low \u2014 but if it comes with dizziness, fainting, blurred vision, or fatigue, that combination is worth discussing with a healthcare provider.");
+    } else if (category === 'Elevated') {
+      msgs.push("This reading is above the Normal range but below Hypertension Stage 1. Elevated readings often respond well to lifestyle factors like sodium intake, physical activity, and stress \u2014 and are worth monitoring since they can progress toward hypertension over time.");
+    } else {
+      msgs.push("This reading falls in the Normal range as defined by the American Heart Association.");
+    }
+
+    if (v.systolic>=130 && v.diastolic<80) {
+      msgs.push("Your systolic and diastolic numbers point to different severities \u2014 this pattern, called isolated systolic hypertension, is common in older adults as arteries stiffen with age. The higher-severity number determines the overall category shown above.");
+    }
+
+    if (pulsePressure > 60) {
+      msgs.push("Your pulse pressure (" + pulsePressure + " mmHg) is wider than the roughly 40 mmHg considered typical, which can reflect reduced arterial elasticity.");
+    } else if (pulsePressure < 25) {
+      msgs.push("Your pulse pressure (" + pulsePressure + " mmHg) is narrower than the roughly 40 mmHg considered typical, which can reflect reduced cardiac output.");
+    }
+
+    return msgs.join(' ');
+  }
+});
+
+</script>
+</body>
+</html>
